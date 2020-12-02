@@ -14,3 +14,10 @@ export function putAsk(data) {
     data
   })
 }
+export function history_ask(data) {
+  return request({
+    url: '/ask/history',
+    method: 'get',
+    data
+  })
+}

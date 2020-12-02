@@ -35,6 +35,17 @@ const actions = {
       })
     })
   },
+  history_ask({ commit }, request) {
+    return new Promise((resolve, reject) => {
+      api.history_ask(request).then(response => {
+        const { data } = response
+        console.log(data)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
   putAsk({ commit }, data) {
     return new Promise((resolve, reject) => {
       api.putAsk(data.request).then(response => {
