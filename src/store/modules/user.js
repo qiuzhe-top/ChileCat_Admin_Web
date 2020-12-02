@@ -20,6 +20,7 @@ const mutations = {
   },
   SET_TOKEN: (state, token) => {
     state.token = token
+    console.log(state.token)
   },
   SET_NAME: (state, name) => {
     state.name = name
@@ -34,13 +35,15 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
+  login({ commit, store }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       userApi.login({ username: username.trim(), password: password, type: 'admin' }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
+        // console.log(store.getters)
         setToken(data.token)
+        // console.log(store.getters)
         resolve()
       }).catch(error => {
         reject(error)

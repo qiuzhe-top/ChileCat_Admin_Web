@@ -69,7 +69,7 @@ export const constantRoutes = [
       }, {
         path: 'history',
         name: 'History',
-        component: () => import('@/views/audit/index'),
+        component: () => import('@/views/history/index'),
         meta: { title: '历史', icon: 'audit' }
       }
     ]

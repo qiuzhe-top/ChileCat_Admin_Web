@@ -1,5 +1,5 @@
 <template>
-  <div class="Audit">
+  <div class="history">
     <div>班级选择</div>
     <template>
       <el-radio
@@ -78,7 +78,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Audit',
+  name: 'History',
   data () {
     return {
       radio: '',
@@ -129,7 +129,7 @@ export default {
      */
     get_ask_list: function () {
       console.log(1)
-      this.$store.dispatch('ask/getAsk', { type: 1, classid: this.radio })
+      this.$store.dispatch('ask/getAsk', { type: 3, classid: this.radio })
     },
     /**
      * 审核请假条
@@ -146,7 +146,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.Audit {
+.history {
   font-size: 30px;
   line-height: 46px;
 }

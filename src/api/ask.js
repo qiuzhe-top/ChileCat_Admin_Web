@@ -7,10 +7,10 @@ export function getAsk(params) {
     params
   })
 }
-export function putAsk(params) {
+export function putAsk(data) {
   return request({
-    url: '/ask/draft',
+    url: '/ask/audit',
     method: 'put',
-    params
+    data
   })
 }

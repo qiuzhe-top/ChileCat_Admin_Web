@@ -1,4 +1,5 @@
 import * as api from '@/api/ask'
+import { Message } from 'element-ui'
 
 const getDefaultState = () => {
   return {
@@ -12,6 +13,10 @@ const state = getDefaultState()
 const mutations = {
   SET_ASKLIST: (state, askList) => {
     state.askList = askList
+  },
+  PUT_ASKLIST: (state, index) => {
+    console.log(index)
+    state.askList[index] = null
   }
 }
 
@@ -25,14 +30,20 @@ const actions = {
         commit('SET_ASKLIST', data.list)
         resolve()
       }).catch(error => {
+        commit('SET_ASKLIST', [])
         reject(error)
       })
     })
   },
   putAsk({ commit }, data) {
     return new Promise((resolve, reject) => {
-      console.log(data.index)
       api.putAsk(data.request).then(response => {
+        commit('PUT_ASKLIST', data.index)
+        Message({
+          message: '审核成功',
+          type: 'success',
+          duration: 5 * 1000
+        })
         resolve()
       }).catch(error => {
         reject(error)
