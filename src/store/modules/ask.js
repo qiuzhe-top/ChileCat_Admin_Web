@@ -4,6 +4,7 @@ import { Message } from 'element-ui'
 const getDefaultState = () => {
   return {
     askList: '',
+    historyList: '',
     avatar: ''
   }
 }
@@ -17,6 +18,9 @@ const mutations = {
   PUT_ASKLIST: (state, index) => {
     console.log(index)
     state.askList[index] = null
+  },
+  SET_HISTORYLIST: (state, list) => {
+    state.historyList = list
   }
 }
 
@@ -37,8 +41,9 @@ const actions = {
   },
   history_ask({ commit }, request) {
     return new Promise((resolve, reject) => {
-      api.history_ask(request).then(response => {
+      api.getAsk(request).then(response => {
         const { data } = response
+        commit('SET_HISTORYLIST', data.list)
         console.log(data)
         resolve()
       }).catch(error => {

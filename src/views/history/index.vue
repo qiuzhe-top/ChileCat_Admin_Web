@@ -16,17 +16,17 @@
     <div>表格展示</div>
     <template>
       <el-table
-        :data="askList"
+        :data="historyList"
         style="width: 100%"
       >
         <el-table-column
-          prop="students_name"
+          prop="name"
           label="姓名"
           width="80"
         />
         <el-table-column
-          prop="reason"
-          label="请假原因"
+          prop="status"
+          label="审核状态"
         />
         <el-table-column
           prop="place"
@@ -46,7 +46,7 @@
           prop="min"
           label="时长"
         />
-        <el-table-column
+        <!-- <el-table-column
           width="260"
           label="操作"
         >
@@ -67,10 +67,9 @@
               @click="ask_option(scope.$index, scope.row,4)"
             >不通过</el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
     </template>
-
   </div>
 </template>
 
@@ -82,23 +81,6 @@ export default {
   data () {
     return {
       radio: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
       ask_msg: {
         ask_type: 'ask_type',
         reason: 'reason',
@@ -111,7 +93,7 @@ export default {
   computed: {
     ...mapGetters([
       'classList',
-      'askList'
+      'historyList'
     ])
   },
   watch: {
@@ -121,8 +103,8 @@ export default {
   },
   created: function () {
     this.radio = this.classList[0].id
-    this.$store.dispatch('ask/history_ask')
-    // this.get_ask_list()
+    // this.$store.dispatch('ask/history_ask')
+    this.get_ask_list()
   },
   methods: {
     /**
@@ -130,7 +112,7 @@ export default {
      */
     get_ask_list: function () {
       console.log(1)
-      this.$store.dispatch('ask/getAsk', { type: 3, classid: this.radio })
+      this.$store.dispatch('ask/history_ask', { type: 3, history: 1 })
     },
     /**
      * 审核请假条
