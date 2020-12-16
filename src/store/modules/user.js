@@ -1,6 +1,8 @@
 import * as userApi from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import store from '../../store'
+
 // import { reject } from 'core-js/fn/promise'
 
 const getDefaultState = () => {
@@ -8,6 +10,7 @@ const getDefaultState = () => {
     token: getToken(),
     name: '',
     avatar: '',
+    role: '',
     classList: ''
   }
 }
@@ -30,6 +33,9 @@ const mutations = {
   },
   SET_CLASSLIST: (state, classList) => {
     state.classList = classList
+  },
+  SET_ROLE: (state, role) => {
+    state.role = role
   }
 }
 
@@ -61,10 +67,11 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar } = data
+        const { name, avatar, role } = data
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_ROLE', role)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -79,6 +86,7 @@ const actions = {
         removeToken() // must remove  token  first
         resetRouter()
         commit('RESET_STATE')
+        store.commit('ask/SET_ASKLIST')
         resolve()
       }).catch(error => {
         reject(error)

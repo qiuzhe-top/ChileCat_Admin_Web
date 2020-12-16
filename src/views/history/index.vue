@@ -1,6 +1,6 @@
 <template>
   <div class="history">
-    <div>班级选择</div>
+    <div class="class-name">班级：</div>
     <template>
       <el-radio
         v-for="item in classList"
@@ -8,12 +8,8 @@
         v-model="radio"
         :label="item.id"
       >{{ item.name }}</el-radio>
-      <el-radio
-        v-model="radio"
-        label="2"
-      >2</el-radio>
     </template>
-    <div>表格展示</div>
+    <div>审核历史：</div>
     <template>
       <el-table
         :data="historyList"
@@ -130,7 +126,8 @@ export default {
 
 <style lang="scss" scoped>
 .history {
-  font-size: 30px;
+  font-size: 20px;
+  font-weight: bold;
   line-height: 46px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="Audit">
-    <div>班级选择</div>
+    <div>班级：</div>
     <template>
       <el-radio
         v-for="item in classList"
@@ -8,12 +8,8 @@
         v-model="radio"
         :label="item.id"
       >{{ item.name }}</el-radio>
-      <el-radio
-        v-model="radio"
-        label="2"
-      >2</el-radio>
     </template>
-    <div>表格展示</div>
+    <div>待审核：</div>
     <template>
       <el-table
         :data="askList"
@@ -56,11 +52,13 @@
               type="danger"
               @click="ask_option(scope.$index, scope.row,3)"
             >通过</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="ask_option(scope.$index, scope.row,2)"
-            >递交上级</el-button>
+            <template v-if="role === 'teacher'">
+              <el-button
+                size="mini"
+                type="danger"
+                @click="ask_option(scope.$index, scope.row,2)"
+              >递交上级</el-button>
+            </template>
             <el-button
               size="mini"
               type="danger"
@@ -70,7 +68,6 @@
         </el-table-column>
       </el-table>
     </template>
-
   </div>
 </template>
 
@@ -111,6 +108,7 @@ export default {
   computed: {
     ...mapGetters([
       'classList',
+      'role',
       'askList'
     ])
   },
@@ -120,22 +118,24 @@ export default {
     }
   },
   created: function () {
+    console.log(this.classList)
+    if (this.classList.length <= 0) {
+      return
+    }
     this.radio = this.classList[0].id
-    // this.get_ask_list()
+    this.get_ask_list()
   },
   methods: {
     /**
      * 获取班级请假条数据
      */
     get_ask_list: function () {
-      console.log(1)
       this.$store.dispatch('ask/getAsk', { type: 1, classid: this.radio })
     },
     /**
      * 审核请假条
      */
     ask_option: function (i, r, t) {
-      console.log(i, r, t)
       this.$store.dispatch('ask/putAsk', { request: { id: r.id, operate_sate: t }, index: i }).then(res => {
         // 不能每次都请求 应该在前端进行列表清除的修改
         this.get_ask_list()
@@ -147,7 +147,8 @@ export default {
 
 <style lang="scss" scoped>
 .Audit {
-  font-size: 30px;
+  font-size: 20px;
+  font-weight: bold;
   line-height: 46px;
 }
 </style>

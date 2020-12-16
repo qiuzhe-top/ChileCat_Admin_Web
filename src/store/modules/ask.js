@@ -12,6 +12,9 @@ const getDefaultState = () => {
 const state = getDefaultState()
 
 const mutations = {
+  RESET_STATE: (state) => {
+    Object.assign(state, getDefaultState())
+  },
   SET_ASKLIST: (state, askList) => {
     state.askList = askList
   },
