@@ -108,7 +108,7 @@ export default {
      */
     get_ask_list: function () {
       console.log(1)
-      this.$store.dispatch('ask/history_ask', { type: 3, history: 1 })
+      this.$store.dispatch('ask/history_ask', { classid: this.radio })
     },
     /**
      * 审核请假条
