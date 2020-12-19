@@ -14,10 +14,10 @@ export function putAsk(data) {
     data
   })
 }
-export function history_ask(data) {
+export function history_ask(params) {
   return request({
     url: '/ask/audit',
     method: 'get',
-    data
+    params
   })
 }
