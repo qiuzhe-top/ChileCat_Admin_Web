@@ -16,7 +16,7 @@ export function putAsk(data) {
 }
 export function history_ask(data) {
   return request({
-    url: '/ask/history',
+    url: '/ask/audit',
     method: 'get',
     data
   })

@@ -44,7 +44,7 @@ const actions = {
   },
   history_ask({ commit }, request) {
     return new Promise((resolve, reject) => {
-      api.getAsk(request).then(response => {
+      api.history_ask(request).then(response => {
         const { data } = response
         commit('SET_HISTORYLIST', data.list)
         console.log(data)
