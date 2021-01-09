@@ -37,11 +37,11 @@ export const constantRoutes = [
     hidden: true
   },
 
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
+  // {
+  //   path: '/404',
+  //   component: () => import('@/views/404'),
+  //   hidden: true
+  // },
 
   {
     path: '/',
@@ -179,9 +179,26 @@ export const newRouter = [
         meta: { title: 'External Link', icon: 'link' }
       }
     ]
-  },
+  }
 
   // 404 page must be placed at the end !!!
+  // { path: '*', redirect: '/404', hidden: true }
+]
+// 动态需要根据权限加载的路由表
+export const asyncRouterMap = [
+  {
+    path: '/permission',
+    component: Layout,
+    name: '权限测试',
+    meta: { title: '权限测试', role: ['admin', 'teacher'] }, // 页面需要的权限
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/form/index'),
+        name: '权限测试页',
+        meta: { title: '权限测试1', role: ['admin', 'teacher'] } // 页面需要的权限
+      }]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

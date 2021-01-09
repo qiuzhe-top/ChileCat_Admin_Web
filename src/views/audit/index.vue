@@ -29,12 +29,12 @@
           label="请假地点"
         />
         <el-table-column
-          prop="start_time"
+          prop="created_time"
           label="开始日期"
           width="180"
         />
         <el-table-column
-          prop="end_time"
+          prop="modify_time"
           label="结束日期"
           width="180"
         />
