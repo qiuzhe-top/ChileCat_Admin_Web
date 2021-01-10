@@ -26,7 +26,11 @@
       @click="flg=true"
     >销假</el-button>
     <el-button @click="switchknowing()">切换任务状态</el-button>
-    <el-button>导出Excel</el-button>
+    <a :href="excel_url">
+      <!-- @click="exportexcel()" -->
+      <el-button>导出Excel</el-button>
+    </a>
+    <!-- {{  }} -->
     <el-button @click="flush()"> 重置任务</el-button>
     <el-table
       :data="tableData"
@@ -94,6 +98,7 @@ export default {
     return {
       work_url: 'http：//',
       gongao_url: 'http：//',
+      excel_url: '',
       switc: '',
       code: '6112',
       tableData: [{
@@ -132,6 +137,7 @@ export default {
   },
   created: function () {
     // 获取最新验证码
+    this.excel_url = process.env.VUE_APP_BASE_API + '/life/exportexcel'
     this.get_recordsearch()
     this.$store.dispatch('life/getIdcode', { flag: '1' }).then((res) => {
       this.$data.code = res.data
@@ -213,6 +219,15 @@ export default {
       this.$store.dispatch('life/switchknowing').then((res) => {
         this.$data.switc = res.data
         console.log(111, res)
+      })
+    },
+    // excel
+    exportexcel () {
+      api.exportexcel().then(res => {
+        this.$message({
+          message: res.message,
+          type: 'success'
+        })
       })
     }
   }

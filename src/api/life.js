@@ -41,10 +41,10 @@ export function get_switchknowing(data) {
   })
 }
 // 导出Excel
-export function login2(data) {
+export function exportexcel(data) {
   return request({
-    url: '/life/auth',
-    method: 'post',
+    url: '/life/exportexcel',
+    method: 'get',
     data
   })
 }
