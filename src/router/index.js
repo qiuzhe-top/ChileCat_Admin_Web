@@ -73,6 +73,21 @@ export const constantRoutes = [
         meta: { title: '历史', icon: 'audit' }
       }
     ]
+  },
+  {
+    path: '/life',
+    component: Layout,
+    redirect: '/life/man',
+    name: 'life',
+    meta: { title: '生活部', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'man',
+        name: 'life',
+        component: () => import('@/views/life/life'),
+        meta: { title: '生活部', icon: 'el-icon-s-help' }
+      }
+    ]
   }
 ]
 export const newRouter = [
