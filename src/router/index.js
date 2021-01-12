@@ -85,7 +85,7 @@ export const constantRoutes = [
         path: 'man',
         name: 'life',
         component: () => import('@/views/life/life'),
-        meta: { title: '生活部', icon: 'el-icon-s-help' }
+        meta: { title: '晚查寝', icon: 'el-icon-s-help' }
       }
     ]
   }

@@ -30,6 +30,7 @@
       <!-- @click="exportexcel()" -->
       <el-button>导出Excel</el-button>
     </a>
+    <!-- <a :href="excel_url">备用下载</a> -->
     <!-- {{  }} -->
     <el-button @click="flush()"> 重置任务</el-button>
     <el-table
@@ -81,8 +82,10 @@
           <template slot-scope="scope">
             <el-button
               width="120"
+              type="primary"
               @click="pintle(scope.$index, scope.row)"
-            >销假</el-button>
+            >
+              销假</el-button>
           </template>
         </el-table-column>
       </template>
@@ -96,8 +99,8 @@ import * as api from '@/api/life'
 export default {
   data () {
     return {
-      work_url: 'http：//',
-      gongao_url: 'http：//',
+      work_url: 'http://',
+      gongao_url: 'http://',
       excel_url: '',
       switc: '',
       code: '6112',
@@ -138,6 +141,8 @@ export default {
   created: function () {
     // 获取最新验证码
     this.excel_url = process.env.VUE_APP_BASE_API + '/life/exportexcel'
+    this.work_url = process.env.VUE_APP_BASE_URL + ':8100'
+    this.gongao_url = process.env.VUE_APP_BASE_URL + ':9913'
     this.get_recordsearch()
     this.$store.dispatch('life/getIdcode', { flag: '1' }).then((res) => {
       this.$data.code = res.data
@@ -164,22 +169,24 @@ export default {
     },
     // 销假
     pintle (index, row) {
-      console.log(index, row)
       this.$confirm('此操作将对该同学销假,并且记录您的信息 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$store.dispatch('life/studentleak', { id: row.id }).then((res) => {
-          // this.$data.tableData = res.data
-          if (res.code === 2000) {
-            this.$message({
-              message: res.message,
-              type: 'success'
-            })
-          }
-          console.log(111, res)
-        })
+        row.flg = true
+        console.log(index, row)
+
+        // this.$store.dispatch('life/studentleak', { id: row.id }).then((res) => {
+        //   // this.$data.tableData = res.data
+        //   if (res.code === 2000) {
+        //     this.$message({
+        //       message: res.message,
+        //       type: 'success'
+        //     })
+        //   }
+        //   console.log(111, res)
+        // })
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -198,6 +205,10 @@ export default {
           this.$message({
             message: res.message,
             type: 'success'
+          })
+          this.$store.dispatch('life/getIdcode', { flag: '1' }).then((res) => {
+            this.$data.code = res.data
+          }).catch(() => {
           })
         })
       }).catch(() => {
