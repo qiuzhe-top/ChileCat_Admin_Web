@@ -175,18 +175,19 @@ export default {
         type: 'warning'
       }).then(() => {
         row.flg = true
-        console.log(index, row)
+        // console.log(index, row)
 
-        // this.$store.dispatch('life/studentleak', { id: row.id }).then((res) => {
-        //   // this.$data.tableData = res.data
-        //   if (res.code === 2000) {
-        //     this.$message({
-        //       message: res.message,
-        //       type: 'success'
-        //     })
-        //   }
-        //   console.log(111, res)
-        // })
+        this.$store.dispatch('life/studentleak', { id: row.id }).then((res) => {
+          // this.$data.tableData = res.data
+          if (res.code === 2000) {
+            this.$message({
+              message: res.message,
+              type: 'success'
+            })
+          }
+          console.log(111, res)
+        })
+
       }).catch(() => {
         this.$message({
           type: 'info',
