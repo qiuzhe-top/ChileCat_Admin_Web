@@ -21,6 +21,9 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+// import
+</style>
 <style lang="scss" scoped>
 #app {
   padding: 5px;
