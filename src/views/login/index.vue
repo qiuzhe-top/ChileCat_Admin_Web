@@ -69,6 +69,7 @@
 
 <script>
 // import { validUsername } from '@/utils/validate'
+import router from '@/router'
 
 export default {
   name: 'Login',
@@ -108,6 +109,9 @@ export default {
       },
       immediate: true
     }
+  },
+  created: function () {
+    console.log('Index Login 路由', router.options.routes)
   },
   methods: {
     showPwd () {
@@ -154,7 +158,6 @@ $cursor: #fff;
     color: $cursor;
   }
 }
-
 /* reset element-ui css */
 .login-container {
   .el-input {
@@ -226,6 +229,10 @@ $light_gray: #eee;
     vertical-align: middle;
     width: 30px;
     display: inline-block;
+    .svg-icon {
+      color: rgb(43, 183, 226);
+      width: 22px;
+    }
   }
 
   .title-container {

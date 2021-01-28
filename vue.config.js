@@ -48,6 +48,7 @@ module.exports = {
       }
     }
   },
+
   chainWebpack(config) {
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
@@ -119,5 +120,15 @@ module.exports = {
           config.optimization.runtimeChunk('single')
         }
       )
+  },
+  css: {
+  // 只有 *.module.[ext] 结尾的文件才会被视作 CSS Modules 模块，设置为false则会去掉.module
+    requireModuleExtension: true,
+    loaderOptions: {
+    // 可全局使用 variables.scss 中的变量
+      sass: {
+        prependData: `@import "@/styles/variables.scss";`
+      }
+    }
   }
 }

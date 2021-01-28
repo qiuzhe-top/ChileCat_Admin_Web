@@ -37,7 +37,11 @@ const actions = {
   },
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
+  },
+  GenerateRoutes({ commit }, data) {
+    console.log(data)
   }
+
 }
 
 export default {

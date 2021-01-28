@@ -37,11 +37,11 @@ export const constantRoutes = [
     hidden: true
   },
 
-  // {
-  //   path: '/404',
-  //   component: () => import('@/views/404'),
-  //   hidden: true
-  // },
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
 
   {
     path: '/',
@@ -83,7 +83,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'man',
-        name: 'life',
+        name: 'life-l',
         component: () => import('@/views/life/life'),
         meta: { title: '晚查寝', icon: 'el-icon-s-help' }
       }
@@ -211,8 +211,26 @@ export const asyncRouterMap = [
         path: 'index',
         component: () => import('@/views/form/index'),
         name: '权限测试页',
-        meta: { title: '权限测试1', role: ['admin', 'teacher'] } // 页面需要的权限
-      }]
+        meta: { title: '权限测试1', role: ['teacher'] } // 页面需要的权限
+      }, {
+        path: 'index2',
+        component: () => import('@/views/form/index'),
+        name: '权限测试页2',
+        meta: { title: '权限测试12', role: ['admin'] } // 页面需要的权限
+      }
+    ]
+  },
+  {
+    path: '/form',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '公共权限',
+        component: () => import('@/views/form/index'),
+        meta: { title: '公共', icon: 'form' }
+      }
+    ]
   },
   { path: '*', redirect: '/404', hidden: true }
 ]

@@ -26,6 +26,6 @@ export default {
 </style>
 <style lang="scss" scoped>
 #app {
-  padding: 5px;
+  // padding: 5px;
 }
 </style>

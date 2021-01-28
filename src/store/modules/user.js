@@ -10,7 +10,7 @@ const getDefaultState = () => {
     token: getToken(),
     name: '',
     avatar: '',
-    role: '',
+    roles: [],
     classList: ''
   }
 }
@@ -34,8 +34,8 @@ const mutations = {
   SET_CLASSLIST: (state, classList) => {
     state.classList = classList
   },
-  SET_ROLE: (state, role) => {
-    state.role = role
+  SET_ROLE: (state, roles) => {
+    state.roles = roles
   }
 }
 
@@ -67,11 +67,11 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar, role } = data
+        const { name, avatar, roles } = data
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
-        commit('SET_ROLE', role)
+        commit('SET_ROLE', roles)
         resolve(data)
       }).catch(error => {
         reject(error)
@@ -86,6 +86,9 @@ const actions = {
         resetRouter()
         commit('RESET_STATE')
         store.commit('ask/SET_ASKLIST')
+        store.commit('permission/RESET_ROUTERS')
+        // 问题：路由缓存退出后无法清除 使用reload缓解
+        location.reload()
         resolve()
       }).catch(error => {
         reject(error)
