@@ -16,31 +16,39 @@
         style="width: 100%"
       >
         <el-table-column
-          prop="name"
+          prop="students_name"
           label="姓名"
           width="80"
         />
         <el-table-column
-          prop="status"
-          label="审核状态"
+          prop="ask_type"
+          label="请假类型"
+        />
+        <el-table-column
+          prop="reason"
+          label="请假原因"
         />
         <el-table-column
           prop="place"
           label="请假地点"
         />
         <el-table-column
-          prop="start_time"
+          prop="created_time"
           label="开始日期"
           width="180"
         />
         <el-table-column
-          prop="end_time"
+          prop="modify_time"
           label="结束日期"
           width="180"
         />
         <el-table-column
           prop="min"
           label="时长"
+        />
+        <el-table-column
+          prop="status"
+          label="审核状态"
         />
         <!-- <el-table-column
           width="260"

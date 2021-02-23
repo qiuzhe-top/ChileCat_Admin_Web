@@ -27,5 +27,6 @@ export default {
 <style lang="scss" scoped>
 #app {
   // padding: 5px;
+  // background-color: $menuBg;
 }
 </style>

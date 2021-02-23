@@ -16,9 +16,47 @@
         style="width: 100%"
       >
         <el-table-column
+          type="expand"
+          width="80"
+        >
+          <template slot-scope="props">
+            <el-form
+              label-position="left"
+              inline
+              class="demo-table-expand"
+            >
+              <el-form-item label="家长电话">
+                <span>{{ props.row.parents_call }}</span>
+              </el-form-item>
+              <el-form-item label="学生电话">
+                <span>{{ props.row.contact_info }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="students_name"
+          label="照片"
+          width="180"
+        >
+          <template slot-scope="scope">
+            <el-image
+              style="width: 140px;"
+              fit="contain"
+              :src="scope.row.photo"
+              :preview-src-list="[scope.row.photo]"
+            />
+          </template>
+        </el-table-column>
+
+        <el-table-column
           prop="students_name"
           label="姓名"
           width="80"
+        />
+        <el-table-column
+          prop="ask_type"
+          label="请假类型"
         />
         <el-table-column
           prop="reason"
@@ -29,12 +67,12 @@
           label="请假地点"
         />
         <el-table-column
-          prop="created_time"
+          prop="start_time"
           label="开始日期"
           width="180"
         />
         <el-table-column
-          prop="modify_time"
+          prop="end_time"
           label="结束日期"
           width="180"
         />
@@ -123,14 +161,14 @@ export default {
       return
     }
     this.radio = this.classList[0].id
-    this.get_ask_list()
+    // this.get_ask_list()
   },
   methods: {
     /**
      * 获取班级请假条数据
      */
     get_ask_list: function () {
-      this.$store.dispatch('ask/getAsk', { type: 1, classid: this.radio })
+      this.$store.dispatch('ask/getAsk', { type: 0, classid: this.radio })
     },
     /**
      * 审核请假条
@@ -144,7 +182,30 @@ export default {
   }
 }
 </script>
-
+<style >
+.demo-table-expand {
+  font-size: 0;
+}
+.demo-table-expand label {
+  width: 90px;
+  /* color: #99a9bf; */
+  margin-bottom: 7px;
+}
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  color: #929292;
+  width: 50%;
+}
+.el-table__expand-icon {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+}
+.el-table__expand-icon:hover {
+  background-color: #cacaca8c;
+}
+</style>
 <style lang="scss" scoped>
 .Audit {
   font-size: 20px;

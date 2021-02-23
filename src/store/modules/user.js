@@ -11,7 +11,7 @@ const getDefaultState = () => {
     name: '',
     avatar: '',
     roles: [],
-    classList: ''
+    classList: []
   }
 }
 
@@ -44,7 +44,7 @@ const actions = {
   login({ commit, store }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      userApi.login({ username: username.trim(), password: password, type: 'admin' }).then(response => {
+      userApi.login({ username: username.trim(), password: password, type: 'web' }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
         // console.log(store.getters)

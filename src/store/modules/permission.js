@@ -1,8 +1,6 @@
 // store/permission.js
-// 本来是已 permission 类直接导出 后修改如下
+// 本来是以 permission 类直接导出 后修改如下
 import { asyncRouterMap, constantRoutes } from '../../router/index'
-import router from '@/router'
-
 function hasPermission(roles, route) {
   if (route.meta && route.meta.role) {
     var jiao = roles.filter((val) => new Set(route.meta.role).has(val))
@@ -33,9 +31,7 @@ const actions = {
       const { roles } = data
       console.log('加载路由')
       const accessedRouters = asyncRouterMap.filter(v => {
-        // console.log(roles.indexOf('admin') >= 0)
-        // if (roles.indexOf('admin') >= 0) return true
-        // console.log('加载路由:', hasPermission(roles, v))
+        if (roles.filter((val) => new Set(['root']).has(val))) return true
         if (hasPermission(roles, v)) {
           if (v.children && v.children.length > 0) {
             v.children = v.children.filter(child => {
@@ -49,7 +45,7 @@ const actions = {
             return v
           }
         }
-        // return false
+        return false
       })
       commit('SET_ROUTERS', accessedRouters)
       resolve(accessedRouters)
