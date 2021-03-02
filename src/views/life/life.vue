@@ -1,13 +1,10 @@
 <template>
   <div class="app">
-    <div>
-      工作连接：{{ work_url }}
-    </div>
-    <div>
-      公告连接：{{ gongao_url }}
-    </div>
-    <div>
-      当前验证码：{{ code }}
+    <div
+      class="code_now"
+      @click="get_code"
+    >
+      当前验证码(点击获取)：{{ code }}
     </div>
     <div>
       任务状态（0-任务停止 1-执行中）: {{ switc }}
@@ -19,12 +16,12 @@
     <!-- Table -->
     <el-button
       type="primary"
-      @click="flg=false"
-    >今日缺勤</el-button>
-    <el-button
-      type="primary"
       @click="flg=true"
     >销假</el-button>
+    <el-button
+      type="primary"
+      @click="flg=false"
+    >今日缺勤</el-button>
     <el-button @click="switchknowing()">切换任务状态</el-button>
     <a :href="excel_url">
       <!-- @click="exportexcel()" -->
@@ -39,12 +36,12 @@
       style="width: 90%;margin: auto;"
     >
       <el-table-column
-        prop="stuname"
+        prop="student_name"
         label="姓名"
         width="120"
       />
       <el-table-column
-        prop="stuid"
+        prop="student"
         label="学号"
         width="120"
       />
@@ -54,7 +51,7 @@
         width="120"
       />
       <el-table-column
-        prop="roomname"
+        prop="room_name"
         label="寝室"
         width="120"
       />
@@ -65,14 +62,14 @@
       />
       <template v-if="flg">
         <el-table-column
-          prop="workername"
+          prop="worker_name"
           label="执行人"
           width="120"
         />
       </template>
       <template v-if="flg">
         <el-table-column
-          prop="createdtime"
+          prop="created_time"
           label="执行时间"
           width="120"
         />
@@ -81,6 +78,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
+              v-show="scope.row.flg"
               width="120"
               type="primary"
               @click="pintle(scope.$index, scope.row)"
@@ -99,58 +97,30 @@ import * as api from '@/api/life'
 export default {
   data () {
     return {
-      work_url: 'http://',
-      gongao_url: 'http://',
       excel_url: '',
       switc: '',
-      code: '6112',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1517 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1519 弄',
-        zip: 200333
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1516 弄',
-        zip: 200333
-      }],
+      code: '*****',
+      tableData: [],
       dialogTableVisible: true,
-      flg: false,
+      flg: true,
       formLabelWidth: '120px'
     }
   },
   created: function () {
     // 获取最新验证码
-    this.excel_url = process.env.VUE_APP_BASE_API + '/life/exportexcel'
-    this.work_url = process.env.VUE_APP_BASE_URL + ':8100'
-    this.gongao_url = process.env.VUE_APP_BASE_URL + ':9913'
     this.get_recordsearch()
-    this.$store.dispatch('life/getIdcode', { flag: '1' }).then((res) => {
-      this.$data.code = res.data
-    }).catch(() => {
-    })
     this.get_switchknowing()
+    this.excel_url = process.env.VUE_APP_BASE_API + '/life/exportexcel'
   },
   methods: {
+    // 获取验证码
+    get_code () {
+      this.$api.life.idcode()
+        .then((res) => {
+          this.$data.code = res.data
+        }).catch(() => {
+        })
+    },
     // 刷新验证码
     flush_code () {
       this.$store.dispatch('life/getIdcode').then((res) => {
@@ -161,9 +131,12 @@ export default {
     // 获取缺勤名单
     get_recordsearch () {
       this.$store.dispatch('life/recordsearch').then((res) => {
+        res.data.forEach(function (v, i) {
+          v['flg'] = true
+          console.log(v)
+        })
         this.$data.tableData = res.data
-
-        console.log(111, res)
+        // eslint-disable-next-line no-undef
       }).catch(() => {
       })
     },
@@ -174,10 +147,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        row.flg = true
-        // console.log(index, row)
+        row.flg = false
 
-        this.$store.dispatch('life/studentleak', { id: row.id }).then((res) => {
+        this.$store.dispatch('life/studentleak', { record_id: row.id }).then((res) => {
           // this.$data.tableData = res.data
           if (res.code === 2000) {
             this.$message({
@@ -187,7 +159,6 @@ export default {
           }
           console.log(111, res)
         })
-
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -256,5 +227,8 @@ export default {
 }
 .app div {
   padding: 20px 0;
+}
+.code_now {
+  cursor: pointer;
 }
 </style>

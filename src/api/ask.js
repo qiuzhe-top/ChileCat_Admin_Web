@@ -21,3 +21,6 @@ export function history_ask(params) {
     params
   })
 }
+
+export default {
+}

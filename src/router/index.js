@@ -64,13 +64,19 @@ export const constantRoutes = [
       {
         path: 'audit',
         name: 'Audit',
-        component: () => import('@/views/audit/index'),
+        component: () => import('@/views/ask/audit'),
         meta: { title: '审核', icon: 'audit' }
       }, {
         path: 'history',
         name: 'History',
-        component: () => import('@/views/history/index'),
+        component: () => import('@/views/ask/history'),
         meta: { title: '历史', icon: 'audit' }
+      },
+      {
+        path: 'stats',
+        name: 'Stats',
+        component: () => import('@/views/ask/stats'),
+        meta: { title: '数据统计', icon: 'audit' }
       }
     ]
   },

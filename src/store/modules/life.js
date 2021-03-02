@@ -21,7 +21,7 @@ const actions = {
   getIdcode({ commit }, request) {
     return new Promise((resolve, reject) => {
       console.log(request)
-      api.getIdcode(request).then(response => {
+      api.idcode(request, 'PUT').then(response => {
         const { data } = response
         commit('SET_IDCODE', data)
         resolve(response)

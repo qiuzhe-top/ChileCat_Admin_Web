@@ -108,7 +108,7 @@ export default {
   created: function () {
     this.radio = this.classList[0].id
     // this.$store.dispatch('ask/history_ask')
-    this.get_ask_list()
+    // this.get_ask_list()
   },
   methods: {
     /**

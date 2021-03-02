@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
-// 刷新验证码
-export function getIdcode(params) {
+// 验证码
+export function idcode(params, method = 'GET') {
   return request({
     url: 'life/idcode',
-    method: 'GET',
+    method,
     params
   })
 }
@@ -55,4 +55,8 @@ export function recordsearch(data) {
     method: 'get',
     data
   })
+}
+
+export default {
+  idcode
 }

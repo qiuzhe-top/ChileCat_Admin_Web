@@ -88,19 +88,19 @@
             <el-button
               size="mini"
               type="danger"
-              @click="ask_option(scope.$index, scope.row,3)"
+              @click="ask_option(scope.$index, scope.row,'passed')"
             >通过</el-button>
-            <template v-if="role === 'teacher'">
+            <template v-if="roles.indexOf('teacher')!=-1">
               <el-button
                 size="mini"
                 type="danger"
-                @click="ask_option(scope.$index, scope.row,2)"
+                @click="ask_option(scope.$index, scope.row,'')"
               >递交上级</el-button>
             </template>
             <el-button
               size="mini"
               type="danger"
-              @click="ask_option(scope.$index, scope.row,4)"
+              @click="ask_option(scope.$index, scope.row,'failed')"
             >不通过</el-button>
           </template>
         </el-table-column>
@@ -146,7 +146,7 @@ export default {
   computed: {
     ...mapGetters([
       'classList',
-      'role',
+      'roles',
       'askList'
     ])
   },
