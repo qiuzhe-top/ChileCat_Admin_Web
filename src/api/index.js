@@ -1,8 +1,8 @@
-import user from './user'
+// import user from './user'
 import life from './life'
 import ask from './ask'
 export default {
-  user,
+  // user,
   life,
   ask
 }
