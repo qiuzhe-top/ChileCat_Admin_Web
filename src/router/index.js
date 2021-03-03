@@ -54,32 +54,32 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
-  {
-    path: '/ask',
-    component: Layout,
-    redirect: '/ask/audit',
-    name: 'Ask',
-    meta: { title: '请假管理', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'audit',
-        name: 'Audit',
-        component: () => import('@/views/ask/audit'),
-        meta: { title: '审核', icon: 'audit' }
-      }, {
-        path: 'history',
-        name: 'History',
-        component: () => import('@/views/ask/history'),
-        meta: { title: '历史', icon: 'audit' }
-      },
-      {
-        path: 'stats',
-        name: 'Stats',
-        component: () => import('@/views/ask/stats'),
-        meta: { title: '数据统计', icon: 'audit' }
-      }
-    ]
-  },
+  // {
+  //   path: '/ask',
+  //   component: Layout,
+  //   redirect: '/ask/audit',
+  //   name: 'Ask',
+  //   meta: { title: '请假管理', icon: 'el-icon-s-help' },
+  //   children: [
+  //     {
+  //       path: 'audit',
+  //       name: 'Audit',
+  //       component: () => import('@/views/ask/audit'),
+  //       meta: { title: '审核', icon: 'audit' }
+  //     }, {
+  //       path: 'history',
+  //       name: 'History',
+  //       component: () => import('@/views/ask/history'),
+  //       meta: { title: '历史', icon: 'audit' }
+  //     },
+  //     {
+  //       path: 'stats',
+  //       name: 'Stats',
+  //       component: () => import('@/views/ask/stats'),
+  //       meta: { title: '数据统计', icon: 'audit' }
+  //     }
+  //   ]
+  // },
   {
     path: '/life',
     component: Layout,
@@ -207,37 +207,37 @@ export const newRouter = [
 ]
 // 动态需要根据权限加载的路由表
 export const asyncRouterMap = [
-  {
-    path: '/permission',
-    component: Layout,
-    name: '权限测试',
-    meta: { title: '权限测试', role: ['admin', 'teacher'] }, // 页面需要的权限
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/form/index'),
-        name: '权限测试页',
-        meta: { title: '权限测试1', role: ['teacher'] } // 页面需要的权限
-      }, {
-        path: 'index2',
-        component: () => import('@/views/form/index'),
-        name: '权限测试页2',
-        meta: { title: '权限测试12', role: ['admin'] } // 页面需要的权限
-      }
-    ]
-  },
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: '公共权限',
-        component: () => import('@/views/form/index'),
-        meta: { title: '公共', icon: 'form' }
-      }
-    ]
-  },
+  // {
+  //   path: '/permission',
+  //   component: Layout,
+  //   name: '权限测试',
+  //   meta: { title: '权限测试', role: ['admin', 'teacher'] }, // 页面需要的权限
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/form/index'),
+  //       name: '权限测试页',
+  //       meta: { title: '权限测试1', role: ['teacher'] } // 页面需要的权限
+  //     }, {
+  //       path: 'index2',
+  //       component: () => import('@/views/form/index'),
+  //       name: '权限测试页2',
+  //       meta: { title: '权限测试12', role: ['admin'] } // 页面需要的权限
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: '公共权限',
+  //       component: () => import('@/views/form/index'),
+  //       meta: { title: '公共', icon: 'form' }
+  //     }
+  //   ]
+  // },
   { path: '*', redirect: '/404', hidden: true }
 ]
 

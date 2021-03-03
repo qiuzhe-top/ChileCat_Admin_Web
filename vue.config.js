@@ -36,6 +36,17 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    // proxy: {
+    //   '/api': {
+    //     target: '', // 目标,代理到指定地址
+    //     changeOrigin: true, // 是否将主机头的原点更改为目标的url地址
+    //     ws: true,
+    //     secure: false,
+    //     pathRewrite: { // 转发地址
+    //       '/api': '/api' // 将标识清空
+    //     }
+    //   }
+    // },
     before: require('./mock/mock-server.js')
   },
   configureWebpack: {
