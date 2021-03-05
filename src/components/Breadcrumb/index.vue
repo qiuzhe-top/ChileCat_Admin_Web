@@ -45,6 +45,7 @@ export default {
       const first = matched[0]
 
       if (!this.isDashboard(first)) {
+        // eslint-disable-next-line object-curly-spacing
         matched = [{ path: '/dashboard', meta: { title: 'Dashboard' } }].concat(matched)
       }
 
