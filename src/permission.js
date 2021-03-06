@@ -33,13 +33,9 @@ router.beforeEach(async(to, from, next) => {
       } else {
         try {
           // get user info
-          console.log(' get user info', 1)
           await store.dispatch('user/getInfo')
 
           const roles = store.getters.roles
-          console.log(' get user info', 3, roles)
-          /* eslint-disable eqeqeq */
-          console.log('动态添加可访问路由表', roles)
 
           store.dispatch('permission/GenerateRoutes', { roles }).then((res) => { // 生成可访问的路由表
             router.addRoutes(res) // 动态添加可访问路由表

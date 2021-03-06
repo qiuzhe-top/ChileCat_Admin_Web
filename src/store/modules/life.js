@@ -31,58 +31,39 @@ const actions = {
       })
     })
   },
-  // 获取缺勤名单
   recordsearch({ commit }, request) {
     return new Promise((resolve, reject) => {
-      console.log(request)
       api.recordsearch(request).then(response => {
-        // const { data } = response
-        // commit('SET_IDCODE', data)
         resolve(response)
       }).catch(error => {
-        commit('SET_IDCODE', '获取失败')
         reject(error)
       })
     })
   },
-  // 获取缺勤名单
   studentleak({ commit }, request) {
     return new Promise((resolve, reject) => {
-      console.log(request)
       api.studentleak(request).then(response => {
-        // const { data } = response
-        // commit('SET_IDCODE', data)
         resolve(response)
       }).catch(error => {
-        commit('SET_IDCODE', '获取失败')
         reject(error)
       })
     })
   },
-  // 获取缺勤名单
   switchknowing({ commit }, request) {
     return new Promise((resolve, reject) => {
-      console.log(request)
       api.switchknowing(request).then(response => {
-        // const { data } = response
-        // commit('SET_IDCODE', data)
         resolve(response)
       }).catch(error => {
-        commit('SET_IDCODE', '获取失败')
         reject(error)
       })
     })
   },
-  // 获取缺勤名单
   get_switchknowing({ commit }, request) {
     return new Promise((resolve, reject) => {
       console.log(request)
       api.get_switchknowing(request).then(response => {
-        // const { data } = response
-        // commit('SET_IDCODE', data)
         resolve(response)
       }).catch(error => {
-        commit('SET_IDCODE', '获取失败')
         reject(error)
       })
     })

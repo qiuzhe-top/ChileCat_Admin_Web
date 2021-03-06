@@ -1,3 +1,4 @@
+/* eslint-disable vue/valid-v-for */
 <template>
   <div class="app">
     <div
@@ -30,65 +31,35 @@
     <!-- <a :href="excel_url">备用下载</a> -->
     <!-- {{  }} -->
     <el-button @click="flush()"> 重置任务</el-button>
-    <el-table
-      :data="tableData"
-      border
-      style="width: 90%;margin: auto;"
-    >
-      <el-table-column
-        prop="student_name"
-        label="姓名"
-        width="120"
-      />
-      <el-table-column
-        prop="student"
-        label="学号"
-        width="120"
-      />
-      <el-table-column
-        prop="classname"
-        label="班级"
-        width="120"
-      />
-      <el-table-column
-        prop="room_name"
-        label="寝室"
-        width="120"
-      />
-      <el-table-column
-        prop="reason"
-        label="原因"
-        width="120"
-      />
-      <template v-if="flg">
-        <el-table-column
-          prop="worker_name"
-          label="执行人"
-          width="120"
-        />
-      </template>
-      <template v-if="flg">
-        <el-table-column
-          prop="created_time"
-          label="执行时间"
-          width="120"
-        />
-      </template>
-      <template v-if="flg">
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button
-              v-show="scope.row.flg"
-              width="120"
-              type="primary"
-              @click="pintle(scope.$index, scope.row)"
-            >
-              销假</el-button>
-          </template>
-        </el-table-column>
-      </template>
 
-    </el-table>
+    <div class="user_list">
+      <el-popover
+        v-for="item in tableData"
+        :key="item.id"
+        trigger="hover"
+        placement="top"
+        width="160"
+      >
+        <p>班级：{{ item.classname }}</p>
+        <p>寝室：{{ item.room_name }}</p>
+        <!-- <p>班级：{{item.classname}}</p> -->
+        <p>原因：{{ item.reason }}</p>
+        <p>执行人：{{ item.worker_name }}</p>
+        <p>执行时间：{{ item.created_time }}</p>
+        <div style="text-align: right; margin: 0">
+          <el-button
+            width="120"
+            type="primary"
+            @click="pintle(item.index, item)"
+          >
+            销假</el-button>
+        </div>
+        <el-button
+          slot="reference"
+          :type="item.flg ? '' : 'info'"
+        ><span>{{ item.student_name }}</span><br> <span>{{ item.student }}</span></el-button>
+      </el-popover>
+    </div>
   </div>
 </template>
 
@@ -111,6 +82,9 @@ export default {
     this.get_recordsearch()
     this.get_switchknowing()
     this.excel_url = process.env.VUE_APP_BASE_API + '/life/exportexcel'
+    setInterval(() => {
+      this.get_recordsearch()
+    }, 1000 * 25)
   },
   methods: {
     // 获取验证码
@@ -133,7 +107,6 @@ export default {
       this.$store.dispatch('life/recordsearch').then((res) => {
         res.data.forEach(function (v, i) {
           v['flg'] = true
-          console.log(v)
         })
         this.$data.tableData = res.data
         // eslint-disable-next-line no-undef
@@ -220,7 +193,7 @@ export default {
 }
 </script>
 
-<style scoped >
+<style scoped lang="scss" >
 .app .el-button {
   margin: 20px;
   padding: 10px 20px;
@@ -230,5 +203,11 @@ export default {
 }
 .code_now {
   cursor: pointer;
+}
+.user_list {
+  span {
+    display: inline-block;
+    margin-top: 2px;
+  }
 }
 </style>
