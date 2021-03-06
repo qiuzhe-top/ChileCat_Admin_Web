@@ -151,6 +151,7 @@ export default {
             message: res.message,
             type: 'success'
           })
+          this.get_switchknowing()
           this.$store.dispatch('life/getIdcode', { flag: '1' }).then((res) => {
             this.$data.code = res.data
           }).catch(() => {
