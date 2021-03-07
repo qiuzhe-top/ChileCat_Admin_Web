@@ -1,6 +1,8 @@
 // store/permission.js
 // 本来是以 permission 类直接导出 后修改如下
 import { asyncRouterMap, constantRoutes } from '../../router/index'
+import store from '@/store'
+
 function hasPermission(roles, route) {
   if (route.meta && route.meta.role) {
     var jiao = roles.filter((val) => new Set(route.meta.role).has(val))
@@ -31,7 +33,8 @@ const actions = {
       const { roles } = data
       console.log('加载路由')
       const accessedRouters = asyncRouterMap.filter(v => {
-        if (roles.filter((val) => new Set(['root']).has(val))) return true
+        if (store.getters.is_superuser) return true
+
         if (hasPermission(roles, v)) {
           if (v.children && v.children.length > 0) {
             v.children = v.children.filter(child => {

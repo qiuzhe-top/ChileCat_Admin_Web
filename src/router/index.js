@@ -53,47 +53,6 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
-  },
-  // {
-  //   path: '/ask',
-  //   component: Layout,
-  //   redirect: '/ask/audit',
-  //   name: 'Ask',
-  //   meta: { title: '请假管理', icon: 'el-icon-s-help' },
-  //   children: [
-  //     {
-  //       path: 'audit',
-  //       name: 'Audit',
-  //       component: () => import('@/views/ask/audit'),
-  //       meta: { title: '审核', icon: 'audit' }
-  //     }, {
-  //       path: 'history',
-  //       name: 'History',
-  //       component: () => import('@/views/ask/history'),
-  //       meta: { title: '历史', icon: 'audit' }
-  //     },
-  //     {
-  //       path: 'stats',
-  //       name: 'Stats',
-  //       component: () => import('@/views/ask/stats'),
-  //       meta: { title: '数据统计', icon: 'audit' }
-  //     }
-  //   ]
-  // },
-  {
-    path: '/life',
-    component: Layout,
-    redirect: '/life/man',
-    name: 'life',
-    meta: { title: '生活部', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'man',
-        name: 'life-l',
-        component: () => import('@/views/life/life'),
-        meta: { title: '晚查寝', icon: 'el-icon-s-help' }
-      }
-    ]
   }
 ]
 export const newRouter = [
@@ -207,6 +166,47 @@ export const newRouter = [
 ]
 // 动态需要根据权限加载的路由表
 export const asyncRouterMap = [
+  {
+    path: '/life',
+    component: Layout,
+    redirect: '/life/man',
+    name: 'life',
+    meta: { title: '生活部', icon: 'el-icon-s-help', role: ['life_admin'] },
+    children: [
+      {
+        path: 'man',
+        name: 'life-l',
+        component: () => import('@/views/life/life'),
+        meta: { title: '晚查寝', icon: 'el-icon-s-help' }
+      }
+    ]
+  },
+  {
+    path: '/ask',
+    component: Layout,
+    redirect: '/ask/audit',
+    name: 'Ask',
+    meta: { title: '请假管理', icon: 'el-icon-s-help', role: ['college_teacher', 'grade_teacher', 'school_teacher'] },
+    children: [
+      {
+        path: 'audit',
+        name: 'Audit',
+        component: () => import('@/views/ask/audit'),
+        meta: { title: '审核', icon: 'audit', role: ['college_teacher', 'grade_teacher', 'school_teacher'] }
+      }, {
+        path: 'history',
+        name: 'History',
+        component: () => import('@/views/ask/history'),
+        meta: { title: '历史', icon: 'audit', role: ['college_teacher', 'grade_teacher', 'school_teacher'] }
+      },
+      {
+        path: 'stats',
+        name: 'Stats',
+        component: () => import('@/views/ask/stats'),
+        meta: { title: '数据统计', icon: 'audit', role: ['college_teacher', 'grade_teacher', 'school_teacher'] }
+      }
+    ]
+  },
   // {
   //   path: '/permission',
   //   component: Layout,

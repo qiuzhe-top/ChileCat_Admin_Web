@@ -10,6 +10,8 @@ const getDefaultState = () => {
     token: getToken(),
     name: '',
     avatar: '',
+    is_admin: false,
+    is_superuser: false,
     roles: [],
     classList: []
   }
@@ -36,6 +38,12 @@ const mutations = {
   },
   SET_ROLE: (state, roles) => {
     state.roles = roles
+  },
+  SET_IS_ADMIN: (state, is_admin) => {
+    state.is_admin = is_admin
+  },
+  SET_IS_SUPERUSER: (state, is_superuser) => {
+    state.is_superuser = is_superuser
   }
 }
 
@@ -67,12 +75,15 @@ const actions = {
           return reject('Verification failed, please Login again.')
         }
 
-        const { name, avatar, roles } = data
+        const { name, avatar, roles, is_admin, is_superuser } = data
         console.log(' get user info', 2)
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_ROLE', roles)
+        commit('SET_IS_ADMIN', is_admin)
+        commit('SET_IS_SUPERUSER', is_superuser)
+
         resolve(data)
       }).catch(error => {
         reject(error)
