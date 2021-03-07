@@ -6,7 +6,6 @@ import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 // import { constantRoutes } from '@/router/index'
-
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
@@ -36,13 +35,21 @@ router.beforeEach(async(to, from, next) => {
           await store.dispatch('user/getInfo')
 
           const roles = store.getters.roles
-
-          store.dispatch('permission/GenerateRoutes', { roles }).then((res) => { // 生成可访问的路由表
-            router.addRoutes(res) // 动态添加可访问路由表
-            router.options.routes.push(...res)
-            next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
-          })
-          // next()
+          const is_admin = store.getters.is_admin
+          if (!is_admin) {
+            Message.error('登录失败')
+            setTimeout(function(){
+              store.dispatch('user/logout')
+            }, 2000)
+            // next(`/login?redirect=${to.path}`)
+            // store.dispatch('user/logout')
+          } else {
+            store.dispatch('permission/GenerateRoutes', { roles }).then((res) => { // 生成可访问的路由表
+              router.addRoutes(res) // 动态添加可访问路由表
+              router.options.routes.push(...res)
+              next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+            })
+          }
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
