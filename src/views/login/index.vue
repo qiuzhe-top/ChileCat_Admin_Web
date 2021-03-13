@@ -130,7 +130,9 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
+            setTimeout(() => {
+              this.loading = false
+            }, 4000)
             this.$store.dispatch('user/getClass')
           }).catch(() => {
             this.loading = false
