@@ -167,16 +167,16 @@ export const newRouter = [
 // 动态需要根据权限加载的路由表
 export const asyncRouterMap = [
   {
-    path: '/life',
+    path: '/activity',
     component: Layout,
-    redirect: '/life/man',
-    name: 'life',
-    meta: { title: '生活部', icon: 'el-icon-s-help', role: ['life_admin'] },
+    redirect: '/activity/man',
+    name: 'activity',
+    meta: { title: '生活部', icon: 'el-icon-s-help', role: ['attendance_admin'] },
     children: [
       {
         path: 'man',
-        name: 'life-l',
-        component: () => import('@/views/life/life'),
+        name: 'activity-l',
+        component: () => import('@/views/activity/activity'),
         meta: { title: '晚查寝', icon: 'el-icon-s-help' }
       }
     ]

@@ -29,3 +29,10 @@ export function getClass() {
     method: 'get'
   })
 }
+export function searchUser(data) {
+  return request({
+    url: '/user/searchuser',
+    method: 'get',
+    params: data
+  })
+}

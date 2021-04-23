@@ -31,6 +31,17 @@ const actions = {
       })
     })
   },
+  // 获取我管理的考勤活动
+  my_active ({ commit }, request) {
+    return new Promise((resolve, reject) => {
+      api.my_active(request).then(reponse => {
+        // const { data } = reponse
+        resolve(reponse)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
   recordsearch({ commit }, request) {
     return new Promise((resolve, reject) => {
       api.recordsearch(request).then(response => {

@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 验证码
 export function idcode(params, method = 'GET') {
   return request({
-    url: 'life/idcode',
+    url: 'activity/idcode',
     method,
     params
   })
@@ -11,15 +11,15 @@ export function idcode(params, method = 'GET') {
 // 销假
 export function studentleak(data) {
   return request({
-    url: '/life/studentleak',
+    url: '/activity/studentleak',
     method: 'put',
     data
   })
 }
-// 完成任务
+// 任务状态控制
 export function switchknowing(data) {
   return request({
-    url: '/life/switchknowing',
+    url: '/activity/switchknowing',
     method: 'post',
     data
   })
@@ -27,7 +27,7 @@ export function switchknowing(data) {
 // 重置任务
 export function put_switchknowing(data) {
   return request({
-    url: '/life/switchknowing',
+    url: '/activity/switchknowing',
     method: 'put',
     data
   })
@@ -35,7 +35,7 @@ export function put_switchknowing(data) {
 // 查看任务
 export function get_switchknowing(data) {
   return request({
-    url: '/life/switchknowing',
+    url: '/activity/switchknowing',
     method: 'get',
     data
   })
@@ -43,7 +43,7 @@ export function get_switchknowing(data) {
 // 导出Excel
 export function exportexcel(data) {
   return request({
-    url: '/life/exportexcel',
+    url: '/activity/exportexcel',
     method: 'get',
     data
   })
@@ -51,8 +51,24 @@ export function exportexcel(data) {
 // 今日缺勤列表
 export function recordsearch(data) {
   return request({
-    url: '/life/recordsearch',
+    url: '/attendance/recordsearch',
     method: 'get',
+    data
+  })
+}
+// 我的考勤活动
+export function my_active(data) {
+  return request({
+    url: '/activity/myactive',
+    method: 'get',
+    params: data
+  })
+}
+// 保存班表
+export function save_roster(data) {
+  return request({
+    url: '/activity/saveroster',
+    method: 'post',
     data
   })
 }
