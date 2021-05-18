@@ -1,37 +1,113 @@
 import request from '@/utils/request'
 
-// 验证码
-export function idcode(params, method = 'GET') {
+const api_url = '/school_attendance'
+
+// 获取任务
+export function task_get(data) {
   return request({
-    url: 'activity/idcode',
-    method,
-    params
-  })
-}
-// 销假
-export function studentleak(data) {
-  return request({
-    url: '/activity/studentleak',
-    method: 'put',
+    url: api_url + '/task',
+    method: 'get',
     data
   })
 }
-// 任务状态控制
-export function switchknowing(data) {
+// 创建任务
+export function task_post(data) {
   return request({
-    url: '/activity/switchknowing',
+    url: api_url + '/task',
     method: 'post',
     data
   })
 }
-// 重置任务
-export function put_switchknowing(data) {
+// 获取任务管理员
+export function task_admin_get(data) {
   return request({
-    url: '/activity/switchknowing',
-    method: 'put',
+    url: api_url + '/task_admin',
+    method: 'get',
     data
   })
 }
+// 添加管理员
+export function task_admin_post(data) {
+  return request({
+    url: api_url + '/task_admin',
+    method: 'post',
+    data
+  })
+}
+
+// 删除管理员
+export function task_admin_delete(data) {
+  return request({
+    url: api_url + '/task_admin',
+    method: 'delete',
+    data
+  })
+}
+// 修改任务状态
+export function task_switch_put(data) {
+  return request({
+    url: api_url + '/task_switch',
+    method: 'delete',
+    data
+  })
+}
+// 清除任务状态
+export function task_switch_delete(data) {
+  return request({
+    url: api_url + '/task_switch',
+    method: 'delete',
+    data
+  })
+}
+// 获取班表
+export function scheduling_get(data) {
+  return request({
+    url: api_url + '/scheduling',
+    method: 'get',
+    data
+  })
+}
+// 更改班表
+export function scheduling_post(data) {
+  return request({
+    url: api_url + '/scheduling',
+    method: 'post',
+    data
+  })
+}
+// 查看当天考勤工作情况
+export function condition_get(data) {
+  return request({
+    url: api_url + '/condition',
+    method: 'get',
+    data
+  })
+}
+// 销假
+export function undo_record_delete(data) {
+  return request({
+    url: api_url + '/undo_record',
+    method: 'delete',
+    data
+  })
+}
+// 导出今日记录情况
+export function out_data_get(data) {
+  return request({
+    url: api_url + '/out_data',
+    method: 'out_data',
+    data
+  })
+}
+// XXXXX
+export function XXXX_post(data) {
+  return request({
+    url: api_url + '/XXXX',
+    method: 'XXXX',
+    data
+  })
+}
+
 // 查看任务
 export function get_switchknowing(data) {
   return request({
@@ -40,39 +116,7 @@ export function get_switchknowing(data) {
     data
   })
 }
-// 导出Excel
-export function exportexcel(data) {
-  return request({
-    url: '/activity/exportexcel',
-    method: 'get',
-    data
-  })
-}
-// 今日缺勤列表
-export function recordsearch(data) {
-  return request({
-    url: '/attendance/recordsearch',
-    method: 'get',
-    data
-  })
-}
-// 我的考勤活动
-export function my_active(data) {
-  return request({
-    url: '/activity/myactive',
-    method: 'get',
-    params: data
-  })
-}
-// 保存班表
-export function save_roster(data) {
-  return request({
-    url: '/activity/saveroster',
-    method: 'post',
-    data
-  })
-}
 
 export default {
-  idcode
+
 }
