@@ -7,7 +7,7 @@ export function task_get(data) {
   return request({
     url: api_url + '/task',
     method: 'get',
-    data
+    params:data
   })
 }
 // 创建任务
@@ -47,7 +47,7 @@ export function task_admin_delete(data) {
 export function task_switch_put(data) {
   return request({
     url: api_url + '/task_switch',
-    method: 'delete',
+    method: 'put',
     data
   })
 }
@@ -118,5 +118,6 @@ export function get_switchknowing(data) {
 }
 
 export default {
-
+  task_get,
+  get_switchknowing,
 }

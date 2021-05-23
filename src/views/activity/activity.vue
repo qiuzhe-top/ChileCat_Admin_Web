@@ -11,7 +11,7 @@
             slot="header"
             class="clearfix"
           >
-            <span> {{ actives[active_index].college +"-"+ actives[active_index].types }} </span>
+            <span> {{ actives[active_index].name }} </span>
 
             <span
               class="code_now"
@@ -26,10 +26,10 @@
             </span>
             <div
               style="display: inline"
-              @click="switchknowing()"
+              @click="task_switch_put()"
             >
               <el-switch
-                v-model="actives[active_index].console_code"
+                v-model="actives[active_index].is_open"
                 :disabled="is_switch"
                 style="float: right; padding: 3px 0"
                 active-text="开启"
@@ -38,7 +38,7 @@
             </div>
           </div>
           <div
-            v-show="actives[active_index].console_code"
+            v-show="actives[active_index].is_open"
             class="text item"
           >
 
@@ -55,7 +55,7 @@
     <br>
     <div
       v-for="floor,index in roster"
-      v-show="actives[active_index].console_code"
+      v-show="actives[active_index].is_open"
       :key="index"
       class="roster_box"
     >
@@ -152,7 +152,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import * as api from '@/api/life'
+import * as api from '@/api/SchoolAttendance'
 import * as userApi from '@/api/user'
 export default {
   data () {
@@ -163,9 +163,10 @@ export default {
       switc: '',
       actives: [
         {
-          college: '',
-          types: '',
-          name: ''
+          id: '1',
+          name: '1',
+          is_open: false,
+          is_builder:false
         }
       ],
       active_index: 0,
@@ -216,20 +217,18 @@ export default {
   methods: {
     // 加载我的活动
     get_activa () {
-      this.$store.dispatch('life/my_active', { role: 'activity_admin' }).then((res) => {
+      this.$store.dispatch('SchoolAttendance/my_active', { type: '0' }).then((res) => {
         var arr = res.data
-        var naw_arr = arr.filter(function (item, index) {
-          return item.code_name.indexOf('dorm') >= 0
-        })
-        this.actives = naw_arr
-        this.roster = naw_arr[0]['roster']
-        this.change_flg++
+        console.log(arr)
+        this.actives = arr
+        // this.roster = naw_arr[0]['roster']
+        // this.change_flg++
       }).catch(() => {
       })
     },
     // 获取验证码
     get_code () {
-      this.$api.life.idcode()
+      this.$api.SchoolAttendance.idcode()
         .then((res) => {
           this.$data.code = res.data
         }).catch(() => {
@@ -237,14 +236,14 @@ export default {
     },
     // 刷新验证码
     flush_code () {
-      this.$store.dispatch('life/getIdcode').then((res) => {
+      this.$store.dispatch('SchoolAttendance/getIdcode').then((res) => {
         this.$data.code = res.data
       }).catch(() => {
       })
     },
     // 获取缺勤名单
     get_recordsearch () {
-      this.$store.dispatch('life/recordsearch').then((res) => {
+      this.$store.dispatch('SchoolAttendance/recordsearch').then((res) => {
         res.data.forEach(function (v, i) {
           v['flg'] = true
         })
@@ -262,7 +261,7 @@ export default {
       }).then(() => {
         row.flg = false
 
-        this.$store.dispatch('life/studentleak', { record_id: row.id }).then((res) => {
+        this.$store.dispatch('SchoolAttendance/studentleak', { record_id: row.id }).then((res) => {
           // this.$data.tableData = res.data
           if (res.code === 2000) {
             this.$message({
@@ -286,17 +285,17 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        api.put_switchknowing().then(res => {
-          this.$message({
-            message: res.message,
-            type: 'success'
-          })
-          // this.get_switchknowing()
-          this.$store.dispatch('life/getIdcode', { flag: '1' }).then((res) => {
-            this.$data.code = res.data
-          }).catch(() => {
-          })
-        })
+        // api.put_switchknowing().then(res => {
+        //   this.$message({
+        //     message: res.message,
+        //     type: 'success'
+        //   })
+        //   // this.get_switchknowing()
+        //   this.$store.dispatch('SchoolAttendance/getIdcode', { flag: '1' }).then((res) => {
+        //     this.$data.code = res.data
+        //   }).catch(() => {
+        //   })
+        // })
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -312,11 +311,11 @@ export default {
     //   })
     // },
     // 切换任务状态
-    switchknowing () {
+    task_switch_put () {
       console.log('切换')
       const id = this.actives[this.active_index].id
       this.is_switch = true
-      this.$store.dispatch('life/switchknowing', { id: id }).then((res) => {
+      this.$store.dispatch('SchoolAttendance/task_switch_put', { id: id }).then((res) => {
         this.$data.switc = res.data
         this.is_switch = false
       }).catch((err) => {
