@@ -51,6 +51,7 @@ export function task_switch_put(data) {
     data
   })
 }
+
 // 清除任务状态
 export function task_switch_delete(data) {
   return request({
@@ -64,7 +65,7 @@ export function scheduling_get(data) {
   return request({
     url: api_url + '/scheduling',
     method: 'get',
-    data
+    params:data
   })
 }
 // 更改班表
@@ -120,4 +121,6 @@ export function get_switchknowing(data) {
 export default {
   task_get,
   get_switchknowing,
+  scheduling_post,
+  scheduling_get,
 }
