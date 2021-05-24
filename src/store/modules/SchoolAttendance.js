@@ -42,9 +42,9 @@ const actions = {
       })
     })
   },
-  recordsearch({ commit }, request) {
+  condition({ commit }, request) {
     return new Promise((resolve, reject) => {
-      api.recordsearch(request).then(response => {
+      api.condition_get(request).then(response => {
         resolve(response)
       }).catch(error => {
         reject(error)

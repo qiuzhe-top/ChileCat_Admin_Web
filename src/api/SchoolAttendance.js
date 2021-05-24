@@ -81,7 +81,7 @@ export function condition_get(data) {
   return request({
     url: api_url + '/condition',
     method: 'get',
-    data
+    params:data
   })
 }
 // 销假

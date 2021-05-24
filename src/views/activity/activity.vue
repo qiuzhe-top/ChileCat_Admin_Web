@@ -36,6 +36,8 @@
       </el-col>
     </el-row>
     <br />
+
+    <!-- 班表模块 -->
     <div
       v-for="(floor, index) in roster"
       v-show="actives[active_index].is_open"
@@ -70,12 +72,11 @@
       </div>
     </div>
     <el-button @click="save_roster()">保存 </el-button>
-
     <br />
+    <!-- 查寝记录模块 -->
     <el-row>
       <el-col :sm="24">
-        <el-card v-show="actives[active_index].console_code" shadow="hover">
-          1
+        <el-card v-show="actives[active_index].is_open" shadow="hover">
           <div class="user_list">
             <el-popover
               v-for="item in tableData"
@@ -83,14 +84,15 @@
               trigger="hover"
               placement="top"
               width="160"
+              style="margin-right: 10px"
             >
-              <p>班级：{{ item.classname }}</p>
-              <p>寝室：{{ item.room_name }}</p>
+              <!-- <p>班级：{{ item.classname }}</p> -->
+              <p>寝室：{{ item.room_str }}</p>
               <!-- <p>班级：{{item.classname}}</p> -->
-              <p>原因：{{ item.reason }}</p>
-              <p>执行人：{{ item.worker_name }}</p>
-              <p>执行时间：{{ item.created_time }}</p>
-              <div style="text-align: right; margin: 0">
+              <p>原因：{{ item.rule_str }}</p>
+              <p>执行人：{{ item.worker }}</p>
+              <p>执行时间：{{ item.star_time }}</p>
+              <div style="text-align: right; margin: 0px">
                 <el-button
                   width="120"
                   type="primary"
@@ -100,9 +102,9 @@
                 >
               </div>
               <el-button slot="reference" :type="item.flg ? '' : 'info'"
-                ><span>{{ item.student_name }}</span
+                ><span>{{ item.student_approved_number }}</span
                 ><br />
-                <span>{{ item.student }}</span></el-button
+                <span>{{ item.student_approved }}</span></el-button
               >
             </el-popover>
           </div>
@@ -176,7 +178,7 @@ export default {
     };
   },
   created: function () {
-    this.get_recordsearch();
+    this.get_condition();
     // this.get_switchknowing()
     this.get_activa();
     // setInterval(() => {
@@ -221,9 +223,10 @@ export default {
         .catch(() => {});
     },
     // 获取缺勤名单
-    get_recordsearch() {
+    get_condition() {
+      console.log('获取缺勤名单')
       this.$store
-        .dispatch("SchoolAttendance/recordsearch")
+        .dispatch("SchoolAttendance/condition",{task_id:this.$data.actives[this.active_index].id})
         .then((res) => {
           res.data.forEach(function (v, i) {
             v["flg"] = true;
@@ -395,6 +398,8 @@ export default {
   cursor: pointer;
 }
 .user_list {
+  display: flex;
+  
   span {
     display: inline-block;
     margin-top: 2px;
