@@ -39,7 +39,7 @@ export default {
       'sidebar'
     ]),
     routes () {
-      console.log('渲染菜单', this.$router.options.routes)
+      // console.log('渲染菜单', this.$router.options.routes)
       return this.$router.options.routes
       // return store.getters.routers
     },

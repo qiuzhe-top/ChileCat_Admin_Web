@@ -31,7 +31,6 @@ const actions = {
   GenerateRoutes({ commit }, data) {
     return new Promise(resolve => {
       const { roles } = data
-      console.log('加载路由')
       const accessedRouters = asyncRouterMap.filter(v => {
         if (store.getters.is_superuser) return true
 

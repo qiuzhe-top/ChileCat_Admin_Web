@@ -76,7 +76,6 @@ const actions = {
         }
 
         const { name, avatar, roles, is_admin, is_superuser } = data
-        console.log(' get user info', 2)
 
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)

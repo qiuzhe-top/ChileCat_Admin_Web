@@ -100,14 +100,16 @@ export function out_data_get(data) {
     data
   })
 }
-// XXXXX
-export function XXXX_post(data) {
+
+// 搜索用户信息
+export function searchUser(data) {
   return request({
-    url: api_url + '/XXXX',
-    method: 'XXXX',
-    data
+    url: 'school_information/student_information',
+    method: 'get',
+    params: data
   })
 }
+
 
 // 查看任务
 export function get_switchknowing(data) {
@@ -118,9 +120,22 @@ export function get_switchknowing(data) {
   })
 }
 
+// XXXXX
+export function XXXX_post(data) {
+  return request({
+    url: api_url + '/XXXX',
+    method: 'XXXX',
+    data
+  })
+}
+
+
 export default {
   task_get,
   get_switchknowing,
   scheduling_post,
+  undo_record_delete,
+  task_switch_delete,
   scheduling_get,
+  searchUser
 }

@@ -167,18 +167,36 @@ export const newRouter = [
 // 动态需要根据权限加载的路由表
 export const asyncRouterMap = [
   {
-    path: '/activity',
+    path: '/SchoolAttendance',
     component: Layout,
-    redirect: '/activity/man',
-    name: 'activity',
-    meta: { title: '生活部', icon: 'el-icon-s-help', role: ['attendance_admin'] },
+    redirect: '/SchoolAttendance/knowing',
+    name: 'SchoolAttendance',
+    meta: { title: '考勤系统', icon: 'el-icon-s-help', role: ['attendance_admin'] },
     children: [
       {
-        path: 'man',
-        name: 'activity-l',
-        component: () => import('@/views/activity/activity'),
+        path: 'health',
+        name: 'health',
+        component: () => import('@/views/SchoolAttendance/check_health'),
+        meta: { title: '检查卫生', icon: 'el-icon-s-help', role: ['attendance_admin']}
+      },
+      {
+        path: 'knowing',
+        name: 'knowing',
+        component: () => import('@/views/SchoolAttendance/knowing'),
         meta: { title: '晚查寝', icon: 'el-icon-s-help' }
-      }
+      },
+      {
+        path: 'late',
+        name: 'late',
+        component: () => import('@/views/SchoolAttendance/late'),
+        meta: { title: '晚自修', icon: 'el-icon-s-help' }
+      },
+      // {
+      //   path: 'night_self_study',
+      //   name: 'night_self_study',
+      //   component: () => import('@/views/SchoolAttendance/knowing'),
+      //   meta: { title: '纪检部', icon: 'el-icon-s-help' }
+      // },
     ]
   },
   {
