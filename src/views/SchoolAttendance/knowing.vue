@@ -213,7 +213,7 @@ export default {
     this.get_condition();
     setInterval(() => {
       this.get_condition();
-    }, 1000*30);
+    }, 1000*3);
   },
   methods: {
     // 加载我的活动

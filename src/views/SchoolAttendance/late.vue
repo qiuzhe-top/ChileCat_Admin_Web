@@ -35,92 +35,38 @@
       width="90%"
       :before-close="handleClose"
     >
-      <!-- 班表面板 -->
-      <!-- <div
-        v-for="(floor, index) in roster"
-        v-show="actives[active_index].is_open"
-        :key="index"
-        class="roster_box"
-      >
-        <h3>{{ floor.title }}</h3>
-
-        <div
-          v-for="(layer, layer_index) in floor.layer_list"
-          :key="layer_index"
-          class="layer"
-        >
-          <h3>{{ layer.title }}</h3>
-
-          <div
-            v-for="(user, user_index) in layer.user"
-            :key="user_index"
-            class="layer"
-          >
-            {{ user.username }} {{ user.name }} {{ user.tel }}
-            <el-button
-              size="mini"
-              icon="el-icon-close"
-              @click="remove_user(layer, user_index)"
-            ></el-button>
-          </div>
-          <div class="search_box">
-            <el-row :gutter="10">
-              <el-col :xs="24" :md="8">
-                <el-input
-                  size="small"
-                  v-model="layer.user_object.username"
-                  placeholder="学号"
-                />
-              </el-col>
-
-              <el-col :xs="24" :md="8">
-                <el-input
-                  size="small"
-                  v-model="layer.user_object.name"
-                  placeholder="姓名"
-                />
-              </el-col>
-
-              <el-col :xs="24" :md="8">
-                <el-input
-                  size="small"
-                  v-model="layer.user_object.tel"
-                  placeholder="电话"
-                />
-              </el-col>
-            </el-row>
-          </div>
-
-          <el-button
-            size="small"
-            icon="el-icon-search"
-            @click="search_user(layer)"
-            >搜索</el-button
-          >
-          <el-button
-            size="small"
-            icon="el-icon-circle-plus-outline"
-            @click="add_user(layer)"
-            >添加</el-button
-          >
-        </div>
-      </div> -->
-
       <el-row :gutter="10">
         <el-col :xs="24" :md="24">
           <div class="input_box">
             <el-row :gutter="10">
-
               <el-col :xs="24" :md="9">
-                <el-input class="username"></el-input>
+                <el-input
+                  size="small"
+                  v-model="input_user_object.username"
+                  placeholder="学号"
+                />
               </el-col>
               <el-col :xs="24" :md="9">
-                <el-input class="username"></el-input>
+                <el-input
+                  size="small"
+                  v-model="input_user_object.name"
+                  placeholder="姓名"
+                />
               </el-col>
 
               <el-col :xs="24" :md="6">
-                <el-button>搜索</el-button>
-                <el-button>添加</el-button>
+                <el-button
+                  size="small"
+                  icon="el-icon-search"
+                  @click="search_user()"
+                  >搜索</el-button
+                >
+                <el-button
+                  size="small"
+                  icon="el-icon-circle-plus-outline"
+                  @click="add_user()"
+                  >添加</el-button
+                >
               </el-col>
             </el-row>
           </div>
@@ -139,14 +85,13 @@
           <el-button>添加</el-button>
         </el-col>
         <el-col :xs="24" :md="12">
-          <div>
-            20164211 掌声
+
+          <div v-for="item in roster" :key="item.index">
+            {{item.username}}
+            {{item.name}}
             <el-button>删除</el-button>
           </div>
-          <div>
-            20164211 掌声
-            <el-button>删除</el-button>
-          </div>
+      
         </el-col>
       </el-row>
 
@@ -227,32 +172,15 @@ export default {
       username: "",
       roster: [
         {
-          title: "1号楼",
-          layer_list: [
-            {
-              title: "1-2层",
-              user_object: {
-                username: "",
-                name: "",
-                grade: "",
-                tel: "",
-              },
-              user: [
-                {
-                  username: "",
-                  name: "",
-                  grade: "",
-                  tel: "",
-                },
-              ],
-            },
-          ],
+          "username":'',
+          "name":''
         },
       ],
       // 排班面板
       dialogVisible_roster_box: true,
       // 待排班的用户列表
       user_list_str: "",
+      input_user_object: {},
     };
   },
   created: function () {
@@ -335,7 +263,7 @@ export default {
     },
 
     // 排班 添加用户
-    add_user(layer) {
+    add_user() {
       layer.user.push(JSON.parse(JSON.stringify(layer.user_object)));
       layer.user_object = {
         username: "",
@@ -351,17 +279,18 @@ export default {
     },
 
     // 排班 搜索用户
-    search_user(layer) {
+    search_user() {
       this.$api.SchoolAttendance.searchUser({
-        username: layer.user_object.username,
+        username: this.$data.input_user_object.username,
       })
         .then((res) => {
-          layer.user_object = res.data;
+          this.$data.input_user_object = res.data;
           console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
         });
+
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random());
     },
