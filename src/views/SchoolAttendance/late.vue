@@ -34,9 +34,12 @@
       :visible.sync="dialogVisible_roster_box"
       width="90%"
       :before-close="handleClose"
+      class="dialog_roster"
     >
+
       <el-row :gutter="10">
         <el-col :xs="24" :md="24">
+          <h3>添加</h3>
           <div class="input_box">
             <el-row :gutter="10">
               <el-col :xs="24" :md="9">
@@ -76,20 +79,26 @@
           <el-input
             type="textarea"
             :rows="2"
-            placeholder="请输入内容"
+            placeholder="请输入多个学号"
             v-model="user_list_str"
           >
           </el-input>
         </el-col>
         <el-col :xs="24" :md="4">
-          <el-button>添加</el-button>
+          <el-button @click="add_user_list_str()">添加</el-button>
         </el-col>
-        <el-col :xs="24" :md="12">
 
-          <div v-for="item in roster" :key="item.index">
+        <el-col :xs="24" :md="12">
+          <h3>名单</h3>
+
+          <div v-for="(item,index) in roster" :key="index">
             {{item.username}}
             {{item.name}}
-            <el-button>删除</el-button>
+            <el-button
+              size="mini"
+              icon="el-icon-close"
+              @click="remove_user(index)"
+            ></el-button>
           </div>
       
         </el-col>
@@ -97,7 +106,7 @@
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible_roster_box = false">取 消</el-button>
-        <el-button @click="dialogVisible_roster_box = false">查看</el-button>
+        <!-- <el-button @click="dialogVisible_roster_box = false">查看</el-button> -->
         <el-button type="primary" @click="save_roster()">保存</el-button>
       </span>
     </el-dialog>
@@ -170,6 +179,8 @@ export default {
       flg: true,
       formLabelWidth: "120px",
       username: "",
+
+      // 班表
       roster: [
         {
           "username":'',
@@ -177,7 +188,7 @@ export default {
         },
       ],
       // 排班面板
-      dialogVisible_roster_box: true,
+      dialogVisible_roster_box: false,
       // 待排班的用户列表
       user_list_str: "",
       input_user_object: {},
@@ -188,8 +199,10 @@ export default {
 
     this.get_condition();
     setInterval(() => {
-      this.get_condition();
-    }, 1000 * 30);
+      if(this.$data.actives[this.$data.active_index].is_open==true){
+        this.get_condition()
+      }
+    }, 1000 * 2);
   },
   methods: {
     // 加载我的活动
@@ -264,18 +277,36 @@ export default {
 
     // 排班 添加用户
     add_user() {
-      layer.user.push(JSON.parse(JSON.stringify(layer.user_object)));
-      layer.user_object = {
+      // layer.user.push(JSON.parse(JSON.stringify(layer.user_object)));
+      if(this.$data.input_user_object.username=='')return
+      this.$data.roster.push(this.$data.input_user_object)
+      this.$data.input_user_object = {
         username: "",
         name: "",
-        grade: "",
-        tel: "",
-      };
+      }
     },
+    // 添加多个用户
+    add_user_list_str(){
+      const str = this.$data.user_list_str
+      if(str.length<1)return
+      var user_list = str.split('\n')
+      user_list.forEach(u => {
+             this.$api.SchoolAttendance.searchUser({
+           username: u,
+          })
+          .then((res) => {
+            this.$data.roster.push(res.data)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
 
+      console.log(user_list)
+    },
     // 排班 删除用户
-    remove_user(layer, index) {
-      layer.user.splice(index, 1);
+    remove_user(index) {
+      this.$data.roster.splice(index, 1);
     },
 
     // 排班 搜索用户
@@ -294,7 +325,6 @@ export default {
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random());
     },
-
     // 保存班表
     save_roster() {
       console.log(" 保存班表", this.roster);
@@ -317,7 +347,6 @@ export default {
 
     // 获取缺勤名单
     get_condition() {
-      console.log("获取缺勤名单");
       if (!this.$data.actives[this.active_index].id) return;
       this.$store
         .dispatch("SchoolAttendance/condition", {
@@ -328,6 +357,8 @@ export default {
             v["flg"] = true;
           });
           this.$data.tableData = res.data;
+      console.log("获取缺勤名单"+res.data);
+
         })
         .catch(() => {});
     },
@@ -409,4 +440,5 @@ export default {
 }
 .input_box {
 }
+
 </style>
