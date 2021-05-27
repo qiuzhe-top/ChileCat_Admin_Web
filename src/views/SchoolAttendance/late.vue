@@ -203,6 +203,7 @@ export default {
         this.get_condition()
       }
     }, 1000 * 2);
+    
   },
   methods: {
     // 加载我的活动
