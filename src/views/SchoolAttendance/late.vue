@@ -23,6 +23,7 @@
             <a :href="excel_url">
               <el-button>导出Excel</el-button>
             </a>
+            <el-button @click="get_condition()">刷新记录</el-button>
           </div>
         </el-card>
       </el-col>
@@ -36,7 +37,6 @@
       :before-close="handleClose"
       class="dialog_roster"
     >
-
       <el-row :gutter="10">
         <el-col :xs="24" :md="24">
           <h3>添加</h3>
@@ -91,16 +91,15 @@
         <el-col :xs="24" :md="12">
           <h3>名单</h3>
 
-          <div v-for="(item,index) in roster" :key="index">
-            {{item.username}}
-            {{item.name}}
+          <div v-for="(item, index) in roster" :key="index">
+            {{ item.username }}
+            {{ item.name }}
             <el-button
               size="mini"
               icon="el-icon-close"
               @click="remove_user(index)"
             ></el-button>
           </div>
-      
         </el-col>
       </el-row>
 
@@ -119,7 +118,34 @@
           <div slot="header">
             <span>晚自修检查记录</span>
           </div>
-          <div class="user_list">
+
+          <el-table :data="tableData" style="width: 100%">
+            <el-table-column
+              prop="student_approved_number"
+              label="学号"
+              width="180"
+            >
+            </el-table-column>
+            <el-table-column prop="student_approved" label="姓名" width="180">
+            </el-table-column>
+            <el-table-column prop="rule_str" label="原因"> </el-table-column>
+            <el-table-column prop="worker" label="执行人"> </el-table-column>
+            <el-table-column prop="star_time" label="执行时间">
+            </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button
+                  width="120"
+                  :type="scope.row.flg ? 'warning' : 'info'"
+                  @click="pintle(1, scope.row)"
+                >
+                  销假</el-button
+                >
+              </template>
+            </el-table-column>
+          </el-table>
+
+          <!-- <div class="user_list">
             <el-popover
               v-for="item in tableData"
               :key="item.id"
@@ -132,22 +158,14 @@
               <p>原因：{{ item.rule_str }}</p>
               <p>执行人：{{ item.worker }}</p>
               <p>执行时间：{{ item.star_time }}</p>
-              <div style="text-align: right; margin: 0px">
-                <el-button
-                  width="120"
-                  type="primary"
-                  @click="pintle(item.index, item)"
-                >
-                  销假</el-button
-                >
-              </div>
+              <div style="text-align: right; margin: 0px"></div>
               <el-button slot="reference" :type="item.flg ? '' : 'info'"
                 ><span>{{ item.student_approved_number }}</span
                 ><br />
                 <span>{{ item.student_approved }}</span></el-button
               >
             </el-popover>
-          </div>
+          </div> -->
         </el-card>
       </el-col>
     </el-row>
@@ -202,8 +220,8 @@ export default {
       if(this.$data.actives[this.$data.active_index].is_open==true){
         this.get_condition()
       }
-    }, 1000 * 2);
-    
+    }, 1000 * 20);
+
   },
   methods: {
     // 加载我的活动
@@ -423,7 +441,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" >
+<style scoped lang="scss">
 .code_now {
   margin-left: 20px;
   cursor: pointer;
@@ -441,5 +459,11 @@ export default {
 }
 .input_box {
 }
+.el-table .warning-row {
+  background: oldlace;
+}
 
+.el-table .success-row {
+  background: #f0f9eb;
+}
 </style>

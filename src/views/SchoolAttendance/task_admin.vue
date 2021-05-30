@@ -1,0 +1,21 @@
+<template>
+    <div>
+        考勤管理
+    </div>
+</template>
+
+
+<script>
+
+export default {
+    data() {
+        return {
+
+        }
+    },
+}
+</script>
+
+<style lang="sass" scoped>
+
+</style>
