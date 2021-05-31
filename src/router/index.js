@@ -191,12 +191,12 @@ export const asyncRouterMap = [
         component: () => import('@/views/SchoolAttendance/late'),
         meta: { title: '晚自修', icon: 'el-icon-s-help' }
       },
-      // {
-      //   path: 'night_self_study',
-      //   name: 'night_self_study',
-      //   component: () => import('@/views/SchoolAttendance/knowing'),
-      //   meta: { title: '纪检部', icon: 'el-icon-s-help' }
-      // },
+      {
+        path: 'task_admin',
+        name: 'task_admin',
+        component: () => import('@/views/SchoolAttendance/task_admin'),
+        meta: { title: '考勤管理', icon: 'el-icon-s-help' }
+      },
     ]
   },
   {

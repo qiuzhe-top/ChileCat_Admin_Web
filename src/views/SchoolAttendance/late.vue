@@ -145,27 +145,6 @@
             </el-table-column>
           </el-table>
 
-          <!-- <div class="user_list">
-            <el-popover
-              v-for="item in tableData"
-              :key="item.id"
-              trigger="hover"
-              placement="top"
-              width="160"
-              style="margin-right: 10px"
-            >
-              <p>寝室：{{ item.room_str }}</p>
-              <p>原因：{{ item.rule_str }}</p>
-              <p>执行人：{{ item.worker }}</p>
-              <p>执行时间：{{ item.star_time }}</p>
-              <div style="text-align: right; margin: 0px"></div>
-              <el-button slot="reference" :type="item.flg ? '' : 'info'"
-                ><span>{{ item.student_approved_number }}</span
-                ><br />
-                <span>{{ item.student_approved }}</span></el-button
-              >
-            </el-popover>
-          </div> -->
         </el-card>
       </el-col>
     </el-row>
