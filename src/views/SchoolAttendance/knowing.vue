@@ -49,7 +49,8 @@
           :key="layer_index"
           class="layer"
         >
-          <h3>{{ layer.title }}</h3>
+        
+          <h4>{{ layer.title }}</h4>
 
           <div
             v-for="(user, user_index) in layer.user"
@@ -61,9 +62,13 @@
               size="mini"
               icon="el-icon-close"
               @click="remove_user(layer, user_index)"
+            v-show="is_show_button"
+
             ></el-button>
           </div>
-          <div class="search_box">
+          <div class="search_box" 
+            v-show="is_show_button"
+          >
             <el-row :gutter="10">
               <el-col :xs="24" :md="8">
                 <el-input
@@ -95,18 +100,21 @@
             size="small"
             icon="el-icon-search"
             @click="search_user(layer)"
+            v-show="is_show_button"
           >搜索</el-button>
           <el-button
             size="small"
             icon="el-icon-circle-plus-outline"
             @click="add_user(layer)"
+            v-show="is_show_button"
+
           >添加</el-button>
         </div>
       </div>
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible_roster_box = false">取 消</el-button>
-        <el-button @click="dialogVisible_roster_box = false">查看</el-button>
+        <el-button @click="simple_information()">查看/修改</el-button>
         <el-button type="primary" @click="save_roster()">保存</el-button>
       </span>
     </el-dialog>
@@ -205,6 +213,9 @@ export default {
       ],
       // 排班面板
       dialogVisible_roster_box: false,
+
+      // 是否显示排班功能按钮
+      is_show_button: false
     };
   },
   created: function () {
@@ -403,6 +414,10 @@ export default {
       });
     },
 
+    // 显示班表简易版
+    simple_information(){
+        this.$data.is_show_button = !  this.$data.is_show_button 
+    },
     handleClose(done) {
       this.$confirm("确认关闭？")
         .then((_) => {
