@@ -1,6 +1,7 @@
 import request from '@/utils/request'
 
 const api_url = '/school_attendance'
+export const in_zaoqian_excel_url = process.env.VUE_APP_BASE_API + api_url + '/in_zaoqian_excel'
 
 // 获取任务
 export function task_get(data) {
@@ -10,6 +11,7 @@ export function task_get(data) {
     params:data
   })
 }
+
 // 创建任务
 export function task_post(data) {
   return request({
@@ -156,5 +158,6 @@ export default {
   task_switch_delete,
   scheduling_get,
   record,
-  searchUser
+  searchUser,
+  in_zaoqian_excel_url
 }

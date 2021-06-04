@@ -12,7 +12,7 @@
       <el-upload
         class="upload-demo"
         ref="upload"
-        action="http://192.168.204.128:8000/api/manage/in_zaoqian_excel"
+        :action="in_zaoqian_excel_url"
         :on-success="on_success"
         :on-progress="on_progress"
         :headers="{
@@ -156,6 +156,8 @@ export default {
       fileList: [],
       // 上传早签数据失败记录
       up_error_list:[],
+      // 上传早签的地址
+      in_zaoqian_excel_url: this.$api.SchoolAttendance.in_zaoqian_excel_url,
       // 文件上传对话框
       dialogVisible: false,
       // 上传文件显示加载动画
