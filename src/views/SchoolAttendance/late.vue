@@ -6,7 +6,8 @@
         <el-card class="box-card" shadow="hover">
           <div slot="header" class="clearfix">
             <span> {{ actives[active_index].name }} </span>
-            <div style="display: inline" @click="task_switch_put()">
+            <!-- @click="task_switch_put()" -->
+            <div style="display: inline" > 
               <el-switch
                 v-model="actives[active_index].is_open"
                 :disabled="is_switch"
@@ -16,8 +17,9 @@
               />
             </div>
           </div>
+          
           <div v-show="actives[active_index].is_open" class="text item">
-            <el-button @click="dialogVisible_roster_box = true">排班</el-button>
+            <el-button @click="dialogVisible_roster_box = true">排班 </el-button>
             <el-button @click="flush()"> 重置任务</el-button>
             <!-- <a :href="excel_url">备用下载</a> -->
             <a :href="excel_url">
@@ -195,11 +197,11 @@ export default {
     this.get_activa();
 
     this.get_condition();
-    setInterval(() => {
-      if(this.$data.actives[this.$data.active_index].is_open==true){
-        this.get_condition()
-      }
-    }, 1000 * 20);
+    // setInterval(() => {
+    //   if(this.$data.actives[this.$data.active_index].is_open==true){
+    //     this.get_condition()
+    //   }
+    // }, 1000 * 20);
 
   },
   methods: {

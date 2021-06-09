@@ -171,31 +171,32 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '/SchoolAttendance/knowing',
     name: 'SchoolAttendance',
+    alwaysShow: false,
     meta: { title: '考勤系统', icon: 'el-icon-s-help', role: ['attendance_admin'] },
     children: [
       {
         path: 'health',
         name: 'health',
         component: () => import('@/views/SchoolAttendance/check_health'),
-        meta: { title: '检查卫生', icon: 'el-icon-s-help', role: ['attendance_admin']}
+        meta: { title: '检查卫生', icon: 'el-icon-s-help', role: ['health_admin']}
       },
       {
         path: 'knowing',
         name: 'knowing',
         component: () => import('@/views/SchoolAttendance/knowing'),
-        meta: { title: '晚查寝', icon: 'el-icon-s-help' }
+        meta: { title: '晚查寝', icon: 'el-icon-s-help', role: ['knowing_admin']}
       },
       {
         path: 'late',
         name: 'late',
         component: () => import('@/views/SchoolAttendance/late'),
-        meta: { title: '晚自修', icon: 'el-icon-s-help' }
+        meta: { title: '晚自修', icon: 'el-icon-s-help', role: ['late_admin']}
       },
       {
         path: 'task_admin',
         name: 'task_admin',
         component: () => import('@/views/SchoolAttendance/task_admin'),
-        meta: { title: '考勤管理', icon: 'el-icon-s-help' }
+        meta: { title: '考勤管理', icon: 'el-icon-s-help', role: ['task_admin']}
       },
     ]
   },
@@ -204,7 +205,7 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '/ask/audit',
     name: 'Ask',
-    meta: { title: '请假管理', icon: 'el-icon-s-help', role: ['college_teacher', 'grade_teacher', 'school_teacher'] },
+    meta: { title: '请假管理', icon: 'el-icon-s-help', role: ['ask'] },
     children: [
       {
         path: 'audit',
