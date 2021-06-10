@@ -1,6 +1,7 @@
 import request from '@/utils/request'
 
 const api_url = '/school_attendance'
+export const in_zaoqian_excel_url = process.env.VUE_APP_BASE_API + api_url + '/in_zaoqian_excel'
 
 // 获取任务
 export function task_get(data) {
@@ -10,6 +11,7 @@ export function task_get(data) {
     params:data
   })
 }
+
 // 创建任务
 export function task_post(data) {
   return request({
@@ -92,6 +94,14 @@ export function undo_record_delete(data) {
     data
   })
 }
+// 销假
+export function undo_record_admin(data) {
+  return request({
+    url: api_url + '/undo_record_admin',
+    method: 'delete',
+    data
+  })
+}
 // 导出今日记录情况
 export function out_data_get(data) {
   return request({
@@ -105,6 +115,15 @@ export function out_data_get(data) {
 export function searchUser(data) {
   return request({
     url: 'school_information/student_information',
+    method: 'get',
+    params: data
+  })
+}
+
+// 搜索考勤记录
+export function record(data) {
+  return request({
+    url: api_url +'/record',
     method: 'get',
     params: data
   })
@@ -135,7 +154,10 @@ export default {
   get_switchknowing,
   scheduling_post,
   undo_record_delete,
+  undo_record_admin,
   task_switch_delete,
   scheduling_get,
-  searchUser
+  record,
+  searchUser,
+  in_zaoqian_excel_url
 }

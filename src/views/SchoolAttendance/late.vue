@@ -6,23 +6,30 @@
         <el-card class="box-card" shadow="hover">
           <div slot="header" class="clearfix">
             <span> {{ actives[active_index].name }} </span>
-            <div style="display: inline" @click="task_switch_put()">
+            <!-- -->
+            <div style="display: inline"
+            @click="task_switch_put()">
               <el-switch
                 v-model="actives[active_index].is_open"
                 :disabled="is_switch"
+                
                 style="float: right; padding: 3px 0"
                 active-text="开启"
                 inactive-text="关闭"
               />
             </div>
           </div>
+
           <div v-show="actives[active_index].is_open" class="text item">
-            <el-button @click="dialogVisible_roster_box = true">排班</el-button>
+            <el-button @click="dialogVisible_roster_box = true"
+              >排班
+            </el-button>
             <el-button @click="flush()"> 重置任务</el-button>
             <!-- <a :href="excel_url">备用下载</a> -->
-            <a :href="excel_url">
+            <!-- <a :href="excel_url">
               <el-button>导出Excel</el-button>
-            </a>
+            </a> -->
+            <el-button @click="get_condition()">刷新记录</el-button>
           </div>
         </el-card>
       </el-col>
@@ -36,7 +43,6 @@
       :before-close="handleClose"
       class="dialog_roster"
     >
-
       <el-row :gutter="10">
         <el-col :xs="24" :md="24">
           <h3>添加</h3>
@@ -91,16 +97,15 @@
         <el-col :xs="24" :md="12">
           <h3>名单</h3>
 
-          <div v-for="(item,index) in roster" :key="index">
-            {{item.username}}
-            {{item.name}}
+          <div v-for="(item, index) in roster" :key="index">
+            {{ item.username }}
+            {{ item.name }}
             <el-button
               size="mini"
               icon="el-icon-close"
               @click="remove_user(index)"
             ></el-button>
           </div>
-      
         </el-col>
       </el-row>
 
@@ -119,35 +124,32 @@
           <div slot="header">
             <span>晚自修检查记录</span>
           </div>
-          <div class="user_list">
-            <el-popover
-              v-for="item in tableData"
-              :key="item.id"
-              trigger="hover"
-              placement="top"
-              width="160"
-              style="margin-right: 10px"
+
+          <el-table :data="tableData" style="width: 100%">
+            <el-table-column
+              prop="student_approved_number"
+              label="学号"
+              width="180"
             >
-              <p>寝室：{{ item.room_str }}</p>
-              <p>原因：{{ item.rule_str }}</p>
-              <p>执行人：{{ item.worker }}</p>
-              <p>执行时间：{{ item.star_time }}</p>
-              <div style="text-align: right; margin: 0px">
+            </el-table-column>
+            <el-table-column prop="student_approved" label="姓名" width="180">
+            </el-table-column>
+            <el-table-column prop="rule_str" label="原因"> </el-table-column>
+            <el-table-column prop="worker" label="执行人"> </el-table-column>
+            <el-table-column prop="star_time" label="执行时间">
+            </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
                 <el-button
                   width="120"
-                  type="primary"
-                  @click="pintle(item.index, item)"
+                  :type="scope.row.flg ? 'warning' : 'info'"
+                  @click="pintle(1, scope.row)"
                 >
                   销假</el-button
                 >
-              </div>
-              <el-button slot="reference" :type="item.flg ? '' : 'info'"
-                ><span>{{ item.student_approved_number }}</span
-                ><br />
-                <span>{{ item.student_approved }}</span></el-button
-              >
-            </el-popover>
-          </div>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-card>
       </el-col>
     </el-row>
@@ -183,8 +185,8 @@ export default {
       // 班表
       roster: [
         {
-          "username":'',
-          "name":''
+          username: "",
+          name: "",
         },
       ],
       // 排班面板
@@ -198,11 +200,11 @@ export default {
     this.get_activa();
 
     this.get_condition();
-    setInterval(() => {
-      if(this.$data.actives[this.$data.active_index].is_open==true){
-        this.get_condition()
-      }
-    }, 1000 * 2);
+    // setInterval(() => {
+    //   if(this.$data.actives[this.$data.active_index].is_open==true){
+    //     this.get_condition()
+    //   }
+    // }, 1000 * 20);
   },
   methods: {
     // 加载我的活动
@@ -278,31 +280,31 @@ export default {
     // 排班 添加用户
     add_user() {
       // layer.user.push(JSON.parse(JSON.stringify(layer.user_object)));
-      if(this.$data.input_user_object.username=='')return
-      this.$data.roster.push(this.$data.input_user_object)
+      if (this.$data.input_user_object.username == "") return;
+      this.$data.roster.push(this.$data.input_user_object);
       this.$data.input_user_object = {
         username: "",
         name: "",
-      }
+      };
     },
     // 添加多个用户
-    add_user_list_str(){
-      const str = this.$data.user_list_str
-      if(str.length<1)return
-      var user_list = str.split('\n')
-      user_list.forEach(u => {
-             this.$api.SchoolAttendance.searchUser({
-           username: u,
-          })
+    add_user_list_str() {
+      const str = this.$data.user_list_str;
+      if (str.length < 1) return;
+      var user_list = str.split("\n");
+      user_list.forEach((u) => {
+        this.$api.SchoolAttendance.searchUser({
+          username: u,
+        })
           .then((res) => {
-            this.$data.roster.push(res.data)
+            this.$data.roster.push(res.data);
           })
           .catch((err) => {
             console.log(err);
           });
       });
 
-      console.log(user_list)
+      console.log(user_list);
     },
     // 排班 删除用户
     remove_user(index) {
@@ -357,8 +359,7 @@ export default {
             v["flg"] = true;
           });
           this.$data.tableData = res.data;
-      console.log("获取缺勤名单"+res.data);
-
+          console.log("获取缺勤名单" + res.data);
         })
         .catch(() => {});
     },
@@ -422,7 +423,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss" >
+<style scoped lang="scss">
 .code_now {
   margin-left: 20px;
   cursor: pointer;
@@ -440,5 +441,11 @@ export default {
 }
 .input_box {
 }
+.el-table .warning-row {
+  background: oldlace;
+}
 
+.el-table .success-row {
+  background: #f0f9eb;
+}
 </style>
