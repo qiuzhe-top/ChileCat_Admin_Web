@@ -49,6 +49,10 @@
           :key="layer_index"
           class="layer"
         >
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 715b0d992157308a4cc044096974066bf3feab84
           <h4>{{ layer.title }}</h4>
 
           <div
@@ -61,10 +65,20 @@
               size="mini"
               icon="el-icon-close"
               @click="remove_user(layer, user_index)"
+<<<<<<< HEAD
               v-show="is_show_button"
             ></el-button>
           </div>
           <div class="search_box" v-show="is_show_button">
+=======
+            v-show="is_show_button"
+
+            ></el-button>
+          </div>
+          <div class="search_box" 
+            v-show="is_show_button"
+          >
+>>>>>>> 715b0d992157308a4cc044096974066bf3feab84
             <el-row :gutter="10">
               <el-col :xs="24" :md="8">
                 <el-input
@@ -97,15 +111,24 @@
             icon="el-icon-search"
             @click="search_user(layer)"
             v-show="is_show_button"
+<<<<<<< HEAD
             >搜索</el-button
           >
+=======
+          >搜索</el-button>
+>>>>>>> 715b0d992157308a4cc044096974066bf3feab84
           <el-button
             size="small"
             icon="el-icon-circle-plus-outline"
             @click="add_user(layer)"
             v-show="is_show_button"
+<<<<<<< HEAD
             >添加</el-button
           >
+=======
+
+          >添加</el-button>
+>>>>>>> 715b0d992157308a4cc044096974066bf3feab84
         </div>
       </div>
 
@@ -212,7 +235,11 @@ export default {
       dialogVisible_roster_box: false,
 
       // 是否显示排班功能按钮
+<<<<<<< HEAD
       is_show_button: false,
+=======
+      is_show_button: false
+>>>>>>> 715b0d992157308a4cc044096974066bf3feab84
     };
   },
   created: function () {
@@ -412,8 +439,13 @@ export default {
     },
 
     // 显示班表简易版
+<<<<<<< HEAD
     simple_information() {
       this.$data.is_show_button = !this.$data.is_show_button;
+=======
+    simple_information(){
+        this.$data.is_show_button = !  this.$data.is_show_button 
+>>>>>>> 715b0d992157308a4cc044096974066bf3feab84
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
