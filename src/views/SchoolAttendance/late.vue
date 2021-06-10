@@ -6,14 +6,9 @@
         <el-card class="box-card" shadow="hover">
           <div slot="header" class="clearfix">
             <span> {{ actives[active_index].name }} </span>
-<<<<<<< HEAD
             <!-- -->
             <div style="display: inline"
             @click="task_switch_put()">
-=======
-            <!-- @click="task_switch_put()" -->
-            <div style="display: inline" > 
->>>>>>> 715b0d992157308a4cc044096974066bf3feab84
               <el-switch
                 v-model="actives[active_index].is_open"
                 :disabled="is_switch"
@@ -24,26 +19,14 @@
               />
             </div>
           </div>
-<<<<<<< HEAD
-
-          <div v-show="actives[active_index].is_open" class="text item">
-            <el-button @click="dialogVisible_roster_box = true"
-              >排班
-            </el-button>
-=======
           
           <div v-show="actives[active_index].is_open" class="text item">
             <el-button @click="dialogVisible_roster_box = true">排班 </el-button>
->>>>>>> 715b0d992157308a4cc044096974066bf3feab84
             <el-button @click="flush()"> 重置任务</el-button>
             <!-- <a :href="excel_url">备用下载</a> -->
             <!-- <a :href="excel_url">
               <el-button>导出Excel</el-button>
-<<<<<<< HEAD
             </a> -->
-=======
-            </a>
->>>>>>> 715b0d992157308a4cc044096974066bf3feab84
             <el-button @click="get_condition()">刷新记录</el-button>
           </div>
         </el-card>
@@ -165,10 +148,6 @@
               </template>
             </el-table-column>
           </el-table>
-<<<<<<< HEAD
-=======
-
->>>>>>> 715b0d992157308a4cc044096974066bf3feab84
         </el-card>
       </el-col>
     </el-row>
@@ -224,10 +203,6 @@ export default {
     //     this.get_condition()
     //   }
     // }, 1000 * 20);
-<<<<<<< HEAD
-=======
-
->>>>>>> 715b0d992157308a4cc044096974066bf3feab84
   },
   methods: {
     // 加载我的活动
