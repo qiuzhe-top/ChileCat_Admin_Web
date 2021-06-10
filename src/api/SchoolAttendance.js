@@ -1,7 +1,8 @@
 import request from '@/utils/request'
 
 const api_url = '/school_attendance'
-export const in_zaoqian_excel_url = process.env.VUE_APP_BASE_API + api_url + '/in_zaoqian_excel'
+export const in_zaoqian_excel_url ='http://localhost:8000/api' + api_url + '/in_zaoqian_excel'
+// export const in_zaoqian_excel_url = process.env.VUE_APP_BASE_API + api_url + '/in_zaoqian_excel'
 
 // 获取任务
 export function task_get(data) {

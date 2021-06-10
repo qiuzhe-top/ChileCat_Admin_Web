@@ -159,7 +159,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
 export default {
   data() {
     return {
@@ -219,9 +219,9 @@ export default {
     this.get_activa();
 
     this.get_condition();
-    setInterval(() => {
-      this.get_condition();
-    }, 1000 * 3);
+    // setInterval(() => {
+    //   this.get_condition();
+    // }, 1000 * 3);
   },
   methods: {
     // 加载我的活动
