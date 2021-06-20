@@ -19,6 +19,7 @@
           <div v-show="actives[active_index].is_open" class="text item">
             <el-button @click="dialogVisible_roster_box = true">排班</el-button>
             <el-button @click="flush()"> 重置任务</el-button>
+            <el-button @click="get_condition()">记录情况</el-button>
             <!-- <a :href="excel_url">备用下载</a> -->
             <a :href="excel_url">
               <el-button>导出Excel</el-button>
