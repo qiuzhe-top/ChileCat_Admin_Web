@@ -172,7 +172,7 @@ export const asyncRouterMap = [
     redirect: '/SchoolAttendance/knowing',
     name: 'SchoolAttendance',
     alwaysShow: false,
-    meta: { title: '考勤系统', icon: 'el-icon-s-help', role: ['attendance_admin'] },
+    meta: { title: '考勤系统', icon: 'el-icon-s-help', role: ['task_admin'] },
     children: [
       {
         path: 'health',
@@ -196,7 +196,7 @@ export const asyncRouterMap = [
         path: 'task_admin',
         name: 'task_admin',
         component: () => import('@/views/SchoolAttendance/task_admin'),
-        meta: { title: '考勤管理', icon: 'el-icon-s-help', role: ['task_admin']}
+        meta: { title: '考勤管理', icon: 'el-icon-s-help', role: ['task_data']}
       },
     ]
   },
