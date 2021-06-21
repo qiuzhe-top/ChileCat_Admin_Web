@@ -21,9 +21,9 @@
             <el-button @click="flush()"> 重置任务</el-button>
             <el-button @click="get_condition()">记录情况</el-button>
             <!-- <a :href="excel_url">备用下载</a> -->
-            <a :href="excel_url">
-              <el-button>导出Excel</el-button>
-            </a>
+            <!-- <a :href="excel_url">
+              <el-button>导出Excel </el-button>
+            </a> -->
           </div>
         </el-card>
       </el-col>
@@ -165,7 +165,7 @@ export default {
   data() {
     return {
       is_switch: false,
-      excel_url: "",
+      excel_url:this.$api.SchoolAttendance.knowing_excel_url,
       switc: "",
       actives: [
         {

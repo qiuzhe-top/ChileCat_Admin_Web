@@ -2,6 +2,7 @@ import request from '@/utils/request'
 
 const api_url = '/school_attendance'
 export const in_zaoqian_excel_url ='http://localhost:8000/api' + api_url + '/in_zaoqian_excel'
+export const out_excel_data ='http://localhost:8000/api' + api_url + '/out_data'
 // export const in_zaoqian_excel_url = process.env.VUE_APP_BASE_API + api_url + '/in_zaoqian_excel'
 
 // 获取任务
@@ -140,6 +141,16 @@ export function get_switchknowing(data) {
   })
 }
 
+// 导出数据
+export function out_data(data) {
+  return request({
+    url: api_url + '/out_data',
+    method: 'get',
+    responseType: 'blob',
+    params: data
+  })
+}
+
 // XXXXX
 export function XXXX_post(data) {
   return request({
@@ -160,5 +171,7 @@ export default {
   scheduling_get,
   record,
   searchUser,
-  in_zaoqian_excel_url
+  out_data,
+  in_zaoqian_excel_url,
+  out_excel_data
 }

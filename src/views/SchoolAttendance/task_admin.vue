@@ -16,7 +16,7 @@
         :on-success="on_success"
         :on-progress="on_progress"
         :headers="{
-          'token': token()
+          token: token(),
         }"
         :file-list="fileList"
         :auto-upload="false"
@@ -25,19 +25,19 @@
         <el-button slot="trigger" size="small" type="primary"
           >选取文件</el-button
         >
-          <el-button
-            style="margin-left: 10px;"
-            size="small"
-            type="success"
-            @click="submitUpload"
-            >上传到服务器</el-button
-          >
+        <el-button
+          style="margin-left: 10px"
+          size="small"
+          type="success"
+          @click="submitUpload"
+          >上传到服务器</el-button
+        >
         <div slot="tip" class="el-upload__tip">
-          只能上传xlsx文件。数据导入不会重复导入          
+          只能上传xlsx文件。数据导入不会重复导入
         </div>
       </el-upload>
 
-      <el-table :data="up_error_list"  max-height="350" style="width: 100%">
+      <el-table :data="up_error_list" max-height="350" style="width: 100%">
         <el-table-column prop="username" label="学号" width="180">
         </el-table-column>
         <el-table-column prop="name" label="姓名" width="180">
@@ -50,7 +50,6 @@
         <el-button @click="dialogVisible = false">取 消</el-button>
       </span>
     </el-dialog>
-
 
     <el-date-picker
       v-model="time"
@@ -66,12 +65,14 @@
     <el-input
       v-model="username"
       placeholder="请输入学号或姓名"
-      style="width:200px;"
+      style="width: 200px"
     />
     <el-button width="120" @click="search()"> 搜索</el-button>
-    <el-button width="120"> 导出Excel</el-button>
+    <!-- <a :href="out_data"> -->
+    <el-button width="120" @click="out_excel()"> 导出Excel </el-button>
+    <!-- </a> -->
 
-    <div style="margin-top: 15px;" />
+    <div style="margin-top: 15px" />
 
     <el-table :data="tableData" style="width: 100%">
       <el-table-column
@@ -107,9 +108,9 @@
 </template>
 
 <script>
-import { Loading } from 'element-ui';
+import { Loading } from "element-ui";
 import { dateFormat } from "@/utils/util.js";
-import { getToken } from '@/utils/auth'
+import { getToken } from "@/utils/auth";
 export default {
   data() {
     return {
@@ -129,7 +130,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               picker.$emit("pick", [start, end]);
-            }
+            },
           },
           {
             text: "最近一个月",
@@ -138,7 +139,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               picker.$emit("pick", [start, end]);
-            }
+            },
           },
           {
             text: "最近三个月",
@@ -147,27 +148,29 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       tableData: [],
       // 文件上传用
       fileList: [],
       // 上传早签数据失败记录
-      up_error_list:[],
+      up_error_list: [],
       // 上传早签的地址
       in_zaoqian_excel_url: this.$api.SchoolAttendance.in_zaoqian_excel_url,
+      // 导出考勤结果地址
+      out_data: this.$api.SchoolAttendance.out_data,
       // 文件上传对话框
       dialogVisible: false,
       // 上传文件显示加载动画
       loading_flg: true,
       // 名单上传附带数据
-      file_up_data:{
+      file_up_data: {
         // 'token':getToken()
       },
       // 文件上传头属性
-      up_headers:{}
+      up_headers: {},
     };
   },
   methods: {
@@ -177,8 +180,8 @@ export default {
         username: this.$data.username,
         start_date: dateFormat("YYYY-mm-dd", this.$data.time[0]),
         end_date: dateFormat("YYYY-mm-dd", this.$data.time[1]),
-        page: page
-      }).then(res => {
+        page: page,
+      }).then((res) => {
         // this.$data.tableData = res.data.data.results;
         console.log(res.data);
         this.$data.page_size = res.data.page_size;
@@ -186,42 +189,49 @@ export default {
         this.$data.tableData = res.data.results;
       });
     },
-    token(){
-      return getToken()
+    // 导出筛选的数据
+    out_excel() {
+      var start_date = dateFormat("YYYY-mm-dd", this.$data.time[0]);
+      var end_date = dateFormat("YYYY-mm-dd", this.$data.time[1]);
+      var url = this.$api.SchoolAttendance.out_excel_data + "?start_date=" + start_date + "&end_date=" + end_date
+      window.location.href = url
+    },
+    token() {
+      return getToken();
     },
     // 核销
     cancel(row) {
       this.$confirm("此操作将对该同学销假,并且记录您的信息 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           console.log("销假");
 
           this.$api.SchoolAttendance.undo_record_admin({
-            record_id: row.id
+            record_id: row.id,
           })
-            .then(res => {
+            .then((res) => {
               if (res.code === 2000) {
                 this.$message({
                   message: res.message,
-                  type: "success"
+                  type: "success",
                 });
                 row.flg = false;
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.$message({
                 type: "info",
-                message: "失败"
+                message: "失败",
               });
             });
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消"
+            message: "已取消",
           });
         });
     },
@@ -231,39 +241,39 @@ export default {
 
     // 文件上传用 ---
     submitUpload() {
-     
       this.$refs.upload.submit();
     },
     // 上传成功
     on_success(request, file, fileList) {
       console.log(request, file, fileList);
-      this.$data.up_error_list = request.data
+      this.$data.up_error_list = request.data;
 
       let loadingInstance = Loading.service();
-      this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+      this.$nextTick(() => {
+        // 以服务的方式调用的 Loading 需要异步关闭
         loadingInstance.close();
       });
 
-         this.$message({
-          message: request.message,
-          type: 'success'
-        });
+      this.$message({
+        message: request.message,
+        type: "success",
+      });
     },
-    on_progress(){
-     this.$loading()
+    on_progress() {
+      this.$loading();
     },
     handlePreview(file) {
       console.log(file);
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
-        .then(_ => {
+        .then((_) => {
           done();
         })
-        .catch(_ => {});
-    }
+        .catch((_) => {});
+    },
     // 文件上传用 ---
-  }
+  },
 };
 </script>
 <style lang="sass" scoped></style>
