@@ -69,7 +69,7 @@
     />
     <el-button width="120" @click="search()"> 搜索</el-button>
     <!-- <a :href="out_data"> -->
-    <el-button width="120" @click="out_excel()"> 导出Excel </el-button>
+    <el-button width="120" @click="out_excel()" :loading="out_excel_disabled"> 导出Excel </el-button>
     <!-- </a> -->
 
     <div style="margin-top: 15px" />
@@ -118,6 +118,8 @@ export default {
       username: "",
       // 搜索按钮是否可用
       disabled: true,
+      // 导出按钮
+      out_excel_disabled:false,
       page_size: 0,
       page: 1,
       total: 0,
@@ -191,10 +193,15 @@ export default {
     },
     // 导出筛选的数据
     out_excel() {
+      this.$data.out_excel_disabled = true
       var start_date = dateFormat("YYYY-mm-dd", this.$data.time[0]);
       var end_date = dateFormat("YYYY-mm-dd", this.$data.time[1]);
       var url = this.$api.SchoolAttendance.out_excel_data + "?start_date=" + start_date + "&end_date=" + end_date
       window.location.href = url
+      setTimeout(() => {
+      this.$data.out_excel_disabled = false
+        
+      }, 1000*5);
     },
     token() {
       return getToken();
