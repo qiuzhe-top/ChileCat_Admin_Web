@@ -196,7 +196,7 @@ export default {
       this.$data.out_excel_disabled = true
       var start_date = dateFormat("YYYY-mm-dd", this.$data.time[0]);
       var end_date = dateFormat("YYYY-mm-dd", this.$data.time[1]);
-      var url = this.$api.SchoolAttendance.out_excel_data + "?start_date=" + start_date + "&end_date=" + end_date
+      var url = this.$api.SchoolAttendance.out_excel_data + "?start_date=" + start_date + "&end_date=" + end_date + "&username=" + this.$data.username
       window.location.href = url
       setTimeout(() => {
       this.$data.out_excel_disabled = false
