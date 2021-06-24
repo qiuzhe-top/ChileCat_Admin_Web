@@ -133,7 +133,7 @@ export default {
             setTimeout(() => {
               this.loading = false
             }, 4000)
-            this.$store.dispatch('user/getClass')
+            // this.$store.dispatch('user/getClass')
           }).catch(() => {
             this.loading = false
           })

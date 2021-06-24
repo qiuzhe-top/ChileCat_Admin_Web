@@ -1,4 +1,4 @@
-import * as api from '@/api/life'
+import * as api from '@/api/SchoolAttendance'
 // import { Message } from 'element-ui'
 
 const getDefaultState = () => {
@@ -28,12 +28,23 @@ const actions = {
       }).catch(error => {
         commit('SET_IDCODE', '获取失败')
         reject(error)
+      }) 
+    })
+  },
+  // 获取我管理的考勤活动
+  my_active ({ commit }, request) {
+    return new Promise((resolve, reject) => {
+      api.task_get(request).then(reponse => {
+        // const { data } = reponse
+        resolve(reponse)
+      }).catch(error => {
+        reject(error)
       })
     })
   },
-  recordsearch({ commit }, request) {
+  condition({ commit }, request) {
     return new Promise((resolve, reject) => {
-      api.recordsearch(request).then(response => {
+      api.condition_get(request).then(response => {
         resolve(response)
       }).catch(error => {
         reject(error)
@@ -49,9 +60,9 @@ const actions = {
       })
     })
   },
-  switchknowing({ commit }, request) {
+  task_switch_put({ commit }, request) {
     return new Promise((resolve, reject) => {
-      api.switchknowing(request).then(response => {
+      api.task_switch_put(request).then(response => {
         resolve(response)
       }).catch(error => {
         reject(error)
@@ -60,7 +71,6 @@ const actions = {
   },
   get_switchknowing({ commit }, request) {
     return new Promise((resolve, reject) => {
-      console.log(request)
       api.get_switchknowing(request).then(response => {
         resolve(response)
       }).catch(error => {
