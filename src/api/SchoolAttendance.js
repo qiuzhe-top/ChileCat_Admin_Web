@@ -3,6 +3,7 @@ import request from '@/utils/request'
 const api_url = '/school_attendance'
 export const in_zaoqian_excel_url ='http://47.102.215.230:8000/api' + api_url + '/in_zaoqian_excel'
 export const out_excel_data ='http://47.102.215.230:8000/api' + api_url + '/out_data'
+export const out_knowing_excel_data ='http://127.0.0.1:8000/api' + api_url + '/out_knowing_excel_data'
 // export const in_zaoqian_excel_url = process.env.VUE_APP_BASE_API + api_url + '/in_zaoqian_excel'
 
 // 获取任务
@@ -173,5 +174,6 @@ export default {
   searchUser,
   out_data,
   in_zaoqian_excel_url,
+  out_knowing_excel_data,
   out_excel_data
 }

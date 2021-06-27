@@ -20,10 +20,9 @@
             <el-button @click="dialogVisible_roster_box = true">排班</el-button>
             <el-button @click="flush()"> 重置任务</el-button>
             <el-button @click="get_condition()">记录情况</el-button>
-            <!-- <a :href="excel_url">备用下载</a> -->
-            <!-- <a :href="excel_url">
+            <a :href="excel_url">
               <el-button>导出Excel </el-button>
-            </a> -->
+            </a>
           </div>
         </el-card>
       </el-col>
@@ -165,7 +164,7 @@ export default {
   data() {
     return {
       is_switch: false,
-      excel_url:this.$api.SchoolAttendance.knowing_excel_url,
+      excel_url:this.$api.SchoolAttendance.out_knowing_excel_data,
       switc: "",
       actives: [
         {
@@ -220,9 +219,9 @@ export default {
     this.get_activa();
 
     this.get_condition();
-    // setInterval(() => {
-    //   this.get_condition();
-    // }, 1000 * 3);
+    setInterval(() => {
+      this.get_condition();
+    }, 1000 * 30);
   },
   methods: {
     // 加载我的活动
