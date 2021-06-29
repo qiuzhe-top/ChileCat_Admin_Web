@@ -5,6 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 tests/**/coverage/
+.history
 # Editor directories and files
 .idea
 .vscode
@@ -12,3 +13,9 @@ tests/**/coverage/
 *.ntvs*
 *.njsproj
 *.sln
+manage
+node_moduales
+package.json
+package-lock.json
+Uni_app.js
+web.js
