@@ -20,14 +20,14 @@
             <el-button @click="dialogVisible_roster_box = true">排班</el-button>
             <el-button @click="flush()"> 重置任务</el-button>
             <el-button @click="get_condition()">记录情况</el-button>
-            <a :href="excel_url" target="_Blank">
+            <a :href="excel_url + '?task_id='">
               <el-button>导出Excel </el-button>
             </a>
           </div>
         </el-card>
       </el-col>
     </el-row>
-    <br>
+    <br />
 
     <el-dialog
       title="排班"
@@ -76,16 +76,16 @@
 
               <el-col :xs="24" :md="8">
                 <el-input
-                  v-model="layer.user_object.name"
                   size="small"
+                  v-model="layer.user_object.name"
                   placeholder="姓名"
                 />
               </el-col>
 
               <el-col :xs="24" :md="8">
                 <el-input
-                  v-model="layer.user_object.tel"
                   size="small"
+                  v-model="layer.user_object.tel"
                   placeholder="电话"
                 />
               </el-col>
@@ -93,17 +93,19 @@
           </div>
 
           <el-button
-            v-show="is_show_button"
             size="small"
             icon="el-icon-search"
             @click="search_user(layer)"
-          >搜索</el-button>
-          <el-button
             v-show="is_show_button"
+            >搜索</el-button
+          >
+          <el-button
             size="small"
             icon="el-icon-circle-plus-outline"
             @click="add_user(layer)"
-          >添加</el-button>
+            v-show="is_show_button"
+            >添加</el-button
+          >
         </div>
       </div>
 
@@ -113,7 +115,7 @@
         <el-button type="primary" @click="save_roster()">保存</el-button>
       </span>
     </el-dialog>
-    <br>
+    <br />
 
     <!-- 查寝记录面板 -->
     <el-row>
@@ -141,13 +143,14 @@
                   type="primary"
                   @click="pintle(item.index, item)"
                 >
-                  销假</el-button>
+                  销假</el-button
+                >
               </div>
-              <el-button
-                slot="reference"
-                :type="item.flg ? '' : 'info'"
-              ><span>{{ item.student_approved_number }}</span><br>
-                <span>{{ item.student_approved }}</span></el-button>
+              <el-button slot="reference" :type="item.flg ? '' : 'info'"
+                ><span>{{ item.student_approved_number }}</span
+                ><br />
+                <span>{{ item.student_approved }}</span></el-button
+              >
             </el-popover>
           </div>
         </el-card>
@@ -161,15 +164,15 @@ export default {
   data() {
     return {
       is_switch: false,
-      excel_url: '',
+      excel_url: this.$api.SchoolAttendance.out_knowing_excel_data,
       switc: '',
       actives: [
         {
           id: '',
           name: '加载中',
           is_open: false,
-          is_builder: false
-        }
+          is_builder: false,
+        },
       ],
       active_index: 0, // 获取的任务为一个列表默认显示第一个
       code: '*****',
@@ -191,31 +194,34 @@ export default {
                 username: '',
                 name: '',
                 grade: '',
-                tel: ''
+                tel: '',
               },
               user: [
                 {
                   username: '',
                   name: '',
                   grade: '',
-                  tel: ''
-                }
-              ]
-            }
-          ]
-        }
+                  tel: '',
+                },
+              ],
+            },
+          ],
+        },
       ],
       // 排班面板
       dialogVisible_roster_box: false,
 
       // 是否显示排班功能按钮
-      is_show_button: false
+      is_show_button: false,
     }
   },
   created: function () {
     this.get_activa()
+    const id = this.actives[this.active_index].id
+    const url =
+      this.$api.SchoolAttendance.out_knowing_excel_data + '?task_id=' + id
+    this.excel_url = url
     this.get_condition()
-
     setInterval(() => {
       this.get_condition()
     }, 1000 * 30)
@@ -229,13 +235,6 @@ export default {
           var arr = res.data
           this.actives = arr
           this.get_scheduling()
-
-          // 初始化导出excel地址
-          const id = this.actives[this.active_index].id
-          const url =
-          this.$api.SchoolAttendance.out_knowing_excel_data + '?task_id=' + id
-          this.$data.excel_url = url
-
         })
         .catch(() => {})
     },
@@ -265,7 +264,7 @@ export default {
         {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning'
+          type: 'warning',
         }
       )
         .then(() => {
@@ -274,7 +273,7 @@ export default {
             (res) => {
               this.$message({
                 message: res.message,
-                type: 'success'
+                type: 'success',
               })
             }
           )
@@ -282,7 +281,7 @@ export default {
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: '已取消',
           })
         })
     },
@@ -290,7 +289,7 @@ export default {
     // 获取班表
     get_scheduling() {
       this.$api.SchoolAttendance.scheduling_get({
-        id: this.actives[this.active_index]['id']
+        id: this.actives[this.active_index]['id'],
       })
         .then((res) => {
           this.roster = res.data
@@ -305,7 +304,7 @@ export default {
         username: '',
         name: '',
         grade: '',
-        tel: ''
+        tel: '',
       }
     },
 
@@ -317,7 +316,7 @@ export default {
     // 排班 搜索用户
     search_user(layer) {
       this.$api.SchoolAttendance.searchUser({
-        username: layer.user_object.username
+        username: layer.user_object.username,
       })
         .then((res) => {
           layer.user_object = res.data
@@ -337,13 +336,13 @@ export default {
       this.$api.SchoolAttendance.scheduling_post({
         roster: this.roster,
         id: id,
-        data: ''
+        data: '',
       }).then((res) => {
         console.log(res)
         if (res.code === 2000) {
           this.$message({
             message: res.message,
-            type: 'success'
+            type: 'success',
           })
           this.$data.dialogVisible_roster_box = false
         }
@@ -356,7 +355,7 @@ export default {
       if (!this.$data.actives[this.active_index].id) return
       this.$store
         .dispatch('SchoolAttendance/condition', {
-          task_id: this.$data.actives[this.active_index].id
+          task_id: this.$data.actives[this.active_index].id,
         })
         .then((res) => {
           res.data.forEach(function (v, i) {
@@ -372,20 +371,20 @@ export default {
       this.$confirm('此操作将对该同学销假,并且记录您的信息 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
       })
         .then(() => {
           console.log('销假')
 
           this.$api.SchoolAttendance.undo_record_delete({
             record_id: row.id,
-            task_id: this.$data.actives[this.active_index].id
+            task_id: this.$data.actives[this.active_index].id,
           })
             .then((res) => {
               if (res.code === 2000) {
                 this.$message({
                   message: res.message,
-                  type: 'success'
+                  type: 'success',
                 })
                 row.flg = false
               }
@@ -393,14 +392,14 @@ export default {
             .catch((err) => {
               this.$message({
                 type: 'info',
-                message: '失败'
+                message: '失败',
               })
             })
         })
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: '已取消',
           })
         })
     },
@@ -410,7 +409,7 @@ export default {
       api.exportexcel().then((res) => {
         this.$message({
           message: res.message,
-          type: 'success'
+          type: 'success',
         })
       })
     },
@@ -425,8 +424,8 @@ export default {
           done()
         })
         .catch((_) => {})
-    }
-  }
+    },
+  },
 }
 </script>
 

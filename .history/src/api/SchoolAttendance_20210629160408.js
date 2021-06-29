@@ -9,6 +9,7 @@ export const out_excel_data = process.env.VUE_APP_BASE_API + api_url + '/out_dat
 // 查寝当日数据导出
 export const out_knowing_excel_data = process.env.VUE_APP_BASE_API + api_url + '/out_knowing_excel_data'
 
+
 // 获取任务
 export function task_get(data) {
   return request({

@@ -1,13 +1,11 @@
 import request from '@/utils/request'
 
-const api_url = 'school_attendance'
-
-// 早签数据导入
-export const in_zaoqian_excel_url = process.env.VUE_APP_BASE_API + api_url + '/in_zaoqian_excel'
-// 整体数据导出
-export const out_excel_data = process.env.VUE_APP_BASE_API + api_url + '/out_data'
-// 查寝当日数据导出
+const api_url = '/school_attendance'
+export const in_zaoqian_excel_url = 'http://47.102.215.230:8000/api' + api_url + '/in_zaoqian_excel'
+export const out_excel_data = 'http://47.102.215.230:8000/api' + api_url + '/out_data'
 export const out_knowing_excel_data = process.env.VUE_APP_BASE_API + api_url + '/out_knowing_excel_data'
+
+// export const in_zaoqian_excel_url = process.env.VUE_APP_BASE_API + api_url + '/in_zaoqian_excel'
 
 // 获取任务
 export function task_get(data) {

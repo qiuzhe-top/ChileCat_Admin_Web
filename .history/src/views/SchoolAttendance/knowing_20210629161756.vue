@@ -20,7 +20,7 @@
             <el-button @click="dialogVisible_roster_box = true">排班</el-button>
             <el-button @click="flush()"> 重置任务</el-button>
             <el-button @click="get_condition()">记录情况</el-button>
-            <a :href="excel_url" target="_Blank">
+            <a :href="excel_url" target="__Self">
               <el-button>导出Excel </el-button>
             </a>
           </div>

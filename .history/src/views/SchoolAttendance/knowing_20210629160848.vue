@@ -20,14 +20,14 @@
             <el-button @click="dialogVisible_roster_box = true">排班</el-button>
             <el-button @click="flush()"> 重置任务</el-button>
             <el-button @click="get_condition()">记录情况</el-button>
-            <a :href="excel_url" target="_Blank">
+            <a :href="excel_url + '?task_id='">
               <el-button>导出Excel </el-button>
             </a>
           </div>
         </el-card>
       </el-col>
     </el-row>
-    <br>
+    <br />
 
     <el-dialog
       title="排班"
@@ -76,16 +76,16 @@
 
               <el-col :xs="24" :md="8">
                 <el-input
-                  v-model="layer.user_object.name"
                   size="small"
+                  v-model="layer.user_object.name"
                   placeholder="姓名"
                 />
               </el-col>
 
               <el-col :xs="24" :md="8">
                 <el-input
-                  v-model="layer.user_object.tel"
                   size="small"
+                  v-model="layer.user_object.tel"
                   placeholder="电话"
                 />
               </el-col>
@@ -93,17 +93,19 @@
           </div>
 
           <el-button
-            v-show="is_show_button"
             size="small"
             icon="el-icon-search"
             @click="search_user(layer)"
-          >搜索</el-button>
-          <el-button
             v-show="is_show_button"
+            >搜索</el-button
+          >
+          <el-button
             size="small"
             icon="el-icon-circle-plus-outline"
             @click="add_user(layer)"
-          >添加</el-button>
+            v-show="is_show_button"
+            >添加</el-button
+          >
         </div>
       </div>
 
@@ -113,7 +115,7 @@
         <el-button type="primary" @click="save_roster()">保存</el-button>
       </span>
     </el-dialog>
-    <br>
+    <br />
 
     <!-- 查寝记录面板 -->
     <el-row>
@@ -141,13 +143,14 @@
                   type="primary"
                   @click="pintle(item.index, item)"
                 >
-                  销假</el-button>
+                  销假</el-button
+                >
               </div>
-              <el-button
-                slot="reference"
-                :type="item.flg ? '' : 'info'"
-              ><span>{{ item.student_approved_number }}</span><br>
-                <span>{{ item.student_approved }}</span></el-button>
+              <el-button slot="reference" :type="item.flg ? '' : 'info'"
+                ><span>{{ item.student_approved_number }}</span
+                ><br />
+                <span>{{ item.student_approved }}</span></el-button
+              >
             </el-popover>
           </div>
         </el-card>
@@ -161,248 +164,244 @@ export default {
   data() {
     return {
       is_switch: false,
-      excel_url: '',
-      switc: '',
+      excel_url: this.$api.SchoolAttendance.out_knowing_excel_data,
+      switc: "",
       actives: [
         {
-          id: '',
-          name: '加载中',
+          id: "",
+          name: "加载中",
           is_open: false,
-          is_builder: false
-        }
+          is_builder: false,
+        },
       ],
       active_index: 0, // 获取的任务为一个列表默认显示第一个
-      code: '*****',
+      code: "*****",
       tableData: [],
       // 待查询的用户名
       input_list: [],
       user_list: [],
       dialogTableVisible: true,
       flg: true,
-      formLabelWidth: '120px',
-      username: '',
+      formLabelWidth: "120px",
+      username: "",
       roster: [
         {
-          title: '1号楼',
+          title: "1号楼",
           layer_list: [
             {
-              title: '1-2层',
+              title: "1-2层",
               user_object: {
-                username: '',
-                name: '',
-                grade: '',
-                tel: ''
+                username: "",
+                name: "",
+                grade: "",
+                tel: "",
               },
               user: [
                 {
-                  username: '',
-                  name: '',
-                  grade: '',
-                  tel: ''
-                }
-              ]
-            }
-          ]
-        }
+                  username: "",
+                  name: "",
+                  grade: "",
+                  tel: "",
+                },
+              ],
+            },
+          ],
+        },
       ],
       // 排班面板
       dialogVisible_roster_box: false,
 
       // 是否显示排班功能按钮
-      is_show_button: false
-    }
+      is_show_button: false,
+    };
   },
   created: function () {
-    this.get_activa()
-    this.get_condition()
-
+    this.get_activa();
+    const id = this.actives[this.active_index].id;
+    const url =
+      this.$api.SchoolAttendance.out_knowing_excel_data + '?task_id=' + id;
+    this.excel_url = url;
+    this.get_condition();
     setInterval(() => {
-      this.get_condition()
-    }, 1000 * 30)
+      this.get_condition();
+    }, 1000 * 30);
   },
   methods: {
     // 加载我的活动
     get_activa() {
       this.$store
-        .dispatch('SchoolAttendance/my_active', { type: '0' })
+        .dispatch("SchoolAttendance/my_active", { type: "0" })
         .then((res) => {
-          var arr = res.data
-          this.actives = arr
-          this.get_scheduling()
-
-          // 初始化导出excel地址
-          const id = this.actives[this.active_index].id
-          const url =
-          this.$api.SchoolAttendance.out_knowing_excel_data + '?task_id=' + id
-          this.$data.excel_url = url
-
+          var arr = res.data;
+          this.actives = arr;
+          this.get_scheduling();
         })
-        .catch(() => {})
+        .catch(() => {});
     },
 
     // 切换任务状态
     task_switch_put() {
-      console.log('切换')
-      const id = this.actives[this.active_index].id
-      this.is_switch = true
+      console.log("切换");
+      const id = this.actives[this.active_index].id;
+      this.is_switch = true;
       this.$store
-        .dispatch('SchoolAttendance/task_switch_put', { id: id })
+        .dispatch("SchoolAttendance/task_switch_put", { id: id })
         .then((res) => {
-          this.$data.switc = res.data
-          this.is_switch = false
+          this.$data.switc = res.data;
+          this.is_switch = false;
         })
         .catch((err) => {
-          console.log(err)
-          this.is_switch = false
-        })
+          console.log(err);
+          this.is_switch = false;
+        });
     },
 
     // 重置任务
     flush() {
       this.$confirm(
-        '此操作将重置当天房间被查记录、重置所有学生在寝状态为在 是否继续?',
-        '提示',
+        "此操作将重置当天房间被查记录、重置所有学生在寝状态为在 是否继续?",
+        "提示",
         {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
         }
       )
         .then(() => {
-          const id = this.actives[this.active_index].id
+          const id = this.actives[this.active_index].id;
           this.$api.SchoolAttendance.task_switch_delete({ task_id: id }).then(
             (res) => {
               this.$message({
                 message: res.message,
-                type: 'success'
-              })
+                type: "success",
+              });
             }
-          )
+          );
         })
         .catch(() => {
           this.$message({
-            type: 'info',
-            message: '已取消'
-          })
-        })
+            type: "info",
+            message: "已取消",
+          });
+        });
     },
 
     // 获取班表
     get_scheduling() {
       this.$api.SchoolAttendance.scheduling_get({
-        id: this.actives[this.active_index]['id']
+        id: this.actives[this.active_index]["id"],
       })
         .then((res) => {
-          this.roster = res.data
+          this.roster = res.data;
         })
-        .catch(() => {})
+        .catch(() => {});
     },
 
     // 排班 添加用户
     add_user(layer) {
-      layer.user.push(JSON.parse(JSON.stringify(layer.user_object)))
+      layer.user.push(JSON.parse(JSON.stringify(layer.user_object)));
       layer.user_object = {
-        username: '',
-        name: '',
-        grade: '',
-        tel: ''
-      }
+        username: "",
+        name: "",
+        grade: "",
+        tel: "",
+      };
     },
 
     // 排班 删除用户
     remove_user(layer, index) {
-      layer.user.splice(index, 1)
+      layer.user.splice(index, 1);
     },
 
     // 排班 搜索用户
     search_user(layer) {
       this.$api.SchoolAttendance.searchUser({
-        username: layer.user_object.username
+        username: layer.user_object.username,
       })
         .then((res) => {
-          layer.user_object = res.data
-          console.log(res.data)
+          layer.user_object = res.data;
+          console.log(res.data);
         })
         .catch((err) => {
-          console.log(err)
-        })
-      clearTimeout(this.timeout)
-      this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random())
+          console.log(err);
+        });
+      clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random());
     },
 
     // 保存班表
     save_roster() {
-      console.log(' 保存班表', this.roster)
-      const id = this.actives[this.active_index].id
+      console.log(" 保存班表", this.roster);
+      const id = this.actives[this.active_index].id;
       this.$api.SchoolAttendance.scheduling_post({
         roster: this.roster,
         id: id,
-        data: ''
+        data: "",
       }).then((res) => {
-        console.log(res)
+        console.log(res);
         if (res.code === 2000) {
           this.$message({
             message: res.message,
-            type: 'success'
-          })
-          this.$data.dialogVisible_roster_box = false
+            type: "success",
+          });
+          this.$data.dialogVisible_roster_box = false;
         }
-      })
+      });
     },
 
     // 获取缺勤名单
     get_condition() {
-      console.log('获取缺勤名单')
-      if (!this.$data.actives[this.active_index].id) return
+      console.log("获取缺勤名单");
+      if (!this.$data.actives[this.active_index].id) return;
       this.$store
-        .dispatch('SchoolAttendance/condition', {
-          task_id: this.$data.actives[this.active_index].id
+        .dispatch("SchoolAttendance/condition", {
+          task_id: this.$data.actives[this.active_index].id,
         })
         .then((res) => {
           res.data.forEach(function (v, i) {
-            v['flg'] = true
-          })
-          this.$data.tableData = res.data
+            v["flg"] = true;
+          });
+          this.$data.tableData = res.data;
         })
-        .catch(() => {})
+        .catch(() => {});
     },
 
     // 销假
     pintle(index, row) {
-      this.$confirm('此操作将对该同学销假,并且记录您的信息 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      this.$confirm("此操作将对该同学销假,并且记录您的信息 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
       })
         .then(() => {
-          console.log('销假')
+          console.log("销假");
 
           this.$api.SchoolAttendance.undo_record_delete({
             record_id: row.id,
-            task_id: this.$data.actives[this.active_index].id
+            task_id: this.$data.actives[this.active_index].id,
           })
             .then((res) => {
               if (res.code === 2000) {
                 this.$message({
                   message: res.message,
-                  type: 'success'
-                })
-                row.flg = false
+                  type: "success",
+                });
+                row.flg = false;
               }
             })
             .catch((err) => {
               this.$message({
-                type: 'info',
-                message: '失败'
-              })
-            })
+                type: "info",
+                message: "失败",
+              });
+            });
         })
         .catch(() => {
           this.$message({
-            type: 'info',
-            message: '已取消'
-          })
-        })
+            type: "info",
+            message: "已取消",
+          });
+        });
     },
 
     // excel 导出
@@ -410,24 +409,24 @@ export default {
       api.exportexcel().then((res) => {
         this.$message({
           message: res.message,
-          type: 'success'
-        })
-      })
+          type: "success",
+        });
+      });
     },
 
     // 显示班表简易版
     simple_information() {
-      this.$data.is_show_button = !this.$data.is_show_button
+      this.$data.is_show_button = !this.$data.is_show_button;
     },
     handleClose(done) {
-      this.$confirm('确认关闭？')
+      this.$confirm("确认关闭？")
         .then((_) => {
-          done()
+          done();
         })
-        .catch((_) => {})
-    }
-  }
-}
+        .catch((_) => {});
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss" >

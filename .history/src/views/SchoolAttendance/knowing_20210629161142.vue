@@ -20,7 +20,7 @@
             <el-button @click="dialogVisible_roster_box = true">排班</el-button>
             <el-button @click="flush()"> 重置任务</el-button>
             <el-button @click="get_condition()">记录情况</el-button>
-            <a :href="excel_url" target="_Blank">
+            <a :href="excel_url">
               <el-button>导出Excel </el-button>
             </a>
           </div>
@@ -214,8 +214,12 @@ export default {
   },
   created: function () {
     this.get_activa()
+    const id = this.actives[this.active_index].id
+    console.log(id)
+    const url =
+      this.$api.SchoolAttendance.out_knowing_excel_data + '?task_id=' + id
+    this.$data.excel_url = url
     this.get_condition()
-
     setInterval(() => {
       this.get_condition()
     }, 1000 * 30)
@@ -229,13 +233,6 @@ export default {
           var arr = res.data
           this.actives = arr
           this.get_scheduling()
-
-          // 初始化导出excel地址
-          const id = this.actives[this.active_index].id
-          const url =
-          this.$api.SchoolAttendance.out_knowing_excel_data + '?task_id=' + id
-          this.$data.excel_url = url
-
         })
         .catch(() => {})
     },
