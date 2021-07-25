@@ -213,15 +213,15 @@ export default {
 
       // 是否显示排班功能按钮
       is_show_button: false,
-    };
+    }
   },
   created: function () {
-    this.get_activa();
+    this.get_activa()
 
-    this.get_condition();
+    this.get_condition()
     setInterval(() => {
-      this.get_condition();
-    }, 1000 * 30);
+      this.get_condition()
+    }, 1000 * 30)
   },
   methods: {
     // 加载我的活动
@@ -229,28 +229,30 @@ export default {
       this.$store
         .dispatch("SchoolAttendance/my_active", { type: "0" })
         .then((res) => {
-          var arr = res.data;
-          this.actives = arr;
-          this.get_scheduling();
+          var arr = res.data
+          this.actives = arr
+          this.get_scheduling()
         })
-        .catch(() => {});
+        .catch(() => {})
     },
 
     // 切换任务状态
     task_switch_put() {
-      console.log("切换");
-      const id = this.actives[this.active_index].id;
-      this.is_switch = true;
+      console.log("切换")
+      const id = this.actives[this.active_index].id
+      this.is_switch = true
+
       this.$store
-        .dispatch("SchoolAttendance/task_switch_put", { id: id })
+        .dispatch("SchoolAttendance/task_switch_put", { task_id: id })
         .then((res) => {
-          this.$data.switc = res.data;
-          this.is_switch = false;
+          this.$data.switc = res.data
+          this.is_switch = false
         })
         .catch((err) => {
-          console.log(err);
-          this.is_switch = false;
-        });
+          console.log(err)
+          this.is_switch = false
+        })
+        
     },
 
     // 重置任务
@@ -265,22 +267,22 @@ export default {
         }
       )
         .then(() => {
-          const id = this.actives[this.active_index].id;
+          const id = this.actives[this.active_index].id
           this.$api.SchoolAttendance.task_switch_delete({ task_id: id }).then(
             (res) => {
               this.$message({
                 message: res.message,
                 type: "success",
-              });
+              })
             }
-          );
+          )
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消",
-          });
-        });
+          })
+        })
     },
 
     // 获取班表
@@ -289,25 +291,25 @@ export default {
         id: this.actives[this.active_index]["id"],
       })
         .then((res) => {
-          this.roster = res.data;
+          this.roster = res.data
         })
-        .catch(() => {});
+        .catch(() => {})
     },
 
     // 排班 添加用户
     add_user(layer) {
-      layer.user.push(JSON.parse(JSON.stringify(layer.user_object)));
+      layer.user.push(JSON.parse(JSON.stringify(layer.user_object)))
       layer.user_object = {
         username: "",
         name: "",
         grade: "",
         tel: "",
-      };
+      }
     },
 
     // 排班 删除用户
     remove_user(layer, index) {
-      layer.user.splice(index, 1);
+      layer.user.splice(index, 1)
     },
 
     // 排班 搜索用户
@@ -316,51 +318,51 @@ export default {
         username: layer.user_object.username,
       })
         .then((res) => {
-          layer.user_object = res.data;
-          console.log(res.data);
+          layer.user_object = res.data
+          console.log(res.data)
         })
         .catch((err) => {
-          console.log(err);
-        });
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random());
+          console.log(err)
+        })
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random())
     },
 
     // 保存班表
     save_roster() {
-      console.log(" 保存班表", this.roster);
-      const id = this.actives[this.active_index].id;
+      console.log(" 保存班表", this.roster)
+      const id = this.actives[this.active_index].id
       this.$api.SchoolAttendance.scheduling_post({
         roster: this.roster,
         id: id,
         data: "",
       }).then((res) => {
-        console.log(res);
+        console.log(res)
         if (res.code === 2000) {
           this.$message({
             message: res.message,
             type: "success",
-          });
-          this.$data.dialogVisible_roster_box = false;
+          })
+          this.$data.dialogVisible_roster_box = false
         }
-      });
+      })
     },
 
     // 获取缺勤名单
     get_condition() {
-      console.log("获取缺勤名单");
-      if (!this.$data.actives[this.active_index].id) return;
+      console.log("获取缺勤名单")
+      if (!this.$data.actives[this.active_index].id) return
       this.$store
         .dispatch("SchoolAttendance/condition", {
           task_id: this.$data.actives[this.active_index].id,
         })
         .then((res) => {
           res.data.forEach(function (v, i) {
-            v["flg"] = true;
-          });
-          this.$data.tableData = res.data;
+            v["flg"] = true
+          })
+          this.$data.tableData = res.data
         })
-        .catch(() => {});
+        .catch(() => {})
     },
 
     // 销假
@@ -371,7 +373,7 @@ export default {
         type: "warning",
       })
         .then(() => {
-          console.log("销假");
+          console.log("销假")
 
           this.$api.SchoolAttendance.undo_record_delete({
             record_id: row.id,
@@ -382,23 +384,23 @@ export default {
                 this.$message({
                   message: res.message,
                   type: "success",
-                });
-                row.flg = false;
+                })
+                row.flg = false
               }
             })
             .catch((err) => {
               this.$message({
                 type: "info",
                 message: "失败",
-              });
-            });
+              })
+            })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消",
-          });
-        });
+          })
+        })
     },
 
     // excel 导出
@@ -407,23 +409,23 @@ export default {
         this.$message({
           message: res.message,
           type: "success",
-        });
-      });
+        })
+      })
     },
 
     // 显示班表简易版
     simple_information() {
-      this.$data.is_show_button = !this.$data.is_show_button;
+      this.$data.is_show_button = !this.$data.is_show_button
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
         .then((_) => {
-          done();
+          done()
         })
-        .catch((_) => {});
+        .catch((_) => {})
     },
   },
-};
+}
 </script>
 
 <style scoped lang="scss" >

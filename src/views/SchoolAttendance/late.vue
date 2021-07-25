@@ -7,21 +7,21 @@
           <div slot="header" class="clearfix">
             <span> {{ actives[active_index].name }} </span>
             <!-- -->
-            <div style="display: inline"
-            @click="task_switch_put()">
+            <div style="display: inline" @click="task_switch_put()">
               <el-switch
                 v-model="actives[active_index].is_open"
                 :disabled="is_switch"
-                
                 style="float: right; padding: 3px 0"
                 active-text="开启"
                 inactive-text="关闭"
               />
             </div>
           </div>
-          
+
           <div v-show="actives[active_index].is_open" class="text item">
-            <el-button @click="dialogVisible_roster_box = true">排班 </el-button>
+            <el-button @click="dialogVisible_roster_box = true"
+              >排班
+            </el-button>
             <el-button @click="flush()"> 重置任务</el-button>
             <!-- <a :href="excel_url">备用下载</a> -->
             <!-- <a :href="excel_url">
@@ -223,7 +223,7 @@ export default {
       const id = this.$data.actives[this.active_index].id;
       this.is_switch = true;
       this.$store
-        .dispatch("SchoolAttendance/task_switch_put", { id: id })
+        .dispatch("SchoolAttendance/task_switch_put", { task_id: id })
         .then((res) => {
           this.$data.switc = res.data;
           this.is_switch = false;

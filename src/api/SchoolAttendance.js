@@ -1,17 +1,17 @@
 import request from '@/utils/request'
 
-const api_url = '/school_attendance'
-export const in_zaoqian_excel_url ='http://47.102.215.230:8000/api' + api_url + '/in_zaoqian_excel'
-export const out_excel_data ='http://47.102.215.230:8000/api' + api_url + '/out_data'
-export const out_knowing_excel_data ='http://127.0.0.1:8000/api' + api_url + '/out_knowing_excel_data'
+const api_url = '/school/attendance'
+export const in_zaoqian_excel_url = 'http://47.102.215.230:8000/api' + api_url + '/in_zaoqian_excel'
+export const out_excel_data = 'http://47.102.215.230:8000/api' + api_url + '/out_data'
+export const out_knowing_excel_data = 'http://127.0.0.1:8000/api' + api_url + '/out_knowing_excel_data'
 // export const in_zaoqian_excel_url = process.env.VUE_APP_BASE_API + api_url + '/in_zaoqian_excel'
 
 // 获取任务
 export function task_get(data) {
   return request({
-    url: api_url + '/task',
+    url: api_url + '/task/obtain',
     method: 'get',
-    params:data
+    params: data
   })
 }
 
@@ -51,8 +51,8 @@ export function task_admin_delete(data) {
 // 修改任务状态
 export function task_switch_put(data) {
   return request({
-    url: api_url + '/task_switch',
-    method: 'put',
+    url: api_url + '/task/switch',
+    method: 'post',
     data
   })
 }
@@ -70,7 +70,7 @@ export function scheduling_get(data) {
   return request({
     url: api_url + '/scheduling',
     method: 'get',
-    params:data
+    params: data
   })
 }
 // 更改班表
@@ -86,7 +86,7 @@ export function condition_get(data) {
   return request({
     url: api_url + '/condition',
     method: 'get',
-    params:data
+    params: data
   })
 }
 // 销假
@@ -126,7 +126,7 @@ export function searchUser(data) {
 // 搜索考勤记录
 export function record(data) {
   return request({
-    url: api_url +'/record',
+    url: api_url + '/record',
     method: 'get',
     params: data
   })

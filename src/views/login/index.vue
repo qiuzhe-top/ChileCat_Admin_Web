@@ -8,7 +8,6 @@
       auto-complete="on"
       label-position="left"
     >
-
       <div class="title-container">
         <h3 class="title">智服喵后台管理</h3>
       </div>
@@ -43,108 +42,114 @@
           auto-complete="on"
           @keyup.enter.native="handleLogin"
         />
-        <span
-          class="show-pwd"
-          @click="showPwd"
-        >
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+        <span class="show-pwd" @click="showPwd">
+          <svg-icon
+            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+          />
         </span>
       </el-form-item>
 
       <el-button
         :loading="loading"
         type="primary"
-        style="width:100%;margin-bottom:30px;"
+        style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-      >登录</el-button>
+        >登录</el-button
+      >
 
       <div class="tips">
         <!-- <span style="margin-right:20px;">username: admin</span>
         <span> password: any</span> -->
       </div>
-
     </el-form>
   </div>
 </template>
 
 <script>
 // import { validUsername } from '@/utils/validate'
-import router from '@/router'
+import router from "@/router";
 
 export default {
-  name: 'Login',
-  data () {
+  name: "Login",
+  data() {
     const validateUsername = (rule, value, callback) => {
-      callback()
+      callback();
       // if (!validUsername(value)) {
       //   callback(new Error('Please enter the correct user name'))
       // } else {
       //   }
-    }
+    };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error("The password can not be less than 6 digits"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: "",
+        password: "",
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [
+          { required: true, trigger: "blur", validator: validateUsername },
+        ],
+        password: [
+          { required: true, trigger: "blur", validator: validatePassword },
+        ],
       },
       loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
+      passwordType: "password",
+      redirect: undefined,
+    };
   },
   watch: {
     $route: {
       handler: function (route) {
-        this.redirect = route.query && route.query.redirect
+        this.redirect = route.query && route.query.redirect;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   created: function () {
-    console.log('Index Login 路由', router.options.routes)
+    console.log("Index Login 路由", router.options.routes);
   },
   methods: {
-    showPwd () {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+    showPwd() {
+      if (this.passwordType === "password") {
+        this.passwordType = "";
       } else {
-        this.passwordType = 'password'
+        this.passwordType = "password";
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        this.$refs.password.focus();
+      });
     },
-    handleLogin () {
-      this.$refs.loginForm.validate(valid => {
+    handleLogin() {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            setTimeout(() => {
-              this.loading = false
-            }, 4000)
-            // this.$store.dispatch('user/getClass')
-          }).catch(() => {
-            this.loading = false
-          })
+          this.loading = true;
+          this.$store
+            .dispatch("user/login", this.loginForm)
+            .then(() => {
+              this.$router.push({ path: this.redirect || "/" });
+              setTimeout(() => {
+                this.loading = false;
+              }, 4000);
+              // this.$store.dispatch('user/getClass')
+            })
+            .catch(() => {
+              this.loading = false;
+            });
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">

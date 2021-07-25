@@ -28,7 +28,7 @@ const actions = {
       }).catch(error => {
         commit('SET_IDCODE', '获取失败')
         reject(error)
-      }) 
+      })
     })
   },
   // 获取我管理的考勤活动
