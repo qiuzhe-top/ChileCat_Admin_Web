@@ -5,7 +5,8 @@ import app from './modules/app'
 import settings from './modules/settings'
 import user from './modules/user'
 import ask from './modules/ask'
-import SchoolAttendance from './modules/SchoolAttendance'
+import school_attendance from './modules/school_attendance'
+import school_information from './modules/school_information'
 import permission from './modules/permission'
 
 Vue.use(Vuex)
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
     settings,
     user,
     ask,
-    SchoolAttendance,
+    school_information,
+    school_attendance,
     permission
   },
   getters

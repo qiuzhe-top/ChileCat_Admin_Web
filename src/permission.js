@@ -32,8 +32,7 @@ router.beforeEach(async(to, from, next) => {
       } else {
         try {
           // get user info
-          await store.dispatch('user/getInfo')
-
+          await store.dispatch('user/information')
           const roles = store.getters.roles
           const is_admin = store.getters.is_admin
           if (!is_admin) {

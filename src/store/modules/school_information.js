@@ -18,6 +18,7 @@ const actions = {
 
 	// 考勤 获取用户基本信息
 	student_information({ commit }, request) {
+		console.log("获取用户基本信息")
 		return new Promise((resolve, reject) => {
 			api.student_information(request).then(response => {
 			const {  grade, name, tel, id, username } = response.data

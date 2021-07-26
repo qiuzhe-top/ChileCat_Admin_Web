@@ -1,8 +1,8 @@
-// import user from './user'
+import user from './user'
 import SchoolAttendance from './SchoolAttendance'
 import ask from './ask'
 export default {
-  // user,
+  user,
   SchoolAttendance,
   ask
 }

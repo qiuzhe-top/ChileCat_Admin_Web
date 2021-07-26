@@ -155,6 +155,7 @@
 </template>
 
 <script>
+import { searchUser } from '@/api/SchoolAttendance';
 export default {
   data() {
     return {
@@ -166,8 +167,8 @@ export default {
           id: "",
           name: "加载中",
           is_open: false,
-          is_builder: false,
-        },
+          is_builder: false
+        }
       ],
       active_index: 0, // 获取的任务为一个列表默认显示第一个
       code: "*****",
@@ -184,20 +185,20 @@ export default {
       roster: [
         {
           username: "",
-          name: "",
-        },
+          name: ""
+        }
       ],
       // 排班面板
-      dialogVisible_roster_box: false,
+      dialogVisible_roster_box: true,
       // 待排班的用户列表
       user_list_str: "",
-      input_user_object: {},
+      input_user_object: {}
     };
   },
-  created: function () {
+  created: function() {
     this.get_activa();
 
-    this.get_condition();
+    // this.get_condition();
     // setInterval(() => {
     //   if(this.$data.actives[this.$data.active_index].is_open==true){
     //     this.get_condition()
@@ -209,7 +210,7 @@ export default {
     get_activa() {
       this.$store
         .dispatch("SchoolAttendance/my_active", { type: "2" })
-        .then((res) => {
+        .then(res => {
           var arr = res.data;
           this.actives = arr;
           this.get_scheduling();
@@ -224,11 +225,11 @@ export default {
       this.is_switch = true;
       this.$store
         .dispatch("SchoolAttendance/task_switch_put", { task_id: id })
-        .then((res) => {
+        .then(res => {
           this.$data.switc = res.data;
           this.is_switch = false;
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           this.is_switch = false;
         });
@@ -242,16 +243,16 @@ export default {
         {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning",
+          type: "warning"
         }
       )
         .then(() => {
           const id = this.actives[this.active_index].id;
           this.$api.SchoolAttendance.task_switch_delete({ task_id: id }).then(
-            (res) => {
+            res => {
               this.$message({
                 message: res.message,
-                type: "success",
+                type: "success"
               });
             }
           );
@@ -259,7 +260,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消",
+            message: "已取消"
           });
         });
     },
@@ -267,9 +268,9 @@ export default {
     // 获取班表
     get_scheduling() {
       this.$api.SchoolAttendance.scheduling_get({
-        id: this.actives[this.active_index]["id"],
+        id: this.actives[this.active_index]["id"]
       })
-        .then((res) => {
+        .then(res => {
           this.roster = res.data;
         })
         .catch(() => {});
@@ -282,7 +283,7 @@ export default {
       this.$data.roster.push(this.$data.input_user_object);
       this.$data.input_user_object = {
         username: "",
-        name: "",
+        name: ""
       };
     },
     // 添加多个用户
@@ -290,14 +291,14 @@ export default {
       const str = this.$data.user_list_str;
       if (str.length < 1) return;
       var user_list = str.split("\n");
-      user_list.forEach((u) => {
+      user_list.forEach(u => {
         this.$api.SchoolAttendance.searchUser({
-          username: u,
+          username: u
         })
-          .then((res) => {
+          .then(res => {
             this.$data.roster.push(res.data);
           })
-          .catch((err) => {
+          .catch(err => {
             console.log(err);
           });
       });
@@ -311,16 +312,13 @@ export default {
 
     // 排班 搜索用户
     search_user() {
-      this.$api.SchoolAttendance.searchUser({
-        username: this.$data.input_user_object.username,
-      })
+		console.log("获取用户基本信息")
+
+        this.$store.dispatch('school_information/student_information',{username: this.$data.input_user_object.username})
         .then((res) => {
+            const {  grade, name, tel, id, username } =  res.data
           this.$data.input_user_object = res.data;
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        }).catch(() => {})
 
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random());
@@ -332,13 +330,13 @@ export default {
       this.$api.SchoolAttendance.scheduling_post({
         roster: this.roster,
         id: id,
-        data: "",
-      }).then((res) => {
+        data: ""
+      }).then(res => {
         console.log(res);
         if (res.code === 2000) {
           this.$message({
             message: res.message,
-            type: "success",
+            type: "success"
           });
           this.$data.dialogVisible_roster_box = false;
         }
@@ -348,12 +346,13 @@ export default {
     // 获取缺勤名单
     get_condition() {
       if (!this.$data.actives[this.active_index].id) return;
+
       this.$store
         .dispatch("SchoolAttendance/condition", {
-          task_id: this.$data.actives[this.active_index].id,
+          task_id: this.$data.actives[this.active_index].id
         })
-        .then((res) => {
-          res.data.forEach(function (v, i) {
+        .then(res => {
+          res.data.forEach(function(v, i) {
             v["flg"] = true;
           });
           this.$data.tableData = res.data;
@@ -367,57 +366,57 @@ export default {
       this.$confirm("此操作将对该同学销假,并且记录您的信息 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           console.log("销假");
 
           this.$api.SchoolAttendance.undo_record_delete({
             record_id: row.id,
-            task_id: this.$data.actives[this.active_index].id,
+            task_id: this.$data.actives[this.active_index].id
           })
-            .then((res) => {
+            .then(res => {
               if (res.code === 2000) {
                 this.$message({
                   message: res.message,
-                  type: "success",
+                  type: "success"
                 });
                 row.flg = false;
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$message({
                 type: "info",
-                message: "失败",
+                message: "失败"
               });
             });
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消",
+            message: "已取消"
           });
         });
     },
 
     // excel 导出
     exportexcel() {
-      api.exportexcel().then((res) => {
+      api.exportexcel().then(res => {
         this.$message({
           message: res.message,
-          type: "success",
+          type: "success"
         });
       });
     },
 
     handleClose(done) {
       this.$confirm("确认关闭？")
-        .then((_) => {
+        .then(_ => {
           done();
         })
-        .catch((_) => {});
-    },
-  },
+        .catch(_ => {});
+    }
+  }
 };
 </script>
 

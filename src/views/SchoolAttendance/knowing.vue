@@ -41,7 +41,7 @@
         v-show="actives[active_index].is_open"
         :key="index"
         class="roster_box"
-      > 
+      >
         <h3>{{ floor.title }}</h3>
 
         <div
@@ -164,55 +164,55 @@ export default {
   data() {
     return {
       is_switch: false,
-      excel_url:this.$api.SchoolAttendance.out_knowing_excel_data,
-      switc: "",
+      excel_url: this.$api.SchoolAttendance.out_knowing_excel_data,
+      switc: '',
       actives: [
         {
-          id: "",
-          name: "加载中",
+          id: '',
+          name: '加载中',
           is_open: false,
-          is_builder: false,
-        },
+          is_builder: false
+        }
       ],
       active_index: 0, // 获取的任务为一个列表默认显示第一个
-      code: "*****",
+      code: '*****',
       tableData: [],
       // 待查询的用户名
       input_list: [],
       user_list: [],
       dialogTableVisible: true,
       flg: true,
-      formLabelWidth: "120px",
-      username: "",
+      formLabelWidth: '120px',
+      username: '',
       roster: [
         {
-          title: "1号楼",
+          title: '1号楼',
           layer_list: [
             {
-              title: "1-2层",
+              title: '1-2层',
               user_object: {
-                username: "",
-                name: "",
-                grade: "",
-                tel: "",
+                username: '',
+                name: '',
+                grade: '',
+                tel: ''
               },
               user: [
                 {
-                  username: "",
-                  name: "",
-                  grade: "",
-                  tel: "",
-                },
-              ],
-            },
-          ],
-        },
+                  username: '',
+                  name: '',
+                  grade: '',
+                  tel: ''
+                }
+              ]
+            }
+          ]
+        }
       ],
       // 排班面板
       dialogVisible_roster_box: false,
 
       // 是否显示排班功能按钮
-      is_show_button: false,
+      is_show_button: false
     }
   },
   created: function () {
@@ -227,8 +227,9 @@ export default {
     // 加载我的活动
     get_activa() {
       this.$store
-        .dispatch("SchoolAttendance/my_active", { type: "0" })
+        .dispatch('school_attendance/task_obtain', { type: '0' })
         .then((res) => {
+          const { is_open, name, id } = res.data
           var arr = res.data
           this.actives = arr
           this.get_scheduling()
@@ -238,12 +239,12 @@ export default {
 
     // 切换任务状态
     task_switch_put() {
-      console.log("切换")
+      console.log('切换')
       const id = this.actives[this.active_index].id
       this.is_switch = true
 
       this.$store
-        .dispatch("SchoolAttendance/task_switch_put", { task_id: id })
+        .dispatch('SchoolAttendance/task_switch_put', { task_id: id })
         .then((res) => {
           this.$data.switc = res.data
           this.is_switch = false
@@ -252,18 +253,17 @@ export default {
           console.log(err)
           this.is_switch = false
         })
-        
     },
 
     // 重置任务
     flush() {
       this.$confirm(
-        "此操作将重置当天房间被查记录、重置所有学生在寝状态为在 是否继续?",
-        "提示",
+        '此操作将重置当天房间被查记录、重置所有学生在寝状态为在 是否继续?',
+        '提示',
         {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }
       )
         .then(() => {
@@ -272,38 +272,38 @@ export default {
             (res) => {
               this.$message({
                 message: res.message,
-                type: "success",
+                type: 'success'
               })
             }
           )
         })
         .catch(() => {
           this.$message({
-            type: "info",
-            message: "已取消",
+            type: 'info',
+            message: '已取消'
           })
         })
     },
 
     // 获取班表
     get_scheduling() {
-      this.$api.SchoolAttendance.scheduling_get({
-        id: this.actives[this.active_index]["id"],
-      })
+      this.$store
+        .dispatch('school_attendance/scheduling', {
+          task_id: this.actives[this.active_index]['id']
+        })
         .then((res) => {
           this.roster = res.data
         })
-        .catch(() => {})
     },
 
     // 排班 添加用户
     add_user(layer) {
       layer.user.push(JSON.parse(JSON.stringify(layer.user_object)))
       layer.user_object = {
-        username: "",
-        name: "",
-        grade: "",
-        tel: "",
+        username: '',
+        name: '',
+        grade: '',
+        tel: ''
       }
     },
 
@@ -314,34 +314,27 @@ export default {
 
     // 排班 搜索用户
     search_user(layer) {
-      this.$api.SchoolAttendance.searchUser({
-        username: layer.user_object.username,
-      })
-        .then((res) => {
-          layer.user_object = res.data
-          console.log(res.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      
+      this.$store.dispatch('school_information/student_information',{username: layer.user_object.username})
+  
       clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random())
     },
 
     // 保存班表
     save_roster() {
-      console.log(" 保存班表", this.roster)
+      console.log(' 保存班表', this.roster)
       const id = this.actives[this.active_index].id
       this.$api.SchoolAttendance.scheduling_post({
         roster: this.roster,
         id: id,
-        data: "",
+        data: ''
       }).then((res) => {
         console.log(res)
         if (res.code === 2000) {
           this.$message({
             message: res.message,
-            type: "success",
+            type: 'success'
           })
           this.$data.dialogVisible_roster_box = false
         }
@@ -350,15 +343,15 @@ export default {
 
     // 获取缺勤名单
     get_condition() {
-      console.log("获取缺勤名单")
+      console.log('获取缺勤名单')
       if (!this.$data.actives[this.active_index].id) return
       this.$store
-        .dispatch("SchoolAttendance/condition", {
-          task_id: this.$data.actives[this.active_index].id,
+        .dispatch('SchoolAttendance/condition', {
+          task_id: this.$data.actives[this.active_index].id
         })
         .then((res) => {
           res.data.forEach(function (v, i) {
-            v["flg"] = true
+            v['flg'] = true
           })
           this.$data.tableData = res.data
         })
@@ -367,38 +360,38 @@ export default {
 
     // 销假
     pintle(index, row) {
-      this.$confirm("此操作将对该同学销假,并且记录您的信息 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('此操作将对该同学销假,并且记录您的信息 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
-          console.log("销假")
+          console.log('销假')
 
           this.$api.SchoolAttendance.undo_record_delete({
             record_id: row.id,
-            task_id: this.$data.actives[this.active_index].id,
+            task_id: this.$data.actives[this.active_index].id
           })
             .then((res) => {
               if (res.code === 2000) {
                 this.$message({
                   message: res.message,
-                  type: "success",
+                  type: 'success'
                 })
                 row.flg = false
               }
             })
             .catch((err) => {
               this.$message({
-                type: "info",
-                message: "失败",
+                type: 'info',
+                message: '失败'
               })
             })
         })
         .catch(() => {
           this.$message({
-            type: "info",
-            message: "已取消",
+            type: 'info',
+            message: '已取消'
           })
         })
     },
@@ -408,7 +401,7 @@ export default {
       api.exportexcel().then((res) => {
         this.$message({
           message: res.message,
-          type: "success",
+          type: 'success'
         })
       })
     },
@@ -418,13 +411,13 @@ export default {
       this.$data.is_show_button = !this.$data.is_show_button
     },
     handleClose(done) {
-      this.$confirm("确认关闭？")
+      this.$confirm('确认关闭？')
         .then((_) => {
           done()
         })
         .catch((_) => {})
-    },
-  },
+    }
+  }
 }
 </script>
 

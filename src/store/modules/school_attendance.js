@@ -15,12 +15,12 @@ const mutations = {
 const actions = {
   // TpiStart
   // 获取任务
-task_obtain({ commit }, request) {
-		const {  type } = request
-
+  task_obtain({ commit }, request) {
+    const { type } = request
+    console.log(request)
     return new Promise((resolve, reject) => {
       api.task_obtain(request).then(response => {
-		const {  is_open, name, id } = response.data
+        const { is_open, name, id } = response.data
 
         resolve(response)
       }).catch(error => {
@@ -29,12 +29,12 @@ task_obtain({ commit }, request) {
     })
   },
   // 开启/关闭任务
-task_switch({ commit }, request) {
-		const {  task_id } = request
+  task_switch({ commit }, request) {
+    const { task_id } = request
 
     return new Promise((resolve, reject) => {
       api.task_switch(request).then(response => {
-		const {  is_open } = response.data
+        const { is_open } = response.data
 
         resolve(response)
       }).catch(error => {
@@ -43,8 +43,8 @@ task_switch({ commit }, request) {
     })
   },
   // 重置查寝任务状态
-task_rest_knowing({ commit }, request) {
-		const {  task_id } = request
+  task_rest_knowing({ commit }, request) {
+    const { task_id } = request
 
     return new Promise((resolve, reject) => {
       api.task_rest_knowing(request).then(response => {
@@ -55,8 +55,8 @@ task_rest_knowing({ commit }, request) {
     })
   },
   // 重置晚自习任务状态
-task_rest_late({ commit }, request) {
-		const {  task_id } = request
+  task_rest_late({ commit }, request) {
+    const { task_id } = request
 
     return new Promise((resolve, reject) => {
       api.task_rest_late(request).then(response => {
@@ -67,8 +67,8 @@ task_rest_late({ commit }, request) {
     })
   },
   // 获取班表
-scheduling({ commit }, request) {
-		const {  task_id } = request
+  scheduling({ commit }, request) {
+    const { task_id } = request
 
     return new Promise((resolve, reject) => {
       api.scheduling(request).then(response => {
@@ -79,8 +79,8 @@ scheduling({ commit }, request) {
     })
   },
   // 修改查寝班表
-scheduling_update_knowing({ commit }, request) {
-		const {  task_id, roster } = request
+  scheduling_update_knowing({ commit }, request) {
+    const { task_id, roster } = request
 
     return new Promise((resolve, reject) => {
       api.scheduling_update_knowing(request).then(response => {
@@ -91,8 +91,8 @@ scheduling_update_knowing({ commit }, request) {
     })
   },
   // 修改晚自习班表
-scheduling_update_late({ commit }, request) {
-		const {  task_id, roster } = request
+  scheduling_update_late({ commit }, request) {
+    const { task_id, roster } = request
 
     return new Promise((resolve, reject) => {
       api.scheduling_update_late(request).then(response => {
@@ -103,12 +103,12 @@ scheduling_update_late({ commit }, request) {
     })
   },
   // 考勤学生记录情况
-condition({ commit }, request) {
-		const {  task_id } = request
+  condition({ commit }, request) {
+    const { task_id } = request
 
     return new Promise((resolve, reject) => {
       api.condition(request).then(response => {
-		const {  student_approved, student_approved_number, score, star_time, rule_str, id, worker, room_str } = response.data
+        const { student_approved, student_approved_number, score, star_time, rule_str, id, worker, room_str } = response.data
 
         resolve(response)
       }).catch(error => {
@@ -117,8 +117,8 @@ condition({ commit }, request) {
     })
   },
   // 销假(必须为任务管理员)
-undo_record({ commit }, request) {
-		const {  record_id, task_id } = request
+  undo_record({ commit }, request) {
+    const { record_id, task_id } = request
 
     return new Promise((resolve, reject) => {
       api.undo_record(request).then(response => {
@@ -129,8 +129,8 @@ undo_record({ commit }, request) {
     })
   },
   // 销假(任意任务)
-undo_record_admin({ commit }, request) {
-		const {  task_id, record_id } = request
+  undo_record_admin({ commit }, request) {
+    const { task_id, record_id } = request
 
     return new Promise((resolve, reject) => {
       api.undo_record_admin(request).then(response => {
@@ -141,8 +141,8 @@ undo_record_admin({ commit }, request) {
     })
   },
   // 导入早签数据
-in_zaoqian_excel({ commit }, request) {
-		const {  file } = request
+  in_zaoqian_excel({ commit }, request) {
+    const { file } = request
 
     return new Promise((resolve, reject) => {
       api.in_zaoqian_excel(request).then(response => {
@@ -153,10 +153,10 @@ in_zaoqian_excel({ commit }, request) {
     })
   },
   // 工作者获取任务
-task_executor({ commit }, request) {
+  task_executor({ commit }, request) {
     return new Promise((resolve, reject) => {
       api.task_executor(request).then(response => {
-		const {  builder_name, is_finish, id, title, type } = response.data
+        const { builder_name, is_finish, id, title, type } = response.data
 
         resolve(response)
       }).catch(error => {
@@ -165,12 +165,12 @@ task_executor({ commit }, request) {
     })
   },
   // 查寝当天数据导出
-knowing_excel_out({ commit }, request) {
-		const {  task_id } = request
+  knowing_excel_out({ commit }, request) {
+    const { task_id } = request
 
     return new Promise((resolve, reject) => {
       api.knowing_excel_out(request).then(response => {
-		const {  created_time, room_name, student_name, reason, classname, student } = response.data
+        const { created_time, room_name, student_name, reason, classname, student } = response.data
 
         resolve(response)
       }).catch(error => {
@@ -179,8 +179,8 @@ knowing_excel_out({ commit }, request) {
     })
   },
   // 导出今日记录情况
-out_data({ commit }, request) {
-		const {  username, start_date, end_date } = request
+  out_data({ commit }, request) {
+    const { username, start_date, end_date } = request
 
     return new Promise((resolve, reject) => {
       api.out_data(request).then(response => {
@@ -191,8 +191,8 @@ out_data({ commit }, request) {
     })
   },
   // 获取规则
-rule({ commit }, request) {
-		const {  codename } = request
+  rule({ commit }, request) {
+    const { codename } = request
 
     return new Promise((resolve, reject) => {
       api.rule(request).then(response => {
@@ -203,8 +203,8 @@ rule({ commit }, request) {
     })
   },
   // 考勤提交
-submit({ commit }, request) {
-		const {  task_id, type, data } = request
+  submit({ commit }, request) {
+    const { task_id, type, data } = request
 
     return new Promise((resolve, reject) => {
       api.submit(request).then(response => {
@@ -215,8 +215,8 @@ submit({ commit }, request) {
     })
   },
   // 晚查寝-楼工作数据
-knowing_storey_info({ commit }, request) {
-		const {  task_id } = request
+  knowing_storey_info({ commit }, request) {
+    const { task_id } = request
 
     return new Promise((resolve, reject) => {
       api.knowing_storey_info(request).then(response => {
@@ -227,8 +227,8 @@ knowing_storey_info({ commit }, request) {
     })
   },
   // 晚查寝-层工作数据
-knowing_room_info({ commit }, request) {
-		const {  task_id, floor_id } = request
+  knowing_room_info({ commit }, request) {
+    const { task_id, floor_id } = request
 
     return new Promise((resolve, reject) => {
       api.knowing_room_info(request).then(response => {
@@ -286,10 +286,10 @@ knowing_room_info({ commit }, request) {
   // },
 
   // 学生查看公告
-student_disciplinary({ commit }, request) {
+  student_disciplinary({ commit }, request) {
     return new Promise((resolve, reject) => {
       api.student_disciplinary(request).then(response => {
-		const {  room_name, student_name, reason, created_time, classname, student } = response.data
+        const { room_name, student_name, reason, created_time, classname, student } = response.data
         resolve(response)
       }).catch(error => {
         reject(error)
@@ -297,8 +297,8 @@ student_disciplinary({ commit }, request) {
     })
   },
   // 晚查寝-房间工作数据
-knowing_student_room_info({ commit }, request) {
-		const {  task_id, room_id } = request
+  knowing_student_room_info({ commit }, request) {
+    const { task_id, room_id } = request
     return new Promise((resolve, reject) => {
       api.knowing_student_room_info(request).then(response => {
         resolve(response)
@@ -308,8 +308,8 @@ knowing_student_room_info({ commit }, request) {
     })
   },
   // 晚自修数据
-late_class({ commit }, request) {
-		const {  task_id, rule_id, class_id, type } = request
+  late_class({ commit }, request) {
+    const { task_id, rule_id, class_id, type } = request
     return new Promise((resolve, reject) => {
       api.late_class(request).then(response => {
         resolve(response)
@@ -318,7 +318,7 @@ late_class({ commit }, request) {
       })
     })
   },
-// TpiEnd
+  // TpiEnd
 }
 
 export default {
