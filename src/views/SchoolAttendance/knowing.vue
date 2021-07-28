@@ -27,7 +27,7 @@
         </el-card>
       </el-col>
     </el-row>
-    <br />
+    <br>
 
     <el-dialog
       title="排班"
@@ -58,34 +58,34 @@
           >
             {{ user.username }} {{ user.name }} {{ user.tel }}
             <el-button
+              v-show="is_show_button"
               size="mini"
               icon="el-icon-close"
               @click="remove_user(layer, user_index)"
-              v-show="is_show_button"
-            ></el-button>
+            />
           </div>
-          <div class="search_box" v-show="is_show_button">
+          <div v-show="is_show_button" class="search_box">
             <el-row :gutter="10">
               <el-col :xs="24" :md="8">
                 <el-input
-                  size="small"
                   v-model="layer.user_object.username"
+                  size="small"
                   placeholder="学号"
                 />
               </el-col>
 
               <el-col :xs="24" :md="8">
                 <el-input
-                  size="small"
                   v-model="layer.user_object.name"
+                  size="small"
                   placeholder="姓名"
                 />
               </el-col>
 
               <el-col :xs="24" :md="8">
                 <el-input
-                  size="small"
                   v-model="layer.user_object.tel"
+                  size="small"
                   placeholder="电话"
                 />
               </el-col>
@@ -93,19 +93,17 @@
           </div>
 
           <el-button
+            v-show="is_show_button"
             size="small"
             icon="el-icon-search"
             @click="search_user(layer)"
-            v-show="is_show_button"
-            >搜索</el-button
-          >
+          >搜索</el-button>
           <el-button
+            v-show="is_show_button"
             size="small"
             icon="el-icon-circle-plus-outline"
             @click="add_user(layer)"
-            v-show="is_show_button"
-            >添加</el-button
-          >
+          >添加</el-button>
         </div>
       </div>
 
@@ -115,7 +113,7 @@
         <el-button type="primary" @click="save_roster()">保存</el-button>
       </span>
     </el-dialog>
-    <br />
+    <br>
 
     <!-- 查寝记录面板 -->
     <el-row>
@@ -143,14 +141,14 @@
                   type="primary"
                   @click="pintle(item.index, item)"
                 >
-                  销假</el-button
-                >
+                  销假</el-button>
               </div>
-              <el-button slot="reference" :type="item.flg ? '' : 'info'"
-                ><span>{{ item.student_approved_number }}</span
-                ><br />
-                <span>{{ item.student_approved }}</span></el-button
-              >
+              <el-button
+                slot="reference"
+                :type="item.flg ? '' : 'info'"
+              ><span>{{ item.student_approved_number }}</span><br>
+                <span>{{ item.student_approved }}</span>
+              </el-button>
             </el-popover>
           </div>
         </el-card>
@@ -160,11 +158,13 @@
 </template>
 
 <script>
+import { getToken } from '@/utils/auth'
+
 export default {
   data() {
     return {
       is_switch: false,
-      excel_url: this.$api.SchoolAttendance.out_knowing_excel_data,
+      excel_url: '',
       switc: '',
       actives: [
         {
@@ -208,17 +208,22 @@ export default {
           ]
         }
       ],
+
       // 排班面板
       dialogVisible_roster_box: false,
 
       // 是否显示排班功能按钮
-      is_show_button: false
+      is_show_button: true
     }
   },
-  created: function () {
+  created: function() {
     this.get_activa()
-
     this.get_condition()
+
+    this.excel_url =
+      this.$api.school_attendance.out_knowing_excel_data +
+      '?task_id=1&token=' +
+      getToken()
     setInterval(() => {
       this.get_condition()
     }, 1000 * 30)
@@ -228,7 +233,7 @@ export default {
     get_activa() {
       this.$store
         .dispatch('school_attendance/task_obtain', { type: '0' })
-        .then((res) => {
+        .then(res => {
           const { is_open, name, id } = res.data
           var arr = res.data
           this.actives = arr
@@ -239,17 +244,16 @@ export default {
 
     // 切换任务状态
     task_switch_put() {
-      console.log('切换')
       const id = this.actives[this.active_index].id
       this.is_switch = true
-
       this.$store
-        .dispatch('SchoolAttendance/task_switch_put', { task_id: id })
-        .then((res) => {
-          this.$data.switc = res.data
+        .dispatch('school_attendance/task_switch', { task_id: id })
+        .then(res => {
+          const { is_open } = res.data
+          this.$data.switc = is_open
           this.is_switch = false
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err)
           this.is_switch = false
         })
@@ -268,14 +272,9 @@ export default {
       )
         .then(() => {
           const id = this.actives[this.active_index].id
-          this.$api.SchoolAttendance.task_switch_delete({ task_id: id }).then(
-            (res) => {
-              this.$message({
-                message: res.message,
-                type: 'success'
-              })
-            }
-          )
+          this.$store.dispatch('school_attendance/task_rest_knowing', {
+            task_id: id
+          })
         })
         .catch(() => {
           this.$message({
@@ -291,7 +290,7 @@ export default {
         .dispatch('school_attendance/scheduling', {
           task_id: this.actives[this.active_index]['id']
         })
-        .then((res) => {
+        .then(res => {
           this.roster = res.data
         })
     },
@@ -314,9 +313,14 @@ export default {
 
     // 排班 搜索用户
     search_user(layer) {
-      
-      this.$store.dispatch('school_information/student_information',{username: layer.user_object.username})
-  
+      this.$store
+        .dispatch('school_information/student_information', {
+          username: layer.user_object.username
+        })
+        .then(res => {
+          layer.user_object = res.data
+        })
+
       clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random())
     },
@@ -325,20 +329,22 @@ export default {
     save_roster() {
       console.log(' 保存班表', this.roster)
       const id = this.actives[this.active_index].id
-      this.$api.SchoolAttendance.scheduling_post({
-        roster: this.roster,
-        id: id,
-        data: ''
-      }).then((res) => {
-        console.log(res)
-        if (res.code === 2000) {
-          this.$message({
-            message: res.message,
-            type: 'success'
-          })
-          this.$data.dialogVisible_roster_box = false
-        }
-      })
+
+      this.$store
+        .dispatch('school_attendance/scheduling_update_knowing', {
+          task_id: id,
+          roster: this.roster
+        })
+        .then(res => {
+          console.log(res)
+          if (res.code === 2000) {
+            this.$message({
+              message: res.message,
+              type: 'success'
+            })
+            this.$data.dialogVisible_roster_box = false
+          }
+        })
     },
 
     // 获取缺勤名单
@@ -346,11 +352,11 @@ export default {
       console.log('获取缺勤名单')
       if (!this.$data.actives[this.active_index].id) return
       this.$store
-        .dispatch('SchoolAttendance/condition', {
+        .dispatch('school_attendance/condition', {
           task_id: this.$data.actives[this.active_index].id
         })
-        .then((res) => {
-          res.data.forEach(function (v, i) {
+        .then(res => {
+          res.data.forEach(function(v, i) {
             v['flg'] = true
           })
           this.$data.tableData = res.data
@@ -364,41 +370,21 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      })
-        .then(() => {
-          console.log('销假')
-
-          this.$api.SchoolAttendance.undo_record_delete({
+      }).then(() => {
+        this.$store
+          .dispatch('school_attendance/undo_record', {
             record_id: row.id,
             task_id: this.$data.actives[this.active_index].id
           })
-            .then((res) => {
-              if (res.code === 2000) {
-                this.$message({
-                  message: res.message,
-                  type: 'success'
-                })
-                row.flg = false
-              }
-            })
-            .catch((err) => {
-              this.$message({
-                type: 'info',
-                message: '失败'
-              })
-            })
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消'
+          .then(res => {
+            row.flg = false
           })
-        })
+      })
     },
 
     // excel 导出
     exportexcel() {
-      api.exportexcel().then((res) => {
+      api.exportexcel().then(res => {
         this.$message({
           message: res.message,
           type: 'success'
@@ -412,16 +398,16 @@ export default {
     },
     handleClose(done) {
       this.$confirm('确认关闭？')
-        .then((_) => {
+        .then(_ => {
           done()
         })
-        .catch((_) => {})
+        .catch(_ => {})
     }
   }
 }
 </script>
 
-<style scoped lang="scss" >
+<style scoped lang="scss">
 .code_now {
   margin-left: 20px;
   cursor: pointer;

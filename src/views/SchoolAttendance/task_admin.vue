@@ -16,7 +16,7 @@
         :on-success="on_success"
         :on-progress="on_progress"
         :headers="{
-          token: token(),
+          token: token()
         }"
         :file-list="fileList"
         :auto-upload="false"
@@ -69,7 +69,9 @@
     />
     <el-button width="120" @click="search()"> 搜索</el-button>
     <!-- <a :href="out_data"> -->
-    <el-button width="120" @click="out_excel()" :loading="out_excel_disabled"> 导出Excel </el-button>
+    <el-button width="120" @click="out_excel()" :loading="out_excel_disabled">
+      导出Excel
+    </el-button>
     <!-- </a> -->
 
     <div style="margin-top: 15px" />
@@ -119,7 +121,7 @@ export default {
       // 搜索按钮是否可用
       disabled: true,
       // 导出按钮
-      out_excel_disabled:false,
+      out_excel_disabled: false,
       page_size: 0,
       page: 1,
       total: 0,
@@ -132,7 +134,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               picker.$emit("pick", [start, end]);
-            },
+            }
           },
           {
             text: "最近一个月",
@@ -141,7 +143,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               picker.$emit("pick", [start, end]);
-            },
+            }
           },
           {
             text: "最近三个月",
@@ -150,9 +152,9 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               picker.$emit("pick", [start, end]);
-            },
-          },
-        ],
+            }
+          }
+        ]
       },
       tableData: [],
       // 文件上传用
@@ -160,9 +162,9 @@ export default {
       // 上传早签数据失败记录
       up_error_list: [],
       // 上传早签的地址
-      in_zaoqian_excel_url: this.$api.SchoolAttendance.in_zaoqian_excel_url,
+      in_zaoqian_excel_url: this.$api.school_attendance.in_zaoqian_excel_url,
       // 导出考勤结果地址
-      out_data: this.$api.SchoolAttendance.out_data,
+      out_data: this.$api.school_attendance.out_excel_data,
       // 文件上传对话框
       dialogVisible: false,
       // 上传文件显示加载动画
@@ -172,36 +174,47 @@ export default {
         // 'token':getToken()
       },
       // 文件上传头属性
-      up_headers: {},
+      up_headers: {}
     };
   },
   methods: {
     // 搜索
     search(page) {
-      this.$api.SchoolAttendance.record({
-        username: this.$data.username,
+      let query = {
         start_date: dateFormat("YYYY-mm-dd", this.$data.time[0]),
         end_date: dateFormat("YYYY-mm-dd", this.$data.time[1]),
-        page: page,
-      }).then((res) => {
-        // this.$data.tableData = res.data.data.results;
-        console.log(res.data);
-        this.$data.page_size = res.data.page_size;
-        this.$data.total = res.data.total;
-        this.$data.tableData = res.data.results;
-      });
+        page: page
+      };
+      if (this.$data.username) {
+        query["username"] = this.$data.username;
+      }
+      this.$store
+        .dispatch("school_attendance/record_query", query)
+        .then(res => {
+          // this.$data.tableData = res.data.data.results;
+          console.log(res.data);
+          this.$data.page_size = res.data.page_size;
+          this.$data.total = res.data.total;
+          this.$data.tableData = res.data.results;
+        });
     },
     // 导出筛选的数据
     out_excel() {
-      this.$data.out_excel_disabled = true
+      this.$data.out_excel_disabled = true;
       var start_date = dateFormat("YYYY-mm-dd", this.$data.time[0]);
       var end_date = dateFormat("YYYY-mm-dd", this.$data.time[1]);
-      var url = this.$api.SchoolAttendance.out_excel_data + "?start_date=" + start_date + "&end_date=" + end_date + "&username=" + this.$data.username
-      window.location.href = url
+      var url =
+        this.$data.out_data +
+        "?start_date=" +
+        start_date +
+        "&end_date=" +
+        end_date +
+        "&username=" +
+        this.$data.username;
+      window.location.href = url;
       setTimeout(() => {
-      this.$data.out_excel_disabled = false
-        
-      }, 1000*5);
+        this.$data.out_excel_disabled = false;
+      }, 1000 * 5);
     },
     token() {
       return getToken();
@@ -211,34 +224,34 @@ export default {
       this.$confirm("此操作将对该同学销假,并且记录您的信息 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning",
+        type: "warning"
       })
         .then(() => {
           console.log("销假");
 
           this.$api.SchoolAttendance.undo_record_admin({
-            record_id: row.id,
+            record_id: row.id
           })
-            .then((res) => {
+            .then(res => {
               if (res.code === 2000) {
                 this.$message({
                   message: res.message,
-                  type: "success",
+                  type: "success"
                 });
                 row.flg = false;
               }
             })
-            .catch((err) => {
+            .catch(err => {
               this.$message({
                 type: "info",
-                message: "失败",
+                message: "失败"
               });
             });
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消",
+            message: "已取消"
           });
         });
     },
@@ -263,7 +276,7 @@ export default {
 
       this.$message({
         message: request.message,
-        type: "success",
+        type: "success"
       });
     },
     on_progress() {
@@ -274,13 +287,13 @@ export default {
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
-        .then((_) => {
+        .then(_ => {
           done();
         })
-        .catch((_) => {});
-    },
+        .catch(_ => {});
+    }
     // 文件上传用 ---
-  },
+  }
 };
 </script>
 <style lang="sass" scoped></style>

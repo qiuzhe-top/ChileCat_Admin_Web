@@ -155,7 +155,7 @@
 </template>
 
 <script>
-import { searchUser } from '@/api/SchoolAttendance';
+import { searchUser } from "@/api/SchoolAttendance";
 export default {
   data() {
     return {
@@ -189,7 +189,7 @@ export default {
         }
       ],
       // 排班面板
-      dialogVisible_roster_box: true,
+      dialogVisible_roster_box: false,
       // 待排班的用户列表
       user_list_str: "",
       input_user_object: {}
@@ -209,8 +209,9 @@ export default {
     // 加载我的活动
     get_activa() {
       this.$store
-        .dispatch("SchoolAttendance/my_active", { type: "2" })
+        .dispatch("school_attendance/task_obtain", { type: "2" })
         .then(res => {
+          const { is_open, name, id } = res.data;
           var arr = res.data;
           this.actives = arr;
           this.get_scheduling();
@@ -248,14 +249,9 @@ export default {
       )
         .then(() => {
           const id = this.actives[this.active_index].id;
-          this.$api.SchoolAttendance.task_switch_delete({ task_id: id }).then(
-            res => {
-              this.$message({
-                message: res.message,
-                type: "success"
-              });
-            }
-          );
+          this.$store.dispatch("school_attendance/task_rest_knowing", {
+            task_id: id
+          });
         })
         .catch(() => {
           this.$message({
@@ -267,15 +263,14 @@ export default {
 
     // 获取班表
     get_scheduling() {
-      this.$api.SchoolAttendance.scheduling_get({
-        id: this.actives[this.active_index]["id"]
-      })
+      this.$store
+        .dispatch("school_attendance/scheduling", {
+          task_id: this.actives[this.active_index]["id"]
+        })
         .then(res => {
           this.roster = res.data;
-        })
-        .catch(() => {});
+        });
     },
-
     // 排班 添加用户
     add_user() {
       // layer.user.push(JSON.parse(JSON.stringify(layer.user_object)));
@@ -292,14 +287,12 @@ export default {
       if (str.length < 1) return;
       var user_list = str.split("\n");
       user_list.forEach(u => {
-        this.$api.SchoolAttendance.searchUser({
-          username: u
-        })
+        this.$store
+          .dispatch("school_information/student_information", {
+            username: u
+          })
           .then(res => {
             this.$data.roster.push(res.data);
-          })
-          .catch(err => {
-            console.log(err);
           });
       });
 
@@ -309,38 +302,30 @@ export default {
     remove_user(index) {
       this.$data.roster.splice(index, 1);
     },
-
     // 排班 搜索用户
     search_user() {
-		console.log("获取用户基本信息")
-
-        this.$store.dispatch('school_information/student_information',{username: this.$data.input_user_object.username})
-        .then((res) => {
-            const {  grade, name, tel, id, username } =  res.data
+      this.$store
+        .dispatch("school_information/student_information", {
+          username: this.$data.input_user_object.username
+        })
+        .then(res => {
           this.$data.input_user_object = res.data;
-        }).catch(() => {})
+        });
 
       clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random());
     },
     // 保存班表
     save_roster() {
-      console.log(" 保存班表", this.roster);
       const id = this.actives[this.active_index].id;
-      this.$api.SchoolAttendance.scheduling_post({
-        roster: this.roster,
-        id: id,
-        data: ""
-      }).then(res => {
-        console.log(res);
-        if (res.code === 2000) {
-          this.$message({
-            message: res.message,
-            type: "success"
-          });
+      this.$store
+        .dispatch("school_attendance/scheduling_update_late", {
+          task_id: id,
+          roster: this.roster
+        })
+        .then(res => {
           this.$data.dialogVisible_roster_box = false;
-        }
-      });
+        });
     },
 
     // 获取缺勤名单
@@ -348,7 +333,7 @@ export default {
       if (!this.$data.actives[this.active_index].id) return;
 
       this.$store
-        .dispatch("SchoolAttendance/condition", {
+        .dispatch("school_attendance/condition", {
           task_id: this.$data.actives[this.active_index].id
         })
         .then(res => {
@@ -356,7 +341,6 @@ export default {
             v["flg"] = true;
           });
           this.$data.tableData = res.data;
-          console.log("获取缺勤名单" + res.data);
         })
         .catch(() => {});
     },
@@ -369,26 +353,13 @@ export default {
         type: "warning"
       })
         .then(() => {
-          console.log("销假");
-
-          this.$api.SchoolAttendance.undo_record_delete({
-            record_id: row.id,
-            task_id: this.$data.actives[this.active_index].id
-          })
-            .then(res => {
-              if (res.code === 2000) {
-                this.$message({
-                  message: res.message,
-                  type: "success"
-                });
-                row.flg = false;
-              }
+          this.$store
+            .dispatch("school_attendance/undo_record", {
+              record_id: row.id,
+              task_id: this.$data.actives[this.active_index].id
             })
-            .catch(err => {
-              this.$message({
-                type: "info",
-                message: "失败"
-              });
+            .then(res => {
+              row.flg = false;
             });
         })
         .catch(() => {
