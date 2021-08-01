@@ -143,7 +143,7 @@ export default {
   },
   /**
    * 工作者获取任务
-   * @returns {} {"builder_name":"Builder name","is_finish":"是否完成","id":"Id","title":"Title","type":"Type"}
+   * @returns {} {"is_finish":"是否完成","id":"Id","title":"Title","type":"Type"}
    */
   task_executor(data) {
     return request({
@@ -168,8 +168,8 @@ export default {
   /**
    * 导出今日记录情况
    * @param  [username, 用户名, Char, 否, None, , ]
-   * @param  [start_date, 开始日期, Date, 否, None, , ]
-   * @param  [end_date, 结束日期, Date, 否, None, , ]
+   * @param  [start_date, 开始日期, Date, 否, 2021-07-28, , ]
+   * @param  [end_date, 结束日期, Date, 否, 2021-07-28, , ]
    * @returns {} null
    */
   out_data(data) {
@@ -192,15 +192,16 @@ export default {
     })
   },
   /**
-   * 考勤提交
+   * 晚自习考勤提交
    * @param  [task_id, 任务ID, Char, 是, , , ]
-   * @param  [type, 提交类型 0=> 考勤提交 1=>执行人确认任务完成, Char, 是, , , ]
-   * @param  [data, 任务ID, Char, 是, , , ]
+   * @param  [flg, 第一次点名标识, Char, 是, , , ]
+   * @param  [rule_id, 规则ID, Char, 是, , , ]
+   * @param  [user_list, 被记录用户列表, Char, 是, , , ]
    * @returns {} null
    */
-  submit(data) {
+  submit_late(data) {
     return request({
-      url: '/api/school_attendance/submit',
+      url: '/api/school_attendance/submit/late',
       method: 'post',
       data
     })
@@ -257,8 +258,8 @@ export default {
   /**
    * 晚自修数据
    * @param  [task_id, 任务ID, Char, 是, , , ]
-   * @param  [rule_id, 规则ID, Char, 是, , , ]
-   * @param  [class_id, 班级ID, Char, 是, , , ]
+   * @param  [rule_id, 规则ID, Char, 否, None, , ]
+   * @param  [class_id, 班级ID, Char, 否, None, , ]
    * @param  [type, 0 # 获取任务绑定的班级 1 # 获取班级名单附带学生多次点名情况, Char, 是, , , ]
    * @returns {} null
    */
@@ -271,7 +272,7 @@ export default {
   },
   /**
    * 考勤查询
-   * @param  [username, 用户名, Char, 是, , , ]
+   * @param  [username, 用户名, Char, 否, None, , ]
    * @param  [start_date, 开始时间, Char, 是, , , ]
    * @param  [end_date, 结束时间, Char, 是, , , ]
    * @returns {} null
@@ -279,8 +280,8 @@ export default {
   record_query(data) {
     return request({
       url: '/api/school_attendance/record/query',
-      method: 'post',
-      data
+      method: 'get',
+      params: data
     })
   }
   // TpiEnd

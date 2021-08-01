@@ -72,6 +72,10 @@ const actions = {
       api
         .task_rest_late(request)
         .then(response => {
+          Message({
+            message: '重置成功',
+            type: 'success'
+          })
           resolve(response)
         })
         .catch(error => {
@@ -190,9 +194,17 @@ const actions = {
       api
         .undo_record_admin(request)
         .then(response => {
+          Message({
+            type: 'success',
+            message: '销假成功'
+          })
           resolve(response)
         })
         .catch(error => {
+          Message({
+            type: 'info',
+            message: '失败'
+          })
           reject(error)
         })
     })
@@ -218,7 +230,7 @@ const actions = {
       api
         .task_executor(request)
         .then(response => {
-          const { builder_name, is_finish, id, title, type } = response.data
+          const { is_finish, id, title, type } = response.data
 
           resolve(response)
         })
@@ -381,6 +393,21 @@ const actions = {
     return new Promise((resolve, reject) => {
       api
         .late_class(request)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+
+  // 晚自习考勤提交
+  submit_late({ commit }, request) {
+    const { task_id, flg, rule_id, user_list } = request
+    return new Promise((resolve, reject) => {
+      api
+        .submit_late(request)
         .then(response => {
           resolve(response)
         })
