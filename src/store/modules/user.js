@@ -52,7 +52,6 @@ const actions = {
   // 登录
   login({ commit }, request) {
     const { username, password } = request
-    console.log(request)
     return new Promise((resolve, reject) => {
       api
         .login(request)

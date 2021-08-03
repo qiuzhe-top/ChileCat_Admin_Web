@@ -14,7 +14,6 @@ const actions = {
   // 获取任务
   task_obtain({ commit }, request) {
     const { type } = request
-    console.log(request)
     return new Promise((resolve, reject) => {
       api
         .task_obtain(request)
