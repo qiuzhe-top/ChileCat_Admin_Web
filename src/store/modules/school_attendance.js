@@ -15,11 +15,9 @@ const actions = {
   task_obtain({ commit }, request) {
     const { type } = request
     return new Promise((resolve, reject) => {
-      api
-        .task_obtain(request)
+      api.task_obtain(request)
         .then(response => {
           const { is_open, name, id } = response.data
-
           resolve(response)
         })
         .catch(error => {
@@ -32,8 +30,7 @@ const actions = {
     const { task_id } = request
 
     return new Promise((resolve, reject) => {
-      api
-        .task_switch(request)
+      api.task_switch(request)
         .then(response => {
           const { is_open } = response.data
 

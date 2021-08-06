@@ -39,7 +39,7 @@
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible_roster_box = false">取 消</el-button>
-        
+
         <el-button type="primary" @click="save_roster()">保存</el-button>
       </span>
     </el-dialog>
@@ -84,7 +84,7 @@
         </el-card>
       </el-col>
     </el-row>
-    
+
   </div>
 </template>
 
@@ -141,7 +141,7 @@ export default {
       ],
 
       // 排班面板
-      dialogVisible_roster_box: false,
+      dialogVisible_roster_box: false
 
       // 是否显示排班功能按钮
       // is_show_button: true
@@ -312,7 +312,6 @@ export default {
           })
       })
     },
-
 
     // // 显示班表简易版
     // simple_information() {
