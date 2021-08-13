@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-const api_url = 'http://127.0.0.1:8000/api/school_attendance'
+const api_url = process.env.VUE_APP_BASE_API + 'api/school_attendance'
 export default {
   in_zaoqian_excel_url: api_url + '/inzaoqian/excel',
   out_excel_data: api_url + '/out/data',
