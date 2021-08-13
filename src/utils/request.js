@@ -1,8 +1,8 @@
 /*
  * @Author: 邹洋
  * @Date: 2021-07-22 20:30:49
- * @LastEditTime: 2021-08-03 16:53:25
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-13 09:16:02
+ * @LastEditors:
  * @Description: In User Settings Edit
  * @FilePath: \ChileCat_Admin_Web\src\utils\request.js
  */
@@ -12,9 +12,12 @@ import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth'
 
 const service = axios.create({
-  // baseURL: 'http://127.0.0.1:8000/',
-  baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 10000
+  // baseURL: 'http://47.102.215.230:8000/api/',
+  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  // baseURL: 'http://127.0.0.1:8000/api/',
+  // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  // withCredentials: true, // send cookies when cross-domain requests
+  timeout: 10000 // request timeout
 })
 
 service.interceptors.request.use(
