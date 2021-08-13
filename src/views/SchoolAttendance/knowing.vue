@@ -91,7 +91,6 @@
 <script>
 // import Tes from '@/components/Tes'
 import TaskFrame from './component/frame.vue'
-import { getToken } from '@/utils/auth'
 
 export default {
   components: { TaskFrame },
@@ -100,17 +99,12 @@ export default {
       input_user_object: {},
       // 待排班的用户列表
       user_list_str: '',
-
+      excel_url: '',
       // 是否显示排班功能按钮
       is_show_button: true
     }
   },
-  created: function() {
-    this.excel_url =
-      this.$api.school_attendance.out_knowing_excel_data +
-      '?task_id=1&token=' +
-      getToken()
-  },
+
   methods: {
     // 显示班表简易版
     simple_information() {

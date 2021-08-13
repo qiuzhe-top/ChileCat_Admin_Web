@@ -3,12 +3,18 @@ import api from '@/api/school_attendance'
 import { MessageBox, Message } from 'element-ui'
 
 const getDefaultState = () => {
-  return {}
+  return {
+    task: null
+  }
 }
 
 const state = getDefaultState()
 
-const mutations = {}
+const mutations = {
+  SET_TASK: (state, task) => {
+    state.task = task
+  }
+}
 const actions = {
   // TpiStart
   // 获取任务
@@ -18,6 +24,7 @@ const actions = {
       api.task_obtain(request)
         .then(response => {
           const { is_open, name, id } = response.data
+          commit('SET_TASK', response.data[0])
           resolve(response)
         })
         .catch(error => {
@@ -67,6 +74,25 @@ const actions = {
     return new Promise((resolve, reject) => {
       api
         .task_rest_late(request)
+        .then(response => {
+          Message({
+            message: '重置成功',
+            type: 'success'
+          })
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  // 重置卫生检查任务状态
+  task_rest_health({ commit }, request) {
+    const { task_id } = request
+
+    return new Promise((resolve, reject) => {
+      api
+        .task_rest_health(request)
         .then(response => {
           Message({
             message: '重置成功',

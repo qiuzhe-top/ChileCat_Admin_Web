@@ -1,3 +1,11 @@
+/*
+ * @Author: 邹洋
+ * @Date: 2021-05-19 23:35:22
+ * @Email: 2810201146@qq.com
+ * @LastEditors:
+ * @LastEditTime: 2021-08-12 12:22:07
+ * @Description:
+ */
 const getters = {
   sidebar: state => state.app.sidebar,
   device: state => state.app.device,
@@ -9,6 +17,8 @@ const getters = {
   name: state => state.user.name,
   is_admin: state => state.user.is_admin,
   is_superuser: state => state.user.is_superuser,
+
+  task: state => state.school_attendance.task,
 
   askList: state => state.ask.askList,
   historyList: state => state.ask.historyList,

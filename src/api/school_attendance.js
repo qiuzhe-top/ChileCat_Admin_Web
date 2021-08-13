@@ -53,6 +53,13 @@ export default {
       data
     })
   },
+  task_rest_health(data) {
+    return request({
+      url: '/api/school_attendance/task/rest/health',
+      method: 'post',
+      data
+    })
+  },
   /**
    * 获取班表
    * @param  [task_id, 任务id, Char, 是, , , max_length:8]

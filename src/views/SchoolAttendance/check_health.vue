@@ -2,9 +2,10 @@
   <div>
     <TaskFrame
       ref="frame"
-      :type="2"
+      :type="1"
+      :excel_url="excel_url"
       :save_roster_store="'scheduling_update_late'"
-      :flush_task_store="'task_rest_late'"
+      :flush_task_store="'task_rest_health'"
     >
       <!-- 班表面板 -->
       <template v-slot:scheduling="data">
@@ -79,7 +80,6 @@
 </template>
 
 <script>
-// import Tes from '@/components/Tes'
 import TaskFrame from './component/frame.vue'
 export default {
   components: { TaskFrame },
@@ -88,6 +88,7 @@ export default {
       bo: 1,
       input_user_object: {},
       // 待排班的用户列表
+      excel_url: '',
       user_list_str: ''
     }
   },

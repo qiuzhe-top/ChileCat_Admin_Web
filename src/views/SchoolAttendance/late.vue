@@ -3,6 +3,7 @@
     <TaskFrame
       ref="frame"
       :type="2"
+      :excel_url="excel_url"
       :save_roster_store="'scheduling_update_late'"
       :flush_task_store="'task_rest_late'"
     >
@@ -85,6 +86,7 @@ export default {
   components: { TaskFrame },
   data() {
     return {
+      excel_url: '',
       input_user_object: {},
       // 待排班的用户列表
       user_list_str: ''

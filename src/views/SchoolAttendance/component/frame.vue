@@ -64,7 +64,7 @@
       <el-col :sm="24">
         <el-card v-show="actives[active_index].is_open" shadow="hover">
           <div slot="header">
-            <span>晚自修检查记录</span>
+            <span>检查记录</span>
           </div>
 
           <el-table :data="tableData" style="width: 100%">
@@ -76,6 +76,7 @@
             <el-table-column prop="student_approved" label="姓名" width="180" />
             <el-table-column prop="rule_str" label="原因" />
             <el-table-column prop="worker" label="执行人" />
+            <el-table-column prop="room_str" label="寝室" />
             <el-table-column prop="star_time" label="执行时间" />
             <el-table-column label="操作">
               <template slot-scope="scope">
@@ -95,10 +96,12 @@
 </template>
 
 <script>
+import { getToken } from '@/utils/auth'
+
 export default {
   props: {
     type: Number, // 任务类型
-    excel_url: String,
+    // excel_url: String,
     flush_task_store: String,
     save_roster_store: String
   },
@@ -126,7 +129,9 @@ export default {
       // 排班面板
       dialogVisible_roster_box: false,
       // 定时获取考勤记录
-      timer: null
+      timer: null,
+      // 导出excel参数
+      excel_url: ''
     }
   },
   created: function() {
@@ -138,6 +143,8 @@ export default {
         this.get_condition()
       }
     }, 1000 * 20)
+
+    // 构建导出excel 路径
   },
   beforeDestroy() {
     clearInterval(this.timer)
@@ -152,6 +159,8 @@ export default {
           var arr = res.data
           this.actives = arr
           this.get_scheduling()
+          var excel_url_data = '?' + 'task_id=' + arr[0].id + '&token=' + getToken()
+          this.excel_url = this.$api.school_attendance.out_knowing_excel_data + excel_url_data
         })
         .catch(() => {})
     },
