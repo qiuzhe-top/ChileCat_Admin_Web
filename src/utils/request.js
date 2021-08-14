@@ -1,8 +1,8 @@
 /*
  * @Author: 邹洋
  * @Date: 2021-07-22 20:30:49
- * @LastEditTime: 2021-08-03 16:53:25
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2021-08-14 10:26:17
+ * @LastEditors:
  * @Description: In User Settings Edit
  * @FilePath: \ChileCat_Admin_Web\src\utils\request.js
  */
@@ -14,7 +14,7 @@ import { getToken } from '@/utils/auth'
 const service = axios.create({
   // baseURL: 'http://127.0.0.1:8000/',
   baseURL: process.env.VUE_APP_BASE_API,
-  timeout: 10000
+  timeout: 60000
 })
 
 service.interceptors.request.use(

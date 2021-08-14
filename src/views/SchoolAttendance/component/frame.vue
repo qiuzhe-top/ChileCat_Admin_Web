@@ -28,7 +28,8 @@
             <a v-if="excel_url" :href="excel_url">
               <el-button>导出Excel</el-button>
             </a>
-            <el-button @click="get_condition()">刷新记录</el-button>
+
+            <el-button :loading="search_loading" @click="get_condition()">刷新记录</el-button>
           </div>
         </el-card>
       </el-col>
@@ -131,7 +132,8 @@ export default {
       // 定时获取考勤记录
       timer: null,
       // 导出excel参数
-      excel_url: ''
+      excel_url: '',
+      search_loading: false
     }
   },
   created: function() {
@@ -234,7 +236,9 @@ export default {
 
     // 获取缺勤名单
     get_condition() {
+      var that = this
       if (!this.$data.actives[this.active_index].id) return
+      that.search_loading = true
 
       this.$store
         .dispatch('school_attendance/condition', {
@@ -245,8 +249,11 @@ export default {
             v['flg'] = true
           })
           this.$data.tableData = res.data
+          that.search_loading = false
         })
-        .catch(() => {})
+        .catch(() => {
+          that.search_loading = false
+        })
     },
 
     // 销假
