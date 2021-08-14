@@ -66,7 +66,7 @@
       placeholder="请输入学号或姓名"
       style="width: 200px"
     />
-    <el-button width="120" @click="search()"> 搜索</el-button>
+    <el-button width="120" :loading="search_loading" @click="search()"> 搜索</el-button>
     <!-- <a :href="out_data"> -->
     <el-button width="120" :loading="out_excel_disabled" @click="out_excel()">
       导出Excel
@@ -172,12 +172,15 @@ export default {
         // 'token':getToken()
       },
       // 文件上传头属性
-      up_headers: {}
+      up_headers: {},
+      // 搜索按钮加载状态
+      search_loading: false
     }
   },
   methods: {
     // 搜索
     search(page) {
+      var that = this
       const query = {
         start_date: dateFormat('YYYY-mm-dd', this.$data.time[0]),
         end_date: dateFormat('YYYY-mm-dd', this.$data.time[1]),
@@ -186,12 +189,16 @@ export default {
       if (this.$data.username) {
         query['username'] = this.$data.username
       }
+      that.search_loading = true
       this.$store
         .dispatch('school_attendance/record_query', query)
         .then(res => {
           this.$data.page_size = res.data.page_size
           this.$data.total = res.data.total
           this.$data.tableData = res.data.results
+          that.search_loading = false
+        }).catch(e => {
+          that.search_loading = false
         })
     },
     // 导出筛选的数据
