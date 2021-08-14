@@ -54,12 +54,10 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >登录</el-button
-      >
+      >登录</el-button>
 
       <div class="tips">
-        <!-- <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span> -->
+        <span>V2.0</span>
       </div>
     </el-form>
   </div>
@@ -78,7 +76,7 @@ export default {
       //   callback(new Error('Please enter the correct user name'))
       // } else {
       //   }
-    };
+    }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
         callback(new Error('The password can not be less than 6 digits'))
@@ -89,19 +87,19 @@ export default {
     return {
       loginForm: {
         username: '',
-        password: '',
+        password: ''
       },
       loginRules: {
         username: [
-          { required: true, trigger: 'blur', validator: validateUsername },
+          { required: true, trigger: 'blur', validator: validateUsername }
         ],
         password: [
-          { required: true, trigger: 'blur', validator: validatePassword },
-        ],
+          { required: true, trigger: 'blur', validator: validatePassword }
+        ]
       },
       loading: false,
       passwordType: 'password',
-      redirect: undefined,
+      redirect: undefined
     }
   },
   watch: {
@@ -109,8 +107,8 @@ export default {
       handler: function (route) {
         this.redirect = route.query && route.query.redirect
       },
-      immediate: true,
-    },
+      immediate: true
+    }
   },
   created: function () {
     console.log('Index Login 路由', router.options.routes)
@@ -147,8 +145,8 @@ export default {
           return false
         }
       })
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -219,8 +217,9 @@ $light_gray: #eee;
   }
 
   .tips {
-    font-size: 14px;
-    color: #fff;
+    text-align: center;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.055);
     margin-bottom: 10px;
 
     span {
