@@ -3,7 +3,7 @@
  * @Date: 2021-05-19 23:35:22
  * @Email: 2810201146@qq.com
  * @LastEditors:
- * @LastEditTime: 2021-08-12 12:22:07
+ * @LastEditTime: 2021-08-15 09:44:59
  * @Description:
  */
 const getters = {
@@ -17,8 +17,10 @@ const getters = {
   name: state => state.user.name,
   is_admin: state => state.user.is_admin,
   is_superuser: state => state.user.is_superuser,
-
+  // 考勤任务
   task: state => state.school_attendance.task,
+  //   学校信息
+  sorting_value: state => state.school_information.sorting_value,
 
   askList: state => state.ask.askList,
   historyList: state => state.ask.historyList,

@@ -14,6 +14,7 @@ const mutations = {
   SET_TASK: (state, task) => {
     state.task = task
   }
+
 }
 const actions = {
   // TpiStart

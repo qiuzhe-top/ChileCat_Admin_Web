@@ -1,6 +1,5 @@
 <template>
   <div>
-    <el-button width="120" @click="dialogVisible = true"> 导入早签</el-button>
 
     <!-- 文件上传对话框 -->
     <el-dialog
@@ -50,50 +49,73 @@
       </span>
     </el-dialog>
 
-    <el-date-picker
-      v-model="time"
-      type="daterange"
-      align="right"
-      unlink-panels
-      range-separator="至"
-      start-placeholder="开始日期"
-      end-placeholder="结束日期"
-      format="yyyy 年 MM 月 dd 日"
-      :picker-options="pickerOptions"
-    />
-    <el-input
-      v-model="username"
-      placeholder="请输入学号或姓名"
-      style="width: 200px"
-    />
-    <el-button width="120" :loading="search_loading" @click="search()"> 搜索</el-button>
-    <!-- <a :href="out_data"> -->
-    <el-button width="120" :loading="out_excel_disabled" @click="out_excel()">
-      导出Excel
-    </el-button>
+    <el-card>
+      <div slot="header" class="clearfix">
+        <span>考勤管理</span>
+      </div>
+      <!-- 分院筛选 -->
+      <el-select v-model="college_id" placeholder="请选择分院">
+        <el-option
+          v-for="item in sorting_options"
+          :key="item.id"
+          :label="item.name"
+          :value="item.id"
+        />
+      </el-select>
+      <!-- 时间筛选 -->
+      <el-date-picker
+        v-model="time"
+        type="daterange"
+        align="right"
+        unlink-panels
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        format="yyyy 年 MM 月 dd 日"
+        :picker-options="pickerOptions"
+      />
+      <el-input
+        v-model="username"
+        placeholder="请输入学号或姓名"
+        style="width: 200px"
+      />
+      <el-button width="120" :loading="search_loading" @click="search()"> 搜索</el-button>
+      <el-button width="120" @click="dialogVisible = true"> 导入早签</el-button>
+
+      <!-- <a :href="out_data"> -->
+      <el-button width="120" :loading="out_excel_disabled" @click="out_excel()">
+        导出Excel
+      </el-button>
     <!-- </a> -->
 
+    </el-card>
     <div style="margin-top: 15px" />
 
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column
-        prop="student_approved_number"
-        label="学号"
-        width="180"
-      />
-      <el-table-column prop="student_approved" label="姓名" width="180" />
-      <el-table-column prop="rule_str" label="原因" />
-      <el-table-column prop="room_str" label="寝室" />
-      <el-table-column prop="grade_str" label="班级" />
-      <el-table-column prop="worker" label="执行人" />
-      <el-table-column prop="star_time" label="记录时间" />
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button width="120" type="warning" @click="cancel(scope.row)">
-            销假</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-card class="box-card">
+      <div slot="header" class="clearfix">
+        <span>卡片名称</span>
+      </div>
+
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column
+          prop="student_approved_number"
+          label="学号"
+          width="180"
+        />
+        <el-table-column prop="student_approved" label="姓名" width="180" />
+        <el-table-column prop="rule_str" label="原因" />
+        <el-table-column prop="room_str" label="寝室" />
+        <el-table-column prop="grade_str" label="班级" />
+        <el-table-column prop="worker" label="执行人" />
+        <el-table-column prop="star_time" label="记录时间" />
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button width="120" type="warning" @click="cancel(scope.row)">
+              销假</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
 
     <el-pagination
       background
@@ -174,8 +196,15 @@ export default {
       // 文件上传头属性
       up_headers: {},
       // 搜索按钮加载状态
-      search_loading: false
+      search_loading: false,
+      //   分院列表
+      sorting_options: [],
+      //   当前选择的分院
+      college_id: 1
     }
+  },
+  created(){
+    this.CollegeQuery()
   },
   methods: {
     // 搜索
@@ -184,6 +213,7 @@ export default {
       const query = {
         start_date: dateFormat('YYYY-mm-dd', this.$data.time[0]),
         end_date: dateFormat('YYYY-mm-dd', this.$data.time[1]),
+        college_id: this.college_id,
         page: page
       }
       if (this.$data.username) {
@@ -206,6 +236,7 @@ export default {
       this.$data.out_excel_disabled = true
       var start_date = dateFormat('YYYY-mm-dd', this.$data.time[0])
       var end_date = dateFormat('YYYY-mm-dd', this.$data.time[1])
+
       var url =
         this.$data.out_data +
         '?start_date=' +
@@ -213,7 +244,9 @@ export default {
         '&end_date=' +
         end_date +
         '&username=' +
-        this.$data.username
+        this.$data.username +
+        '&college_id=' +
+        this.college_id
       window.location.href = url
       setTimeout(() => {
         this.$data.out_excel_disabled = false
@@ -241,7 +274,14 @@ export default {
     handleCurrentChange() {
       this.search(this.$data.page)
     },
-
+    // 加载学院
+    CollegeQuery(){
+      this.$store
+        .dispatch('school_information/college_query')
+        .then(res => {
+          this.sorting_options = res.data
+        })
+    },
     // 文件上传用 ---
     submitUpload() {
       this.$refs.upload.submit()
