@@ -110,7 +110,7 @@
         <el-table-column prop="star_time" label="记录时间" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button width="120" type="warning" @click="cancel(scope.row)">
+            <el-button :type="scope.row.flg ? 'warning' : 'info'" width="120" @click="cancel(scope.row)">
               销假</el-button>
           </template>
         </el-table-column>
@@ -226,6 +226,9 @@ export default {
           this.$data.page_size = res.data.page_size
           this.$data.total = res.data.total
           this.$data.tableData = res.data.results
+          res.data.results.forEach(function(v, i) {
+            v['flg'] = true
+          })
           that.search_loading = false
         }).catch(e => {
           that.search_loading = false
