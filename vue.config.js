@@ -31,7 +31,10 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     port: port,
-    open: true,
+    open: false,
+    // autoOpenBrowser: false,
+    disableHostCheck: true, // 允许不同host头访问
+    host: '0.0.0.0',
     overlay: {
       warnings: false,
       errors: true

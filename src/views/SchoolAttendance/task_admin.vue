@@ -13,6 +13,7 @@
         class="upload-demo"
         :action="in_zaoqian_excel_url"
         :on-success="on_success"
+        :on-error="on_error"
         :on-progress="on_progress"
         :headers="{
           token: token()
@@ -104,6 +105,7 @@
         />
         <el-table-column prop="student_approved" label="姓名" width="180" />
         <el-table-column prop="rule_str" label="原因" />
+        <el-table-column prop="score" label="分数" />
         <el-table-column prop="room_str" label="寝室" />
         <el-table-column prop="grade_str" label="班级" />
         <el-table-column prop="worker" label="执行人" />
@@ -291,7 +293,6 @@ export default {
     },
     // 上传成功
     on_success(request, file, fileList) {
-      console.log(request, file, fileList)
       this.$data.up_error_list = request.data
 
       const loadingInstance = Loading.service()
@@ -307,6 +308,17 @@ export default {
     },
     on_progress() {
       this.$loading()
+    },
+    on_error() {
+      const loadingInstance = Loading.service()
+      this.$nextTick(() => {
+        // 以服务的方式调用的 Loading 需要异步关闭
+        loadingInstance.close()
+      })
+      this.$message({
+        message: '上传失败',
+        type: 'warning'
+      })
     },
     handlePreview(file) {
       console.log(file)

@@ -1,3 +1,11 @@
+/*
+ * @Author: 邹洋
+ * @Date: 2021-05-19 23:35:22
+ * @Email: 2810201146@qq.com
+ * @LastEditors:
+ * @LastEditTime: 2021-09-10 19:38:22
+ * @Description:
+ */
 import router from './router'
 import store from './store'
 import { Message } from 'element-ui'
@@ -26,7 +34,7 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
+      const hasGetUserInfo = store.getters.name // TODO 如果获取用户正常但是没有返回对应name岂不是要无限循环
       if (hasGetUserInfo) {
         next()
       } else {
@@ -47,6 +55,8 @@ router.beforeEach(async(to, from, next) => {
               router.addRoutes(res) // 动态添加可访问路由表
               router.options.routes.push(...res)
               next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+              //   next({ path: '/' })
+              NProgress.done()
             })
           }
         } catch (error) {

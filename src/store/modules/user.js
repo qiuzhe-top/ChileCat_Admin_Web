@@ -44,6 +44,9 @@ const mutations = {
   },
   SET_IS_SUPERUSER: (state, is_superuser) => {
     state.is_superuser = is_superuser
+  },
+  SET_SET_USERNAME: (state, username) => {
+    state.username = username
   }
 }
 
@@ -145,6 +148,7 @@ const actions = {
             permissions,
             roles,
             grade,
+            name,
             avatar,
             username
           } = response.data
@@ -152,6 +156,7 @@ const actions = {
             return reject('Verification failed, please Login again.')
           }
           commit('SET_NAME', username)
+          //   commit('SET_USERNAME', username)
           commit('SET_AVATAR', avatar)
           commit('SET_ROLE', roles)
           commit('SET_IS_ADMIN', is_staff)
