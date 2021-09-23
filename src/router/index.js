@@ -261,7 +261,7 @@ export const asyncRouterMap = [
 ]
 
 const createRouter = () => new Router({
-  mode: 'history', // require service support
+  mode: 'history', // require service supporct
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
