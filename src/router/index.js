@@ -178,26 +178,26 @@ export const asyncRouterMap = [
         path: 'health',
         name: 'health',
         component: () => import('@/views/SchoolAttendance/check_health'),
-        meta: { title: '检查卫生', icon: 'el-icon-s-help', role: ['health_admin']}
+        meta: { title: '检查卫生', icon: 'el-icon-s-help', role: ['health_admin'] }
       },
       {
         path: 'knowing',
         name: 'knowing',
         component: () => import('@/views/SchoolAttendance/knowing'),
-        meta: { title: '晚查寝', icon: 'el-icon-s-help', role: ['knowing_admin']}
+        meta: { title: '晚查寝', icon: 'el-icon-s-help', role: ['knowing_admin'] }
       },
       {
         path: 'late',
         name: 'late',
         component: () => import('@/views/SchoolAttendance/late'),
-        meta: { title: '晚自修', icon: 'el-icon-s-help', role: ['late_admin']}
+        meta: { title: '晚自修', icon: 'el-icon-s-help', role: ['late_admin'] }
       },
       {
         path: 'task_admin',
         name: 'task_admin',
         component: () => import('@/views/SchoolAttendance/task_admin'),
-        meta: { title: '考勤管理', icon: 'el-icon-s-help', role: ['task_data']}
-      },
+        meta: { title: '考勤管理', icon: 'el-icon-s-help', role: ['task_data'] }
+      }
     ]
   },
   {
@@ -261,7 +261,7 @@ export const asyncRouterMap = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
