@@ -1,3 +1,11 @@
+/*
+ * @Author: 邹洋
+ * @Date: 2021-05-19 23:35:22
+ * @Email: 2810201146@qq.com
+ * @LastEditors:
+ * @LastEditTime: 2021-09-24 19:47:10
+ * @Description:
+ */
 import Vue from 'vue'
 
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
@@ -20,6 +28,12 @@ Vue.prototype.$echarts = echarts
 
 import api from '@/api/index'
 Vue.prototype.$api = api
+// import ECharts from 'vue-echarts'
+// import 'echarts/lib/chart/bar'
+// import 'echarts/lib/component/tooltip'
+// // 引入提示框和标题组件
+// require('echarts/lib/component/tooltip')
+// require('echarts/lib/component/title')
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

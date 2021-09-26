@@ -35,6 +35,8 @@
       </el-col>
     </el-row>
 
+    <slot />
+
     <br>
     <!-- 排班 -->
     <el-dialog

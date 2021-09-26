@@ -7,6 +7,18 @@
       :save_roster_store="'scheduling_update_knowing'"
       :flush_task_store="'task_rest_knowing'"
     >
+
+      <el-row :gutter="10">
+        <el-col>
+          <el-card class="data-card" shadow="hover">
+            <div slot="header" class="clearfix">数据管理</div>
+            <RoomDelete />
+            <RoomRecover />
+            <Statistical />
+          </el-card>
+        </el-col>
+      </el-row>
+
       <!-- 班表面板 -->
       <template v-slot:scheduling="data">
         <div
@@ -85,15 +97,19 @@
         <el-button @click="simple_information()">查看/修改</el-button>
       </template>
     </TaskFrame>
+
   </div>
 </template>
 
 <script>
-// import Tes from '@/components/Tes'
 import TaskFrame from './component/frame.vue'
-
+import RoomDelete from './knowing_component/room_delete.vue'
+import InUserRoom from './knowing_component/in_user_room.vue'
+import RoomRecover from './knowing_component/room_recover.vue'
+import Statistical from './knowing_component/statistical.vue'
 export default {
-  components: { TaskFrame },
+  // eslint-disable-next-line vue/no-unused-components
+  components: { TaskFrame, RoomDelete, RoomRecover, InUserRoom, Statistical },
   data() {
     return {
       input_user_object: {},
@@ -157,6 +173,12 @@ export default {
       this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random())
     }
   }
+
 }
 </script>
-<style></style>
+
+<style lang="scss" scoped>
+    .data-card {
+        margin-top: 30px;
+    }
+</style>>
