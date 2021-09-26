@@ -13,7 +13,6 @@
             <div slot="header" class="clearfix">数据管理</div>
             <RoomDelete />
             <RoomRecover />
-            <Statistical />
           </el-card>
         </el-col>
       </el-row>
