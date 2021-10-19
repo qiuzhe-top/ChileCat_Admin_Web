@@ -1,55 +1,5 @@
 <template>
   <div>
-
-    <!-- 文件上传对话框 -->
-    <el-dialog
-      title="导入"
-      :visible.sync="dialogVisible"
-      width="60%"
-      :before-close="handleClose"
-    >
-      <el-upload
-        ref="upload"
-        class="upload-demo"
-        :action="in_zaoqian_excel_url"
-        :on-success="on_success"
-        :on-error="on_error"
-        :on-progress="on_progress"
-        :headers="{
-          token: token()
-        }"
-        :file-list="fileList"
-        :auto-upload="false"
-        :data="file_up_data"
-      >
-        <el-button
-          slot="trigger"
-          size="small"
-          type="primary"
-        >选取文件</el-button>
-        <el-button
-          style="margin-left: 10px"
-          size="small"
-          type="success"
-          @click="submitUpload"
-        >上传到服务器</el-button>
-        <div slot="tip" class="el-upload__tip">
-          只能上传xlsx文件。数据导入不会重复导入
-        </div>
-      </el-upload>
-
-      <el-table :data="up_error_list" max-height="350" style="width: 100%">
-        <el-table-column prop="username" label="学号" width="180" />
-        <el-table-column prop="name" label="姓名" width="180" />
-        <el-table-column prop="message" label="信息" />
-        <el-table-column prop="str_time" label="记录日期" />
-      </el-table>
-
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-      </span>
-    </el-dialog>
-
     <el-card>
       <div slot="header" class="clearfix">
         <span>考勤管理</span>
@@ -81,8 +31,8 @@
         style="width: 200px"
       />
       <el-button width="120" :loading="search_loading" @click="search()"> 搜索</el-button>
-      <el-button width="120" @click="dialogVisible = true"> 导入早签</el-button>
-
+      <ExcelUpdata :url='$api.school_attendance.in_zaoqian_MORNING_SIGN_excel_url'>导入早签</ExcelUpdata>
+      <ExcelUpdata :url='$api.school_attendance.in_zaoqian_MORNING_POINT_excel_url'>导入晨点</ExcelUpdata>
       <!-- <a :href="out_data"> -->
       <el-button width="120" :loading="out_excel_disabled" @click="out_excel()">
         导出Excel
@@ -132,10 +82,10 @@
 </template>
 
 <script>
-import { Loading } from 'element-ui'
 import { dateFormat } from '@/utils/util.js'
-import { getToken } from '@/utils/auth'
+import ExcelUpdata from './component/excel_updata.vue'
 export default {
+  components: { ExcelUpdata },
   data() {
     return {
       time: [new Date(), new Date()],
@@ -179,24 +129,9 @@ export default {
         ]
       },
       tableData: [],
-      // 文件上传用
-      fileList: [],
-      // 上传早签数据失败记录
-      up_error_list: [],
-      // 上传早签的地址
-      in_zaoqian_excel_url: this.$api.school_attendance.in_zaoqian_excel_url,
+  
       // 导出考勤结果地址
       out_data: this.$api.school_attendance.out_excel_data,
-      // 文件上传对话框
-      dialogVisible: false,
-      // 上传文件显示加载动画
-      loading_flg: true,
-      // 名单上传附带数据
-      file_up_data: {
-        // 'token':getToken()
-      },
-      // 文件上传头属性
-      up_headers: {},
       // 搜索按钮加载状态
       search_loading: false,
       //   分院列表
@@ -205,6 +140,7 @@ export default {
       college_id: 1
     }
   },
+
   created(){
     this.CollegeQuery()
   },
@@ -257,9 +193,6 @@ export default {
         this.$data.out_excel_disabled = false
       }, 1000 * 5)
     },
-    token() {
-      return getToken()
-    },
     // 核销
     cancel(row) {
       this.$confirm('此操作将对该同学销假,并且记录您的信息 是否继续?', '提示', {
@@ -287,49 +220,7 @@ export default {
           this.sorting_options = res.data
         })
     },
-    // 文件上传用 ---
-    submitUpload() {
-      this.$refs.upload.submit()
-    },
-    // 上传成功
-    on_success(request, file, fileList) {
-      this.$data.up_error_list = request.data
 
-      const loadingInstance = Loading.service()
-      this.$nextTick(() => {
-        // 以服务的方式调用的 Loading 需要异步关闭
-        loadingInstance.close()
-      })
-
-      this.$message({
-        message: request.message,
-        type: 'success'
-      })
-    },
-    on_progress() {
-      this.$loading()
-    },
-    on_error() {
-      const loadingInstance = Loading.service()
-      this.$nextTick(() => {
-        // 以服务的方式调用的 Loading 需要异步关闭
-        loadingInstance.close()
-      })
-      this.$message({
-        message: '上传失败',
-        type: 'warning'
-      })
-    },
-    handlePreview(file) {
-      console.log(file)
-    },
-    handleClose(done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => {})
-    }
     // 文件上传用 ---
   }
 }

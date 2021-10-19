@@ -1,7 +1,8 @@
 import request from '@/utils/request'
 const api_url = process.env.VUE_APP_BASE_API + '/api/school_attendance'
 export default {
-  in_zaoqian_excel_url: api_url + '/inzaoqian/excel',
+  in_zaoqian_MORNING_SIGN_excel_url: api_url + '/inzaoqian/excel?codename=MORNING_SIGN',
+  in_zaoqian_MORNING_POINT_excel_url: api_url + '/inzaoqian/excel?codename=MORNING_POINT',
   out_excel_data: api_url + '/out/data',
   out_knowing_excel_data: api_url + '/knowing/excel/out',
   // TpiStart
