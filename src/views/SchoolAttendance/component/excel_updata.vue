@@ -36,6 +36,13 @@
         </div>
       </el-upload>
 
+      <el-input
+        type="textarea"
+        :autosize="{ minRows: 2, maxRows: 4}"
+        placeholder="请输入内容"
+        v-model="data_str">
+      </el-input>
+
       <el-table :data="up_error_list" max-height="350" style="width: 100%">
         <el-table-column prop="username" label="学号" width="180" />
         <el-table-column prop="name" label="姓名" width="180" />
@@ -47,7 +54,9 @@
         <el-button @click="dialogVisible = false">取 消</el-button>
       </span>
     </el-dialog>
-    <el-button width="120" @click="dialogVisible = true">  <slot></slot> </el-button>
+    <el-button width="120" @click="dialogVisible = true"> 
+      
+    <slot></slot> </el-button>
   </div>
 </template>
 
@@ -74,9 +83,29 @@ export default {
       dialogVisible: false,
       // 上传文件显示加载动画
       loading_flg: true,
+      // 文本数据
+      data_str:'206510101 2021/10/15\r206510101	2021/10/15'
+      // 206510101	2021/10/15
+      // 206510102	2021/10/15
+      // 206510103	2021/10/15
+      // 206510105	2021/10/15
+      // 206510137	2021/10/15
     };
   },
+  created(){
+    this.data_str_encapsulation()
+  },
   methods: {
+    // 文本数据包装
+    data_str_encapsulation(){
+      let strs = this.data_str.split(/[\r\n]/)
+      for (let i = 0; i < strs.length; i++) {
+        const str = strs[i];
+        var username = str.split(/[' '\t]/)
+        console.log(username);
+      }
+      console.log(strs);
+    },
     // 上传成功
     on_success(request, file, fileList) {
       this.$data.up_error_list = request.data;
@@ -121,6 +150,8 @@ export default {
     token() {
       return getToken();
     },
+
+
   },
 };
 </script>
