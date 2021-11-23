@@ -2,10 +2,9 @@
   <div class="excel_updata">
     <!-- 文件上传对话框 -->
     <el-dialog
-      title="导入"
+      :title="title"
       :visible.sync="dialogVisible"
       width="60%"
-      :before-close="handleClose"
     >
       <el-upload
         ref="upload"
@@ -36,12 +35,12 @@
         </div>
       </el-upload>
 
-      <el-input
+      <!-- <el-input
         type="textarea"
         :autosize="{ minRows: 2, maxRows: 4}"
         placeholder="请输入内容"
         v-model="data_str">
-      </el-input>
+      </el-input> -->
 
       <el-table :data="up_error_list" max-height="350" style="width: 100%">
         <el-table-column prop="username" label="学号" width="180" />
@@ -66,6 +65,7 @@ import { getToken } from "@/utils/auth";
 export default {
     props:{
         url: String,
+        title: String
     },
   data() {
     return {
@@ -75,7 +75,7 @@ export default {
       // 文件上传用
       fileList: [],
       file_up_data: {
-        // 'token':getToken()
+        'tok':123
       },
       // 上传早签数据失败记录
       up_error_list: [],
@@ -85,11 +85,6 @@ export default {
       loading_flg: true,
       // 文本数据
       data_str:'206510101 2021/10/15\r206510101	2021/10/15'
-      // 206510101	2021/10/15
-      // 206510102	2021/10/15
-      // 206510103	2021/10/15
-      // 206510105	2021/10/15
-      // 206510137	2021/10/15
     };
   },
   created(){
@@ -157,4 +152,7 @@ export default {
 </script>
 
 <style>
+.excel_updata{
+  display: inline;
+}
 </style>
