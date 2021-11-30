@@ -55,6 +55,14 @@
 
         <div>
           <ExcelUpdata
+            :url="$api.school_attendance.MORNING_RUNNING"
+            :title="'导入晨跑'"
+            >导入晨跑</ExcelUpdata
+          >
+        </div>
+
+        <!-- <div>
+          <ExcelUpdata
             :url="$api.school_attendance.IN_CLASS"
             :title="'导入白天考勤'"
             >导入白天考勤</ExcelUpdata
@@ -65,7 +73,7 @@
           <ExcelUpdata :url="$api.school_attendance.CANCELS" :title="'批量销假'"
             >批量销假</ExcelUpdata
           >
-        </div>
+        </div> -->
 
         <div>
           <el-button
@@ -102,6 +110,7 @@
         <el-table-column prop="grade_str" label="班级" />
         <el-table-column prop="worker" label="执行人" />
         <el-table-column prop="star_time" label="记录时间" />
+
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -109,7 +118,7 @@
               width="120"
               @click="cancel(scope.row)"
             >
-              {{ scope.row.flg }}销假
+              销假
             </el-button>
           </template>
         </el-table-column>
@@ -131,6 +140,7 @@
 <script>
 import { dateFormat } from "@/utils/util.js";
 import ExcelUpdata from "./component/excel_updata.vue";
+
 export default {
   components: { ExcelUpdata },
   data() {
@@ -253,7 +263,15 @@ export default {
             record_id: row.id,
           })
           .then((res) => {
-            row.flg = false;
+            var list = this.tableData;
+            for (var i = 0; i < list.length; i++) {
+              var element = list[i];
+              if (element.id == row.id) {
+                element["flg"] = false;
+                this.$set(this.tableData, i, element);
+                break;
+              }
+            }
           });
       });
     },
@@ -274,14 +292,13 @@ export default {
 
 
 <style >
-.button_list{
+.button_list {
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
 }
-.button_list div{
+.button_list > div {
   margin-right: 10px;
   margin-bottom: 5px;
 }
-
 </style>

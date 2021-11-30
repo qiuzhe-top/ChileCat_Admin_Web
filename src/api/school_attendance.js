@@ -3,6 +3,7 @@ const api_url = process.env.VUE_APP_BASE_API + '/api/school_attendance'
 export default {
   MORNING_SIGN: api_url + '/inzaoqian/excel?codename=MORNING_SIGN',
   MORNING_POINT: api_url + '/inzaoqian/excel?codename=MORNING_POINT',
+  MORNING_RUNNING: api_url + '/inzaoqian/excel?codename=MORNING_RUNNING',
   CANCELS: api_url + '',
   IN_CLASS: api_url + '',
   out_excel_data: api_url + '/out/data',
