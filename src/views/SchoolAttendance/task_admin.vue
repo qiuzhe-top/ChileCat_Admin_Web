@@ -133,13 +133,13 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button
+            <!-- <el-button
               :type="scope.row.flg ? 'warning' : 'info'"
               width="120"
               @click="cancel(scope.row)"
             >
               销假
-            </el-button>
+            </el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -312,7 +312,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 .button_list {
   display: flex;
   align-items: flex-start;
