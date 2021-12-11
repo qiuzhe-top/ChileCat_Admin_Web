@@ -31,8 +31,7 @@
         style="width: 200px"
       />
       <el-button width="120" :loading="search_loading" @click="search()">
-        搜索</el-button
-      >
+        搜索</el-button>
 
       <div style="margin-top: 15px" />
 
@@ -41,24 +40,21 @@
           <ExcelUpdata
             :url="$api.school_attendance.MORNING_SIGN"
             :title="'导入早签'"
-            >导入早签</ExcelUpdata
-          >
+          >导入早签</ExcelUpdata>
         </div>
 
         <div>
           <ExcelUpdata
             :url="$api.school_attendance.MORNING_POINT"
             :title="'导入晨点'"
-            >导入晨点</ExcelUpdata
-          >
+          >导入晨点</ExcelUpdata>
         </div>
 
         <div>
           <ExcelUpdata
             :url="$api.school_attendance.MORNING_RUNNING"
             :title="'导入晨跑'"
-            >导入晨跑</ExcelUpdata
-          >
+          >导入晨跑</ExcelUpdata>
         </div>
 
         <!-- <div>
@@ -86,7 +82,7 @@
         </div>
       </div>
 
-      <div></div>
+      <div />
       <!-- <a :href="out_data"> -->
       <!-- </a> -->
     </el-card>
@@ -113,13 +109,13 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button
+            <!-- <el-button
               :type="scope.row.flg ? 'warning' : 'info'"
               width="120"
               @click="cancel(scope.row)"
             >
               销假
-            </el-button>
+            </el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -138,15 +134,15 @@
 </template>
 
 <script>
-import { dateFormat } from "@/utils/util.js";
-import ExcelUpdata from "./component/excel_updata.vue";
+import { dateFormat } from '@/utils/util.js'
+import ExcelUpdata from './component/excel_updata.vue'
 
 export default {
   components: { ExcelUpdata },
   data() {
     return {
       time: [new Date(), new Date()],
-      username: "",
+      username: '',
       // 搜索按钮是否可用
       disabled: true,
       // 导出按钮
@@ -157,33 +153,33 @@ export default {
       pickerOptions: {
         shortcuts: [
           {
-            text: "最近一周",
+            text: '最近一周',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit("pick", [start, end]);
-            },
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', [start, end])
+            }
           },
           {
-            text: "最近一个月",
+            text: '最近一个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit("pick", [start, end]);
-            },
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+              picker.$emit('pick', [start, end])
+            }
           },
           {
-            text: "最近三个月",
+            text: '最近三个月',
             onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit("pick", [start, end]);
-            },
-          },
-        ],
+              const end = new Date()
+              const start = new Date()
+              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+              picker.$emit('pick', [start, end])
+            }
+          }
+        ]
       },
       tableData: [],
 
@@ -194,102 +190,101 @@ export default {
       //   分院列表
       sorting_options: [],
       //   当前选择的分院
-      college_id: 1,
-    };
+      college_id: 1
+    }
   },
 
   created() {
-    this.CollegeQuery();
+    this.CollegeQuery()
   },
   methods: {
     // 搜索
     search(page) {
-      var that = this;
+      var that = this
       const query = {
-        start_date: dateFormat("YYYY-mm-dd", this.$data.time[0]),
-        end_date: dateFormat("YYYY-mm-dd", this.$data.time[1]),
+        start_date: dateFormat('YYYY-mm-dd', this.$data.time[0]),
+        end_date: dateFormat('YYYY-mm-dd', this.$data.time[1]),
         college_id: this.college_id,
-        page: page,
-      };
-      if (this.$data.username) {
-        query["username"] = this.$data.username;
+        page: page
       }
-      that.search_loading = true;
+      if (this.$data.username) {
+        query['username'] = this.$data.username
+      }
+      that.search_loading = true
       this.$store
-        .dispatch("school_attendance/record_query", query)
+        .dispatch('school_attendance/record_query', query)
         .then((res) => {
-          this.$data.page_size = res.data.page_size;
-          this.$data.total = res.data.total;
-          this.$data.tableData = res.data.results;
+          this.$data.page_size = res.data.page_size
+          this.$data.total = res.data.total
+          this.$data.tableData = res.data.results
           res.data.results.forEach(function (v, i) {
-            v["flg"] = true;
-          });
-          that.search_loading = false;
+            v['flg'] = true
+          })
+          that.search_loading = false
         })
         .catch((e) => {
-          that.search_loading = false;
-        });
+          that.search_loading = false
+        })
     },
     // 导出筛选的数据
     out_excel() {
-      this.$data.out_excel_disabled = true;
-      var start_date = dateFormat("YYYY-mm-dd", this.$data.time[0]);
-      var end_date = dateFormat("YYYY-mm-dd", this.$data.time[1]);
+      this.$data.out_excel_disabled = true
+      var start_date = dateFormat('YYYY-mm-dd', this.$data.time[0])
+      var end_date = dateFormat('YYYY-mm-dd', this.$data.time[1])
 
       var url =
         this.$data.out_data +
-        "?start_date=" +
+        '?start_date=' +
         start_date +
-        "&end_date=" +
+        '&end_date=' +
         end_date +
-        "&username=" +
+        '&username=' +
         this.$data.username +
-        "&college_id=" +
-        this.college_id;
-      window.location.href = url;
+        '&college_id=' +
+        this.college_id
+      window.location.href = url
       setTimeout(() => {
-        this.$data.out_excel_disabled = false;
-      }, 1000 * 5);
+        this.$data.out_excel_disabled = false
+      }, 1000 * 5)
     },
     // 核销
     cancel(row) {
-      this.$confirm("此操作将对该同学销假,并且记录您的信息 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+      this.$confirm('此操作将对该同学销假,并且记录您的信息 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
         this.$store
-          .dispatch("school_attendance/undo_record_admin", {
-            record_id: row.id,
+          .dispatch('school_attendance/undo_record_admin', {
+            record_id: row.id
           })
           .then((res) => {
-            var list = this.tableData;
+            var list = this.tableData
             for (var i = 0; i < list.length; i++) {
-              var element = list[i];
+              var element = list[i]
               if (element.id == row.id) {
-                element["flg"] = false;
-                this.$set(this.tableData, i, element);
-                break;
+                element['flg'] = false
+                this.$set(this.tableData, i, element)
+                break
               }
             }
-          });
-      });
+          })
+      })
     },
     handleCurrentChange() {
-      this.search(this.$data.page);
+      this.search(this.$data.page)
     },
     // 加载学院
     CollegeQuery() {
-      this.$store.dispatch("school_information/college_query").then((res) => {
-        this.sorting_options = res.data;
-      });
-    },
+      this.$store.dispatch('school_information/college_query').then((res) => {
+        this.sorting_options = res.data
+      })
+    }
 
     // 文件上传用 ---
-  },
-};
+  }
+}
 </script>
-
 
 <style >
 .button_list {
