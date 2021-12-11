@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 const api_url = process.env.VUE_APP_BASE_API + '/api/school_attendance'
 export default {
-  MORNING_SIGN: api_url + '/inzaoqian/excel?codename=MORNING_SIGN',
-  MORNING_POINT: api_url + '/inzaoqian/excel?codename=MORNING_POINT',
-  MORNING_RUNNING: api_url + '/inzaoqian/excel?codename=MORNING_RUNNING',
-  CANCELS: api_url + '',
+  MORNING_SIGN: api_url + '/batch/attendance?rule_id=401&task_type=3',
+  MORNING_POINT: api_url + '/batch/attendance?rule_id=801&task_type=3',
+  MORNING_RUNNING: api_url + '/batch/attendance?rule_id=901&task_type=3',
+  CANCELS: api_url + '/batch/undo',
   IN_CLASS: api_url + '',
   out_excel_data: api_url + '/out/data',
   out_knowing_excel_data: api_url + '/knowing/excel/out',
