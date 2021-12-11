@@ -37,6 +37,29 @@
 
       <div class="button_list">
         <div>
+
+          <el-button type="success" plain @click="download_template = true">下载上传模板</el-button>
+
+          <el-dialog
+            title="模板下载"
+            :visible.sync="download_template"
+            width="30%"
+          >
+            <span>
+              <el-link type="primary" :href="out_manage_excel + '?type=excel_template&name=早签晨点晨跑模板'">早签晨点晨跑模板.xlsx</el-link>
+              <br>
+              <br>
+              <el-link type="primary" :href="out_manage_excel + '?type=excel_template&name=批量销假模板'">批量销假模板.xlsx</el-link>
+            </span>
+
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="download_template = false">取 消</el-button>
+              <el-button type="primary" @click="download_template = false">确 定</el-button>
+            </span>
+          </el-dialog>
+        </div>
+
+        <div>
           <ExcelUpdata
             :url="$api.school_attendance.MORNING_SIGN"
             :title="'导入早签'"
@@ -183,9 +206,11 @@ export default {
         ]
       },
       tableData: [],
-
+      download_template: false,
       // 导出考勤结果地址
       out_data: this.$api.school_attendance.out_excel_data,
+      // 导出系统数据
+      out_manage_excel: this.$api.school_attendance.out_manage_excel,
       // 搜索按钮加载状态
       search_loading: false,
       //   分院列表

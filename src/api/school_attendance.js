@@ -8,7 +8,8 @@ export default {
   IN_CLASS: api_url + '',
   out_excel_data: api_url + '/out/data',
   out_knowing_excel_data: api_url + '/knowing/excel/out',
-
+  //   导出系统数据
+  out_manage_excel: 'http://127.0.0.1:8000/api/' + 'manage/out/excel',
   // TpiStart
   /**
    * 获取任务
@@ -295,6 +296,27 @@ export default {
       method: 'get',
       params: data
     })
-  }
+  },
   // TpiEnd
+  /**
+   * 批量考勤
+   * @param {*} data
+   * @returns
+   */
+  batch_attendance(file, url) {
+    const param = new FormData()
+    param.append('file', file)
+    param.append('is_down_excel', true)
+    return request({
+      url,
+      method: 'post',
+      data: param,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Accept': '*/*'
+      },
+      responseType: 'blob'
+    })
+  }
+
 }
