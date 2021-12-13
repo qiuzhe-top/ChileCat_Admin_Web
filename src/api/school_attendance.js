@@ -9,7 +9,7 @@ export default {
   out_excel_data: api_url + '/out/data',
   out_knowing_excel_data: api_url + '/knowing/excel/out',
   //   导出系统数据
-  out_manage_excel: 'http://47.100.95.58:8000/api/' + 'manage/out/excel',
+  out_manage_excel: 'http://django.qiuzhe.top/api/' + 'manage/out/excel',
   // TpiStart
   /**
    * 获取任务
