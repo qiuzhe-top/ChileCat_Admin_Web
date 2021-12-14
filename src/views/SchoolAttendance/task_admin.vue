@@ -88,12 +88,12 @@
           >
         </div> -->
 
-        <!-- <div>
+        <div>
           <ExcelUpdata
             :url="$api.school_attendance.CANCELS"
             :title="'批量销假'"
           >批量销假</ExcelUpdata>
-        </div> -->
+        </div>
 
         <div>
           <el-button
