@@ -32,14 +32,21 @@
           @click="submitUpload"
         >上传到服务器</el-button>
         <div class="is_down_excel">
-          <el-checkbox v-model="is_down_excel">上传结果使用表格导出</el-checkbox>
+          <el-checkbox
+            v-model="is_down_excel"
+          >上传结果使用表格导出</el-checkbox>
         </div>
         <div slot="tip" class="el-upload__tip">
           请使用提供的模板上传。数据导入不会重复导入
         </div>
       </el-upload>
 
-      <el-table v-show="!is_down_excel" :data="up_error_list" max-height="350" style="width: 100%">
+      <el-table
+        v-show="!is_down_excel"
+        :data="up_error_list"
+        max-height="350"
+        style="width: 100%"
+      >
         <el-table-column prop="username" label="学号" width="180" />
         <el-table-column prop="name" label="姓名" width="180" />
         <el-table-column prop="message" label="信息" />
@@ -63,8 +70,18 @@ import fileDownload from 'js-file-download'
 
 export default {
   props: {
-    url: String,
-    title: String
+    url: {
+      type: String,
+      default: ''
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    is_down_excel: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -87,7 +104,7 @@ export default {
       upFile: [], // 文件File 上传参数
       upFileList: [], // 文件File列表 上传参数
       showUpFile: true,
-      is_down_excel: false,
+      //   is_down_excel: false,
       fullscreenLoading: false
     }
   },
@@ -96,7 +113,7 @@ export default {
   },
   methods: {
     // 选择上传文件
-    onChangeFile (file, fileList) {
+    onChangeFile(file, fileList) {
       const isLt25M = file.size / 1024 / 1024 < 25
       if (!isLt25M) {
         this.$msgbox.alert('上传文件大小不能超过 25MB!')
@@ -112,11 +129,11 @@ export default {
       console.log(this.upFileList)
     },
     // 移除文件之前
-    beforeRemove (file, fileList) {
+    beforeRemove(file, fileList) {
       return this.$msgbox.alert(`确定移除 ${file.name}？`)
     },
     // 移除文件
-    onRemoveFile (file, fileList) {
+    onRemoveFile(file, fileList) {
       this.upFileList = []
       for (const x of fileList) {
         if (x.raw) {
@@ -135,24 +152,27 @@ export default {
         return
       }
 
-      if (this.is_down_excel){
-        if (this.fullscreenLoading === false){
+      if (this.is_down_excel) {
+        if (this.fullscreenLoading === false) {
           this.fullscreenLoading = true
         }
         const file = this.upFileList.shift()
-        this.$api.school_attendance.batch_attendance(file, this.$props.url).then(res => {
-          console.log(res)
-          fileDownload(res, '考勤记录.xls')
-          if (this.upFileList.length >= 1){
-            this.submitUpload()
-          } else {
-            this.closeLoading()
-            this.$refs.upload.clearFiles()
-            this.fullscreenLoading = false
-          }
-        }).catch(er => {
-          this.$message.error('上传失败')
-        })
+        this.$api.school_attendance
+          .batch_attendance(file, this.$props.url)
+          .then((res) => {
+            console.log(res)
+            fileDownload(res, '考勤记录.xls')
+            if (this.upFileList.length >= 1) {
+              this.submitUpload()
+            } else {
+              this.closeLoading()
+              this.$refs.upload.clearFiles()
+              this.fullscreenLoading = false
+            }
+          })
+          .catch((er) => {
+            this.$message.error('上传失败')
+          })
       } else {
         this.$refs.upload.submit()
       }
@@ -213,7 +233,7 @@ export default {
     token() {
       return getToken()
     },
-    closeLoading(){
+    closeLoading() {
       const loadingInstance = Loading.service()
       this.$nextTick(() => {
         loadingInstance.close()
@@ -227,8 +247,8 @@ export default {
 .excel_updata {
   display: inline;
 }
-.is_down_excel{
-    display: inline-block;
-    margin-left: 10px;
+.is_down_excel {
+  display: inline-block;
+  margin-left: 10px;
 }
 </style>

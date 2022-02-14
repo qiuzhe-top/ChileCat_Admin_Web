@@ -13,6 +13,7 @@
             <div slot="header" class="clearfix">数据管理</div>
             <RoomDelete />
             <RoomRecover />
+            <FloorChoice />
           </el-card>
         </el-col>
       </el-row>
@@ -123,9 +124,10 @@ import RoomDelete from './knowing_component/room_delete.vue'
 import InUserRoom from './knowing_component/in_user_room.vue'
 import RoomRecover from './knowing_component/room_recover.vue'
 import Statistical from './knowing_component/statistical.vue'
+import FloorChoice from './knowing_component/floor_choice.vue'
 export default {
   // eslint-disable-next-line vue/no-unused-components
-  components: { TaskFrame, RoomDelete, RoomRecover, InUserRoom, Statistical },
+  components: { TaskFrame, RoomDelete, RoomRecover, InUserRoom, Statistical, FloorChoice },
   data() {
     return {
       input_user_object: {},

@@ -5,14 +5,14 @@
         <span>考勤管理</span>
       </div>
       <!-- 分院筛选 -->
-      <el-select v-model="college_id" placeholder="请选择分院">
+      <!-- <el-select v-model="college_id" placeholder="请选择分院">
         <el-option
           v-for="item in sorting_options"
           :key="item.id"
           :label="item.name"
-          :value="item.id"
+          :value="item.code_name"
         />
-      </el-select>
+      </el-select> -->
       <!-- 时间筛选 -->
       <el-date-picker
         v-model="time"
@@ -37,8 +37,11 @@
 
       <div class="button_list">
         <div>
-
-          <el-button type="success" plain @click="download_template = true">下载上传模板</el-button>
+          <el-button
+            type="success"
+            plain
+            @click="download_template = true"
+          >下载上传模板</el-button>
 
           <el-dialog
             title="模板下载"
@@ -46,15 +49,29 @@
             width="30%"
           >
             <span>
-              <el-link type="primary" :href="out_manage_excel + '?type=excel_template&name=早签晨点晨跑模板'">早签晨点晨跑模板.xlsx</el-link>
+              <el-link
+                type="primary"
+                :href="
+                  out_manage_excel +
+                    '?type=excel_template&name=早签晨点晨跑模板'
+                "
+              >早签晨点晨跑模板.xlsx</el-link>
               <br>
               <br>
-              <el-link type="primary" :href="out_manage_excel + '?type=excel_template&name=批量销假模板'">批量销假模板.xlsx</el-link>
+              <el-link
+                type="primary"
+                :href="
+                  out_manage_excel + '?type=excel_template&name=批量销假模板'
+                "
+              >批量销假模板.xlsx</el-link>
             </span>
 
             <span slot="footer" class="dialog-footer">
               <el-button @click="download_template = false">取 消</el-button>
-              <el-button type="primary" @click="download_template = false">确 定</el-button>
+              <el-button
+                type="primary"
+                @click="download_template = false"
+              >确 定</el-button>
             </span>
           </el-dialog>
         </div>
@@ -88,12 +105,12 @@
           >
         </div> -->
 
-        <!-- <div>
+        <div>
           <ExcelUpdata
             :url="$api.school_attendance.CANCELS"
             :title="'批量销假'"
           >批量销假</ExcelUpdata>
-        </div> -->
+        </div>
 
         <div>
           <el-button
@@ -133,13 +150,13 @@
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <!-- <el-button
+            <el-button
               :type="scope.row.flg ? 'warning' : 'info'"
               width="120"
               @click="cancel(scope.row)"
             >
               销假
-            </el-button> -->
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -159,7 +176,7 @@
 
 <script>
 import { dateFormat } from '@/utils/util.js'
-import ExcelUpdata from './component/excel_updata.vue'
+import ExcelUpdata from '@/components/ExcelUpdata/index.vue'
 
 export default {
   components: { ExcelUpdata },
@@ -216,7 +233,7 @@ export default {
       //   分院列表
       sorting_options: [],
       //   当前选择的分院
-      college_id: 1
+      college_id: 'ZHJT'
     }
   },
 
@@ -312,7 +329,7 @@ export default {
 }
 </script>
 
-<style >
+<style>
 .button_list {
   display: flex;
   align-items: flex-start;

@@ -56,9 +56,6 @@
         @click.native.prevent="handleLogin"
       >登录</el-button>
 
-      <div class="tips">
-        <span>V2.0</span>
-      </div>
     </el-form>
   </div>
 </template>

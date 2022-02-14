@@ -7,6 +7,14 @@
       :save_roster_store="'scheduling_update_late'"
       :flush_task_store="'task_rest_health'"
     >
+      <el-row :gutter="10">
+        <el-col>
+          <el-card class="data-card" shadow="hover">
+            <div slot="header" class="clearfix">数据管理</div>
+            <FloorChoice />
+          </el-card>
+        </el-col>
+      </el-row>
       <!-- 班表面板 -->
       <template v-slot:scheduling="data">
         <el-row :gutter="10">
@@ -81,8 +89,10 @@
 
 <script>
 import TaskFrame from './component/frame.vue'
+import FloorChoice from './knowing_component/floor_choice.vue'
+
 export default {
-  components: { TaskFrame },
+  components: { TaskFrame, FloorChoice },
   data() {
     return {
       bo: 1,
@@ -140,4 +150,10 @@ export default {
   }
 }
 </script>
-<style></style>
+<style>
+
+.data-card {
+  margin-top: 30px;
+}
+
+</style>

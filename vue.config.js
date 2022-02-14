@@ -38,7 +38,7 @@ module.exports = {
     overlay: {
       warnings: false,
       errors: true
-    },
+    }
     // proxy: {
     //   '/api': {
     //     target: '', // 目标,代理到指定地址
@@ -50,7 +50,7 @@ module.exports = {
     //     }
     //   }
     // },
-    before: require('./mock/mock-server.js')
+    // before: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
