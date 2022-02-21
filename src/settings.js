@@ -3,12 +3,12 @@
  * @Date: 2021-12-01 08:10:30
  * @Email: 2810201146@qq.com
  * @LastEditors:
- * @LastEditTime: 2022-02-21 18:34:23
+ * @LastEditTime: 2022-02-21 21:14:56
  * @Description:
  */
 module.exports = {
 
-  title: '智慧彩云后台',
+  title: '智慧彩云任务后台',
 
   /**
    * @type {boolean} true | false

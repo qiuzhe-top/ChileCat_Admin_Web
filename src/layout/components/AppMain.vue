@@ -3,7 +3,7 @@
  * @Date: 2021-12-01 08:10:30
  * @Email: 2810201146@qq.com
  * @LastEditors:
- * @LastEditTime: 2022-02-21 19:25:58
+ * @LastEditTime: 2022-02-21 21:13:28
  * @Description:
 -->
 <template>
@@ -11,12 +11,12 @@
     <transition name="fade-transform" mode="out-in">
       <router-view :key="key" />
     </transition>
-    <p class="banquan">
+    <!-- <p class="banquan">
       <a
         href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=xx"
         target="_blank"
       >ICP备xx号</a>
-    </p>
+    </p> -->
   </section>
 </template>
 

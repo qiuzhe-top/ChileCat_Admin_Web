@@ -23,7 +23,7 @@
               @click="dialogVisible_roster_box = true"
             >排班
             </el-button>
-            <!-- <el-button @click="flush()"> 重置任务</el-button> -->
+            <el-button @click="flush()"> 重置任务</el-button>
 
             <a v-if="excel_url" :href="excel_url">
               <el-button>导出Excel</el-button>
