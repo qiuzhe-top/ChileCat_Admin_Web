@@ -141,12 +141,12 @@ export default {
   created: function() {
     this.get_activa()
 
-    this.get_condition()
-    this.timer = setInterval(() => {
-      if (this.$data.actives[this.$data.active_index].is_open === true) {
-        this.get_condition()
-      }
-    }, 1000 * 20)
+    // this.get_condition()
+    // this.timer = setInterval(() => {
+    //   if (this.$data.actives[this.$data.active_index].is_open === true) {
+    //     this.get_condition()
+    //   }
+    // }, 1000 * 20)
 
     // 构建导出excel 路径
   },

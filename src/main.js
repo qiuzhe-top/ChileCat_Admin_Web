@@ -3,7 +3,7 @@
  * @Date: 2021-05-19 23:35:22
  * @Email: 2810201146@qq.com
  * @LastEditors:
- * @LastEditTime: 2021-09-24 19:47:10
+ * @LastEditTime: 2022-02-12 11:27:49
  * @Description:
  */
 import Vue from 'vue'
@@ -42,11 +42,6 @@ Vue.prototype.$api = api
  * Currently MockJs will be used in the production environment,
  * please remove it before going online ! ! !
  */
-if (process.env.NODE_ENV === 'production') {
-  const { mockXHR } = require('../mock')
-  mockXHR()
-}
-
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明

@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">智服喵后台管理</h3>
+        <h3 class="title">智慧彩云任务后台</h3>
       </div>
 
       <el-form-item prop="username">
@@ -55,11 +55,13 @@
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
       >登录</el-button>
-
-      <div class="tips">
-        <span>V2.0</span>
-      </div>
     </el-form>
+    <p class="banquan">
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=xxx"
+        target="_blank"
+      >ICP备xx号</a>
+    </p>
   </div>
 </template>
 
@@ -199,7 +201,16 @@ $cursor: #fff;
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
-
+.banquan {
+  background: none;
+  height: 5%;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  color: rgb(107, 107, 107);
+}
 .login-container {
   min-height: 100%;
   width: 100%;

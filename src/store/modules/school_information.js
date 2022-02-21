@@ -3,7 +3,7 @@
  * @Date: 2021-08-04 14:50:10
  * @Email: 2810201146@qq.com
  * @LastEditors:
- * @LastEditTime: 2021-09-24 14:46:56
+ * @LastEditTime: 2022-02-01 17:42:40
  * @Description:
  */
 
@@ -70,6 +70,31 @@ const actions = {
     return new Promise((resolve, reject) => {
       api
         .stu_in_room_recover(request)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  //   全部寝室数据
+  filter_building_all({ commit }, request) {
+    return new Promise((resolve, reject) => {
+      api
+        .filter_building_all(request)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  modify_task_floor_settings({ commit }, request) {
+    return new Promise((resolve, reject) => {
+      api
+        .modify_task_floor_settings(request)
         .then(response => {
           resolve(response)
         })

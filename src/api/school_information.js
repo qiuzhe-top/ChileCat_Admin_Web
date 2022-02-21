@@ -3,7 +3,7 @@
  * @Date: 2021-08-04 14:50:10
  * @Email: 2810201146@qq.com
  * @LastEditors:
- * @LastEditTime: 2021-09-24 15:45:01
+ * @LastEditTime: 2022-02-01 17:42:32
  * @Description:
  */
 import request from '@/utils/request'
@@ -38,6 +38,20 @@ export default {
   stu_in_room_recover(data) {
     return request({
       url: '/api/school_information/stu/room/recover',
+      method: 'post',
+      data
+    })
+  },
+  filter_building_all(data) {
+    return request({
+      url: '/api/school_information/building/managr',
+      method: 'post',
+      data: { 'type': 'filter_building_all' }
+    })
+  },
+  modify_task_floor_settings(data) {
+    return request({
+      url: '/api/school_attendance/modify/task/floor/settings',
       method: 'post',
       data
     })
