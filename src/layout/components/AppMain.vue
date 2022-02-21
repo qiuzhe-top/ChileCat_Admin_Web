@@ -1,8 +1,22 @@
+<!--
+ * @Author: 邹洋
+ * @Date: 2021-12-01 08:10:30
+ * @Email: 2810201146@qq.com
+ * @LastEditors:
+ * @LastEditTime: 2022-02-21 19:25:58
+ * @Description:
+-->
 <template>
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
       <router-view :key="key" />
     </transition>
+    <p class="banquan">
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=xx"
+        target="_blank"
+      >ICP备xx号</a>
+    </p>
   </section>
 </template>
 
@@ -28,6 +42,16 @@ export default {
 }
 .fixed-header+.app-main {
   padding-top: 50px;
+}
+.banquan {
+  background: none;
+  height: 5%;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  text-align: left;
+  font-size: 10px;
+  color: rgb(107, 107, 107);
 }
 </style>
 
