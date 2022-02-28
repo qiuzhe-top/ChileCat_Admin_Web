@@ -11,12 +11,6 @@
     <transition name="fade-transform" mode="out-in">
       <router-view :key="key" />
     </transition>
-    <!-- <p class="banquan">
-      <a
-        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=xx"
-        target="_blank"
-      >ICP备xx号</a>
-    </p> -->
   </section>
 </template>
 
