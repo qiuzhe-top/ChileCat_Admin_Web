@@ -58,9 +58,9 @@
     </el-form>
     <p class="banquan">
       <a
-        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=xxx"
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=2020045150"
         target="_blank"
-      >ICP备xx号</a>
+      >浙ICP备2020045150号-2</a>
     </p>
   </div>
 </template>
