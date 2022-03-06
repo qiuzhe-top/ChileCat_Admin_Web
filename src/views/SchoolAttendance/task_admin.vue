@@ -51,18 +51,13 @@
             <span>
               <el-link
                 type="primary"
-                :href="
-                  out_manage_excel +
-                    '?type=excel_template&name=早签晨点晨跑模板'
-                "
+                href="https://zhcy-zjjt.oss-cn-beijing.aliyuncs.com/file/%E6%97%A9%E7%AD%BE%E6%99%A8%E7%82%B9%E6%99%A8%E8%B7%91%E6%A8%A1%E6%9D%BF.xlsx"
               >早签晨点晨跑模板.xlsx</el-link>
               <br>
               <br>
               <el-link
                 type="primary"
-                :href="
-                  out_manage_excel + '?type=excel_template&name=批量销假模板'
-                "
+                href="https://zhcy-zjjt.oss-cn-beijing.aliyuncs.com/file/%E6%89%B9%E9%87%8F%E9%94%80%E5%81%87%E6%A8%A1%E6%9D%BF.xlsx"
               >批量销假模板.xlsx</el-link>
             </span>
 
