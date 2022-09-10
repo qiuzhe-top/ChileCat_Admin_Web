@@ -91,6 +91,12 @@
             :title="'导入晨跑'"
           >导入晨跑</ExcelUpdata>
         </div>
+        <div>
+          <ExcelUpdata
+            :url="$api.school_attendance.EVENING_1040"
+            :title="'导入晚查寝(指纹机)'"
+          >导入晚查寝(指纹机)</ExcelUpdata>
+        </div>
 
         <!-- <div>
           <ExcelUpdata

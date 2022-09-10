@@ -1,6 +1,7 @@
 import request from '@/utils/request'
 const api_url = process.env.VUE_APP_BASE_API + '/api/school_attendance'
 export default {
+  EVENING_1040: api_url + '/batch/attendance?rule_id=104&task_type=0',
   MORNING_SIGN: api_url + '/batch/attendance?rule_id=401&task_type=3',
   MORNING_POINT: api_url + '/batch/attendance?rule_id=801&task_type=3',
   MORNING_RUNNING: api_url + '/batch/attendance?rule_id=901&task_type=3',
