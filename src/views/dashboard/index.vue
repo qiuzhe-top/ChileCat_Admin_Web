@@ -21,7 +21,7 @@
           <div class="dashboard-text">您好， {{ name }} </div>
 
           <el-tag type="success" closable>新版后台UI(规划中)：
-            <a href="http://124.223.43.151:8817/">http://124.223.43.151:8817</a>
+            <a href="http://124.223.43.151:8817/">http://124.223.43.151:8817 </a>
           </el-tag>
 
         </el-card>
