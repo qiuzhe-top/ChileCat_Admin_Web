@@ -9,6 +9,7 @@
 <template>
   <div class="dashboard-container">
     <el-row :gutter="10">
+
       <el-col
         :lg="8"
         :xl="1"
@@ -18,6 +19,11 @@
             <span>系统信息</span>
           </div>
           <div class="dashboard-text">您好， {{ name }} </div>
+
+          <el-tag type="success" closable>新版后台UI(规划中)：
+            <a href="http://124.223.43.151:8817/" />
+          </el-tag>
+
         </el-card>
       </el-col>
       <el-col
