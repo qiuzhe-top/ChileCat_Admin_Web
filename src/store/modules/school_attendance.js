@@ -424,7 +424,30 @@ const actions = {
         })
     })
   },
-
+  submit_knowing_discipline({ commit }, request) {
+    return new Promise((resolve, reject) => {
+      api
+        .submit_knowing_discipline(request)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
+  submit_knowing({ commit }, request) {
+    return new Promise((resolve, reject) => {
+      api
+        .submit_knowing(request)
+        .then(response => {
+          resolve(response)
+        })
+        .catch(error => {
+          reject(error)
+        })
+    })
+  },
   // 晚自习考勤提交
   submit_late({ commit }, request) {
     const { task_id, flg, rule_id, user_list } = request

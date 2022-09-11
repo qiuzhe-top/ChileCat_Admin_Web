@@ -114,6 +114,17 @@
       <template v-slot:scheduling_button>
         <el-button @click="simple_information()">查看/修改</el-button>
       </template>
+
+      <template v-slot:buttons="{scope,task_id}">
+        <el-button
+          width="120"
+          size="small"
+          :type="scope.row.flg ? 'warning' : 'info'"
+          :disabled="!scope.row.flg"
+          @click="submit(scope.row,task_id)"
+        >
+          晚归</el-button>
+      </template>
     </TaskFrame>
   </div>
 </template>
@@ -214,7 +225,60 @@ export default {
 
       clearTimeout(this.timeout)
       this.timeout = setTimeout(() => {}, 1000 * 2 * Math.random())
+    },
+    async undo_record(record_id, task_id){
+      await this.$store
+        .dispatch('school_attendance/undo_record', {
+          record_id: record_id,
+          task_id: task_id
+        })
+        .then(res => {
+          console.log(2)
+        })
+    },
+    submit(row, task_id){
+      const data = {
+        records: [
+          {
+            name: row.student_approved,
+            reason_is_custom: true,
+            status: '0',
+            user_id: row.student_approved_number,
+            reason: '晚归',
+            score: 2
+          }
+        ],
+        room_id: row.room_str,
+        task_id: task_id
+      }
+      console.log(data)
+      this.$confirm('是否扣分?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async() => {
+        console.log(1)
+        await this.undo_record(row.id, task_id)
+        console.log(3)
+        await this.$store.dispatch('school_attendance/submit_knowing_discipline', data).then(res => {
+          this.$message({
+            type: 'success',
+            message: '扣分成功'
+          })
+          console.log(4)
+          row.flg = false
+        })
+      }).catch((e) => {
+        console.log(e)
+        this.$message({
+          type: 'info',
+          message: '取消'
+        })
+      })
+
+      console.log(data)
     }
+
   }
 }
 </script>

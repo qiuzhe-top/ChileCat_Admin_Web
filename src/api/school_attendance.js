@@ -12,6 +12,7 @@ export default {
   //   导出系统数据
   out_manage_excel: 'http://django.qiuzhe.top/api/' + 'manage/out/excel',
   // TpiStart
+
   /**
    * 获取任务
    * @param  [type, 任务类型, Char, 是, , 0晚查寝 1查卫生 2晚自修, max_length:1]
@@ -201,6 +202,20 @@ export default {
   rule(data) {
     return request({
       url: '/api/school_attendance/rule',
+      method: 'post',
+      data
+    })
+  },
+  submit_knowing(data) {
+    return request({
+      url: '/api/school_attendance/submit/knowing',
+      method: 'post',
+      data
+    })
+  },
+  submit_knowing_discipline(data) {
+    return request({
+      url: '/api/school_attendance/submit/knowing/discipline',
       method: 'post',
       data
     })

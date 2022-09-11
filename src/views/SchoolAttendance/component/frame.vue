@@ -84,11 +84,14 @@
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button
-                  width="120"
+                  width="340"
                   :type="scope.row.flg ? 'warning' : 'info'"
+                  :disabled="!scope.row.flg"
+                  size="small"
                   @click="pintle(1, scope.row)"
                 >
                   销假</el-button>
+                <slot :scope="scope" :task_id="actives[active_index].id" name="buttons" />
               </template>
             </el-table-column>
           </el-table>
@@ -278,7 +281,7 @@ export default {
         .catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消'
+            message: '取消'
           })
         })
     },
