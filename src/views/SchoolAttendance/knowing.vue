@@ -245,11 +245,14 @@ export default {
             status: '0',
             user_id: row.student_approved_number,
             reason: '晚归',
-            score: 2
+            score: 6
           }
         ],
         room_id: row.room_str,
         task_id: task_id
+      }
+      if (!data.room_id){
+        return
       }
       console.log(data)
       this.$confirm('是否扣分?', '提示', {
