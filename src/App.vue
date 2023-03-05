@@ -35,13 +35,14 @@ export default {
 }
 </script>
 <style lang="scss">
-	html{
-		-webkit-filter : grayscale(100%);
-		-moz-filter: grayscale(100%);
-		-o-filter: grayscale(100%);
-		filter: grayscale(100%);
-		filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
-	}
+// 变灰
+	// html{
+	// 	-webkit-filter : grayscale(100%);
+	// 	-moz-filter: grayscale(100%);
+	// 	-o-filter: grayscale(100%);
+	// 	filter: grayscale(100%);
+	// 	filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+	// }
 // import
 .el-col {
   border-radius: 4px;
